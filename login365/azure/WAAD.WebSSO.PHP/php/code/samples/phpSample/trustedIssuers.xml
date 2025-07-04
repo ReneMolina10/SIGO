@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<issuers>
+	<issuer name="cursos.uqroo.mx" displayName="Longin a Cursos Moodle"
+		realm="spn:d5a365c8-14c7-4685-a851-b5987df3e5ee" />
+</issuers>

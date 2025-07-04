@@ -1,0 +1,1083 @@
+@import url(http://fonts.googleapis.com/css?family=Roboto:100italic,100,300italic,300,400italic,400,500italic,500,700italic,700,900italic,900);
+@import url(http://fonts.googleapis.com/css?family=Roboto+Condensed:100italic,100,300italic,300,400italic,400,500italic,500,700italic,700,900italic,900);
+@import url(http://fonts.googleapis.com/css?family=Lato:100italic,100,300italic,300,400italic,400,500italic,500,700italic,700,900italic,900);
+
+/* /Menu responsive */
+.hide, .movil {
+  display: none; }
+
+
+.menu-responsivo {
+  background: #000;
+  position: absolute;
+  top: 0px;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  height: 40px;
+  -webkit-transition: all 0.2s linear;
+  -moz-transition: all 0.2s linear;
+  -ms-transition: all linear;
+  -o-transition: all 0.2s linear;
+  transition: all 0.2s linear; }
+
+.menu-sidebar {
+  display: block;
+  position: fixed;
+  width: 250px;
+  height: 100%;
+  overflow: auto;
+  z-index: 1000;
+  top: 0;
+  left: -200%;
+  background: black ;
+  box-shadow: 0 1px 5px #000;
+  -webkit-transition: all 0.2s linear;
+  -moz-transition: all 0.2s linear;
+  -ms-transition: all linear;
+  -o-transition: all 0.2s linear;
+  transition: all 0.2s linear; }
+  .menu-sidebar ul {
+    margin: 0 0;
+    padding: 0 0;
+    list-style-type: none;
+    margin-bottom: 16px; }
+    .menu-sidebar ul ul a {
+      padding-left: 30px; }
+  .menu-sidebar li {
+    padding: 0 4px; }
+  .menu-sidebar h2 {
+    color: #fff;
+    padding: 4px 8px;
+    border-bottom: 1px solid #fff; }
+  .menu-sidebar a {
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 19px;
+    font-weight: 600;
+    padding: 4px 8px;
+    display: block;
+   /*  border-bottom: 1px solid #ea8400; */
+
+  }
+
+.menu-sidebar nav {
+  overflow: auto; }
+
+.ico-menu {
+  display: block;
+  height: 20px;
+  margin-top: 12px;
+  margin-left: 15px; }
+
+.icon-bar {
+  display: block;
+  width: 20px;
+  height: 4px;
+  background: #fff;
+  border-radius: 2px;
+  margin-top: 2px; }
+
+
+/* /Menu responsive */
+
+
+#plecasp .active{
+border:2px solid #33CC66;
+}
+
+
+#linksint li a:hover{
+background-color:#025107;
+color:#FFFFCC;
+}
+
+
+body{
+ font-family: 'Roboto'; 
+ }
+ 
+
+
+/* ASIDE */
+aside li {
+    font-size: 1.0em;
+    line-height: 1.65em;
+   /* border-bottom: 1px solid white;*/
+    list-style: none;
+    margin-left: -15px;
+    margin-right: 15px;
+}
+aside li a:link, #information_for li a:visited {
+    display: block;
+    color: #555;
+    /* border-bottom: 1px solid #CCC;*/
+    padding: 5px 0 5px 14px;
+    text-decoration: none;
+    background: url(http://www.uqroo.mx/Templates/home_sprite.gif) 0 -217px no-repeat;
+
+    /*  text-transform: capitalize !important; */
+  font-weight: normal !important;
+
+
+}
+
+aside ul a{
+font-size:14px;
+/* text-transform: uppercase; */
+color:#666666;
+font-family: 'Lato', sans-serif;
+}
+aside ul div{
+font-size:15px;
+margin-left:-18px;
+
+}
+aside ul li {
+font-size:14px;
+/* text-transform: uppercase; */
+padding-top:3px;
+padding-bottom:3px;
+color:#666666;
+font-weight:bold;
+}
+aside ul li:hover{
+color:#000000;
+cursor:pointer;
+}
+
+/* FOOTER  */
+footer h2{
+	font-size:16px;
+	color:#FFFFFF;
+}
+footer h3{
+	font-size:12px;
+	color:#FFFFFF;
+}
+footer p{
+	font-size:10px;
+	color:#FFFFFF;
+	line-height:18px;
+}
+
+footer li a{
+color:#4FC600;
+font-weight:100;
+}
+footer a{
+color:#FFF;
+}
+footer a:hover{
+color:#FFF;
+}
+footer li:hover{
+background-color:#000;
+color:#FFF;
+}
+#linksint{
+height:28px;
+
+  }
+  #linksint li{
+  border-right:1px solid #FFF;
+  margin-top:3px;
+  }
+#linksint li a{
+ font-family: 'Roboto'; 
+  font-weight: 100;
+  text-align:right; 
+  color:#FFF;
+  font-size:12px;
+    padding-bottom: 0px;
+    padding-top: 0px;
+	padding-left: 12px;
+    padding-right: 12px;
+}
+#titulo{
+padding-top:15px; padding-bottom:30px;
+
+}
+#subtitulo2011{
+font-size:16px;
+font-weight:bold;
+}
+  
+
+
+/* ------ ESTILOS DE ENCABEZADO -------- */
+
+#menusup li{
+border-right:1px solid #00A464;
+z-index:450; 
+}
+#menusup li a{
+text-transform: uppercase;
+color:#333333;
+}
+
+
+#escudo {
+    position: absolute;
+    float: left;
+    width: 50px;
+    padding-left: 10px;
+    left: 1px;
+    top: 0px;
+    cursor: pointer;
+}
+
+#nosotros .dropdown-toggle{
+background-image:url(http://www.uqroo.mx/template2016/imgc/color_nosotros.gif); background-repeat:repeat-x; background-position:bottom;
+padding-bottom: 12px;
+}
+
+#oferta .dropdown-toggle{
+background-image:url(http://www.uqroo.mx/template2016/imgc/color_oferta.gif); background-repeat:repeat-x; background-position:bottom;
+padding-bottom: 12px;
+}
+
+    
+	
+	
+#oferta.open>a {
+    background-color:#C45613 !important;
+	color:#FFF !important;
+}
+#oferta_movil a:hover {
+    background-color:#C45613 !important;
+  color:#FFF !important;
+}
+
+#nosotros.open>a {
+  background-color:#044F31 !important;
+	color:#FFF !important;
+}
+
+#nosotros_movil a:hover{
+  background-color:#044F31 !important;
+  color:#FFF !important;
+}
+
+#campus{
+	border-bottom:7px #0D937D solid;
+	color:#FFF;
+}
+#campus a:hover{
+background-color:#0D937D;
+color:#FFF;
+}
+#admisiones{
+	border-bottom:7px #CB7D19 solid;
+	color:#FFF;
+}
+#admisiones a:hover{
+background-color:#CB7D19;
+color:#FFF;
+}
+#cei a{
+	border-bottom:7px #761703 solid;
+	color:#FFF;
+}
+#cei a:hover{
+background-color:#761703;
+color:#FFF;
+}
+#investigacion a{
+	border-bottom:7px #019B10 solid;
+	color:#FFF;
+}
+#investigacion a:hover{
+background-color:#019B10;
+color:#FFF;
+}
+#uqrood a{
+	border-bottom:7px #9C4510 solid;
+	color:#FFF;
+}
+#uqrood a:hover{
+background-color:#9C4510;
+color:#FFF;
+}
+
+/*----*/
+
+
+#container h1{
+	font-family: 'Lato', sans-serif;
+	font-style: normal;
+    font-weight: 300;
+	color:#000000;
+	font-size:26px;
+	padding-top:30px;
+	padding-bottom:30px;
+	padding-left:30px;
+
+}
+#container h2, titulo, Titulo {
+font-family: 'Lato', sans-serif;
+font-size:16px;
+font-weight:bold;
+}
+
+#container h3 {
+font-family: 'Lato', sans-serif;
+font-size:16px;
+font-weight:bold;
+color:#555;
+
+}
+
+#contenido li {
+padding-top:10px;
+}
+
+
+.texto, .Texto, .texto2015, #contenido p{
+	font-family: 'Lato', sans-serif;
+	font-style: normal;
+	color:#000000;
+	font-size:15px;
+	text-align:justify;
+	line-height:30px;
+
+
+}
+#contenido>p,#contenido>h1,#contenido>h2,#contenido>h3,#contenido>h4,#contenido>h5,#contenido>h6 {
+margin-left:25px;
+margin-right:25px;
+}
+
+#contenido #img_carrera{
+width: 40%; display: table-cell;background-size: auto auto; background-position: center;
+}
+#contenido #informacion_carrera{
+width: 60%; display: table-cell;
+padding:10px;
+
+}
+
+#contenedor_info_carrera{
+
+display: table; width: 100%; background-color: #7cb050; height: 330px;
+}
+#contenedor_info_carrera ul>li>a, #contenedor_info_carrera h2{
+color: #fff;
+}
+
+
+#contenido>p{
+	font-family: 'Lato', sans-serif;
+	font-style: normal;
+	color:#000000;
+	font-size:15px;
+	text-align:justify;
+	line-height:30px;
+
+
+}
+
+.texto2 div p{
+
+    line-height: 24px !important; 
+    text-align: left!important;
+	    color: #FFF!important;
+
+
+}
+
+
+.Cabecilla, .cabecilla {
+    font-family:'Lato', sans-serif;
+    font-size: 14pt;
+    font-weight: bold;
+    margin-left: 10;
+}
+
+blockquote {
+     border-left:none;
+}
+.notas, .Notas {
+     font-size: 14px !important;;
+    line-height: 24px !important;;
+}
+
+
+@media (min-width: 300px) {
+
+  .descripcion_cuadro{
+  display: none;
+
+}
+
+.titulo_cuadro{
+  font-size: 9px;
+   padding:5px;
+   text-align:center;
+       height: 40px;
+       padding: 10px 0px 0px 0px;
+}
+
+
+.titulo_xsm{
+  font-size: 14px;
+}
+.titulo_sm{
+  font-size: 13px;
+}
+
+.titulo_md{
+  font-size: 12px;
+}
+.titulo_lg{
+  font-size: 11px;
+}
+.titulo_xlg{
+  font-size: 10px;
+}
+
+
+
+.floatIzqIco{
+  float:none;
+}
+.floatDerIco{
+  float: none;
+}
+
+header{
+	margin:40px 0px 0px 0px;}
+
+/**/
+ body {
+    min-width: 100%; }
+
+
+
+  .movil {
+    display: block; }
+
+
+
+  .smoothScroll.top {
+    bottom: 70px; }
+
+  body.open-menu {
+    /*overflow-x:hidden;*/
+    overflow: hidden; }
+    body.open-menu #wrapper {
+      /*height:100%;*/ }
+    body.open-menu .menu-sidebar {
+      left: 0; }
+    body.open-menu .menu-responsivo {
+      left: 250px; }
+
+
+
+.label-menu{
+  color: #fff;
+  display: block;
+  font-size: 16px;
+  float: left;
+  padding-top: 12px;
+  padding-left: 10px;
+}
+
+.label-menu a{
+	color:#fff;
+}
+
+.ico-menu {
+	float:left;
+}
+/**/
+
+#bloque_redes_sociales{
+display:none;
+}
+
+.ico_grupo_noticias{
+	display:none;
+}
+ 
+ 
+#nosotros_movil{
+display:block !important;
+border-bottom:#044F31 8px solid;
+}
+#nosotros{
+display:none !important;
+}
+#oferta_movil{
+display:block !important;
+border-bottom:#C45613 8px solid;
+}
+#oferta{
+display:none !important;
+}
+
+#titulo{
+width:242px;
+}
+
+
+/*
+#accesos_redes_sociales{
+display:none;
+}
+#compartir_redes_sociales{
+display:none;
+}*/
+#myCarouselplecas{
+max-height:220px;
+}
+#myCarouselplecas .foto_noticia_principal{
+height:220px;
+
+}
+#myCarouselplecas p{
+display:none;
+
+}
+#myCarouselplecas .carousel-caption{
+height:80px;
+width:320px; 
+
+}
+#myCarouselplecas h2{
+font-size:12px;
+
+}
+
+
+#linksint{
+display:none;
+} 
+#titulo{
+width:100%;
+}
+#menusup{
+width:100%;
+display:table;
+}
+#menusup ul{
+display:table;
+width:100%;
+
+}
+#menusup>li{
+border-right:1px solid #00A464;
+background-color:#FFFFFF;
+float:none;
+display:block;
+text-align: center;
+}
+
+#menusup li a{
+  padding-bottom: 5px;
+    padding-top: 7px;
+    font-size: 11px;
+	padding-left: 0px;
+    padding-right: 0px;
+	font-family: 'Roboto Condensed', sans-serif;
+	
+}
+
+
+.navbar-nav{
+margin:0px;}
+
+
+#sombras_container{
+visibility:hidden;
+display:none !important;
+}
+
+#carousel-caption{
+display:none;
+}
+#centro{
+float:none;
+width:100%;
+}
+aside{
+float:none;
+width:100%;
+}
+#contenedor_derecho_encabezado{
+display:none;}
+#accesos_redes_sociales{
+display:none;
+}
+#compartir_redes_sociales{
+display:none;
+}
+
+ }
+
+
+@media (min-width: 768px) {
+
+.titulo_cuadro{
+  font-size: 14px;
+  padding:10px 10px 10px 10px;
+  text-align:right;
+}
+
+.descripcion_cuadro{
+  display: block;
+}
+
+
+
+  .titulo_xsm{
+  font-size: 21px;
+}
+.titulo_sm{
+  font-size: 19px;
+}
+
+.titulo_md{
+  font-size: 17px;
+}
+.titulo_lg{
+  font-size: 15px;
+}
+.titulo_xlg{
+  font-size: 13px;
+}
+
+
+
+  .floatIzqIco{
+  float:left;
+}
+.floatDerIco{
+  float: right;
+}
+
+	header{
+	margin:0px;}
+
+	
+.movil {
+    display: none; }
+
+
+#bloque_redes_sociales{
+display:block;
+}
+.ico_grupo_noticias{
+	display:block;
+}
+#nosotros_movil{
+display:none !important;
+}
+
+
+#nosotros{
+display:table-cell !important;
+}
+
+#oferta_movil{
+display:none !important;
+border-bottom:#044F31 8px solid;
+}
+#oferta{
+display:table-cell !important;
+}
+
+
+
+.menu_desplegable_principal{
+display:block;
+	
+}
+#contenedor_derecho_encabezado{
+display:block;}
+#titulo{
+width:342px;
+}
+#menusup>li{
+border-right:1px solid #00A464;
+background-color:#FFFFFF;
+float:none;
+display:table-cell;
+text-align: center;
+}
+#linksint li a {
+
+    font-size: 10px;
+
+    padding-left: 7px;
+    padding-right: 7px;
+}
+
+#contenedor_derecho_encabezado{
+width:240px; padding-top:20px;
+}
+
+#compartir_redes_sociales{
+display:none;
+}
+
+
+#myCarouselplecas p{
+display:block;
+
+}
+
+#myCarouselplecas h2{
+font-size:14px;
+
+}
+
+
+#myCarouselplecas .carousel-caption{
+width:320px;
+height:180px;
+
+}
+
+.container{
+width:100%;}
+#myCarouselplecas{
+max-height:360px;
+}
+#myCarouselplecas .foto_noticia_principal{
+height:340px;
+
+}
+
+
+
+
+
+#sombras_container{
+visibility:hidden;
+display:block !important;
+}
+#linksint{
+ display:block;
+} 
+
+/*
+#menusup{
+float: right;!important;
+}*/
+#sombras_container{
+visibility:visible;
+}
+
+
+
+#centro{
+float:none;
+width:100%;
+}
+aside{
+float:none;
+width:100%;
+padding-top:0px;
+}
+/*
+#menusup li{
+background:none;
+z-index:450; 
+float: right; 
+
+}*/
+
+
+#contedor_principal{
+background-size:1095px;
+}
+
+}
+
+
+@media (min-width: 992px) {
+#linksint li a {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+#contenedor_derecho_encabezado{
+width:440px; padding-top:10px;
+}
+#accesos_redes_sociales{
+display:block;
+}
+#compartir_redes_sociales{
+display:block;
+}
+
+
+#myCarouselplecas{
+max-height:460px;
+}
+#myCarouselplecas .foto_noticia_principal{
+height:440px;
+
+}
+
+
+#contedor_principal{
+background-size:1400px;
+}
+/*
+#menusup li a{
+  padding-bottom: 5px;
+    padding-top: 7px;
+    font-size: 13px;
+	padding-left: 10px;
+    padding-right: 10px;
+	font-family: 'Roboto Condensed', sans-serif;
+	font-weight:bold;
+	
+}*/
+
+#sombras_container{
+visibility:visible;
+}
+#linksint{
+display:block;
+}
+
+
+#centro{
+float:right;
+width:740px;
+}
+aside{
+float:left;
+width:230px;
+}
+#contenido{
+border-left:solid 1px #CCCCCC;
+}
+
+#contenido blockquote{
+margin-left:50px; 
+margin-right:50px;
+
+}
+
+
+}
+
+
+.bordefino{
+border:1px solid #CCC;
+}
+
+
+#ligas_cortesia li{
+margin:0px;
+
+}
+#ligas_cortesia li a:hover{
+background-color:#333;
+
+}
+
+/* Submen�s*/
+#oferta ul,#nosotros ul{
+/* padding-left:20px; */
+    margin-top: 0px;
+}
+#oferta h2,#nosotros h2{
+font-size:14px;
+font-weight: bold;
+}
+#oferta h3,#nosotros h3{
+font-size:14px;
+font-weight: bold;
+}
+#oferta h4,#nosotros h4{
+font-size:12px;
+padding-left:-20px;
+margin-left:5px;
+font-weight: bold;
+}
+#oferta li,#nosotros li{
+font-size:12px;
+border-right:none;
+list-style-type:disc;
+}
+#oferta li:before,#nosotros li:before{
+color: red;
+}
+#oferta li a,#nosotros li a{
+text-transform:none;
+/* padding:0px; */
+font-size: 14px;
+color:#000000;
+font-weight:normal;
+}
+
+/* SLIDE*/
+.carousel-caption{
+background-color:#FFF;opacity: 0.9;filter: alpha(opacity=90); left:0px; bottom:0px;
+
+}
+.carousel-caption h2{
+margin:0px 40px 0px 22px;  /* Arriba iz abajo der*/
+padding:0px;
+padding-left:0px;
+text-transform: uppercase;
+text-align:left;
+text-shadow:none;
+color:#000000;
+}
+.carousel-caption p{
+padding:10px 0px 0px 0px;
+margin:0px 40px 22px 22px;  
+text-align:left;
+text-shadow:none;
+color:#000000;
+font-size:13px !important;
+line-height:18px !important;
+}
+.carousel-indicators  {
+	bottom:-32px;
+	width:100%;
+	left:0px;
+	margin-left:0px;
+}
+
+.carousel-indicators li {
+position:absolute;
+bottom:0px;
+    display: inline-block;
+    width: 0px;
+    height: 12px;
+    
+        margin: 0px 5px 0px 0px;
+    text-indent: -999px;
+    cursor: pointer;
+    border:none;
+    border-radius: 0px;
+	background-image:url(http://www.uqroo.mx/template2016/imgc/marcador.gif);
+	background-repeat:no-repeat;
+	background-position:right;
+	visibility:hidden;
+}
+
+.carousel-indicators .active {
+position:absolute;
+margin:0px 7px 0px 7px;
+bottom:0px;
+    
+	width: 23.5%;
+	background-image:url(http://www.uqroo.mx/template2016/imgc/marcador.gif);
+	visibility:visible;
+}
+
+
+
+
+
+#aside_nosotros li a{
+background:url(http://www.uqroo.mx/template2016/imgc/v_verde.jpg) 0 10px no-repeat !important;
+}
+#aside_oferta li a{
+background:url(http://www.uqroo.mx/template2016/imgc/v_naranja.jpg) 0 10px no-repeat !important;
+}
+#aside_campus li a{
+background:url(http://www.uqroo.mx/template2016/imgc/v_musgo.jpg) 0 10px no-repeat !important;
+}
+#aside_admisiones li a{
+background:url(http://www.uqroo.mx/template2016/imgc/v_ocre.jpg) 0 10px no-repeat !important;
+}
+
+
+#aside_investigacion li a{
+background:url(http://www.uqroo.mx/template2016/imgc/v_limon.jpg) 0 10px no-repeat !important;
+}
+#aside_digital li a{
+background:url(http://www.uqroo.mx/template2016/imgc/v_cafe.jpg) 0 10px no-repeat !important;
+}
+
+
+
+#contenido .ocre{ background: #C87C19; }
+#contenido .musgo{ background: #0d937d; }
+
+#contenido .link_mas{ border-radius: 4px;  padding: 4px 3px 3px 0px; color: #fff; font-size: 11px;}
+#contenido .link_mas:hover{ background-color:#006633; text-decoration:none;}
+#contenido .ico_mas, #menusup .ico_mas{
+border-radius: 2px;
+    background: #4FC600;
+    padding: 0px 5px 2px 4px;
+    font-size: 15px;
+
+}
+#contenido .texto_mas{
+
+padding: 4px;
+text-transform: uppercase;
+
+
+}
+
+
+ #menusup #nosotros .ico_mas{
+    background: #C45613;
+    padding: 0px 4px 0px 4px;
+	margin:0px;
+    font-size: 18px !important;
+	color:#FFF;
+	font-weight:100;
+	background-image:url(imgc/mas_nosotros.png);
+	background-repeat:no-repeat;
+	background-position:center;
+	
+
+}
+
+ #menusup #oferta .ico_mas{
+    background: #C45613;
+    padding: 0px 4px 0px 4px;
+	margin:0px;
+    font-size: 18px !important;
+	color:#FFF;
+	font-weight:100;
+	background-image:url(imgc/mas_ocre.gif);
+	background-repeat:no-repeat;
+	background-position:center;
+	
+
+}
+
+
+  .titulo_revistas{
+
+    font-size: 14px !important;
+      line-height: 20px !important;
+      font-weight: bold !important;
+      text-align: left !important;
+  }
+  .subtitulo_revistas{
+
+        font-size: 12px !important;
+    text-align: left !important;
+    line-height: 14px !important;
+
+  }
+
+
+table.tabla_gris tbody tr:nth-child(2n+1) {
+  background-color: #F9F9F9;
+}
+table.tabla_gris thead {
+ background-color: #CCCCCC;
+ /*   color: #fff; */
+  text-align: center;
+
+}
+table.tabla_gris tr td {
+border: 1px solid #E6E6E6;
+padding: 5px;
+}
+

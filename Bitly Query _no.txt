@@ -1,0 +1,50 @@
+CREATE DATABASE bitly;
+
+CREATE TABLE log_generator (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    GENERATOR VARCHAR(50),
+    ID_ACCION INT,
+    ID_REGISTRO INT,
+    ID_USUARIO INT,
+    FECHA DATE,
+    IP VARCHAR(15)
+);
+
+CREATE TABLE usuarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    usuario VARCHAR(250),
+    pass VARCHAR(250),
+    img VARCHAR(250),
+    idRole INT
+);
+
+CREATE TABLE roles (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    role VARCHAR(250)
+);
+
+CREATE TABLE test_generator (
+    d_id INT(11),
+    d_textarea VARCHAR(50),
+    d_textarea_ckeditor VARCHAR(50),
+    d_text VARCHAR(50),
+    d_number INT(11),
+    d_select_array INT(1),
+    d_select_sql INT(1),
+    d_password VARCHAR(50),
+    d_checkbox VARCHAR(50),
+    d_color VARCHAR(9),
+    d_time VARCHAR(50),
+    d_date VARCHAR(50),
+    d_week VARCHAR(50),
+    d_month VARCHAR(50),
+    d_telephone VARCHAR(15),
+    d_range VARCHAR(50),
+    d_email VARCHAR(50),
+    d_uploadfile VARCHAR(50),
+    d_search VARCHAR(50),
+    d_url VARCHAR(50)
+);
+
+INSERT INTO usuarios (usuario, pass, idRole) VALUES ('admin', md5('admin'), 1);
+INSERT INTO roles (role) VALUES ('admin');

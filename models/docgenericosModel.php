@@ -1,0 +1,143 @@
+<?php
+
+class docgenericosModel extends Model
+{
+
+
+    public function getDocGenerico($id)
+    {
+        $sql = "SELECT
+    DG_ID, 
+    UPPER(TH.LURES) AS URE,
+    DG_ASUNTO, 
+    DG_TEXTO, 
+    PU.UBI_LUGAR AS LUGAR, 
+    DG_FECHA, 
+    DG_FOLIO, 
+    DG_LEMA, 
+
+    --DATOS DE A QUIEN CORRESPONDE
+    CORRESPONDE.NOMBRE_COMPLETO AS NOMBRE_CORRESPONDE,
+    DOC.DG_FK_CARGO_CORRESPONDE,
+
+
+    DG_FIRMA_PATH, --no puesto, 
+     
+     --DATOS DEL SOLICITANTE
+    SOLICITA.NOMBRE_COMPLETO AS NOMBRE_SOLICITA,
+    DOC.DG_FK_CARGO_SOLICITA, 
+
+    DG_DESCRIPCION,
+    DG_CCP1, 
+    DG_CCP2, 
+    DG_CCP3, 
+    DG_CCP4
+    FROM DOC_GENERICOS DOC
+    LEFT JOIN TURESH TH ON TH.URES = DOC.DG_FK_URE
+    LEFT JOIN PLT_UBICACIONES PU ON PU.UBI_ID = DOC.DG_LUGAR
+    
+    
+    -- JOIN con la tabla de personas para el que CORRESPONDE
+    LEFT JOIN (
+        SELECT 
+            FP.PERS_PERSONA,
+            GETPREFIJOESTUDIOS(FP.PERS_PERSONA) || ' ' || FP.PERS_NOMBRE || ' ' || FP.PERS_APEPAT || ' ' || FP.PERS_APEMAT AS NOMBRE_COMPLETO
+        FROM FINANZAS.FPERSONAS FP WHERE PERS_EMPLEADO = 'S'
+    ) CORRESPONDE
+        ON CORRESPONDE.PERS_PERSONA = DOC.DG_FK_CORRESPONDA
+
+    -- JOIN con la tabla de personas para el que SOLICITA
+    LEFT JOIN (
+        SELECT 
+            FP.PERS_PERSONA,
+            GETPREFIJOESTUDIOS(FP.PERS_PERSONA) || ' ' || FP.PERS_NOMBRE || ' ' || FP.PERS_APEPAT || ' ' || FP.PERS_APEMAT AS NOMBRE_COMPLETO
+        FROM FINANZAS.FPERSONAS FP WHERE PERS_EMPLEADO = 'S'
+    ) SOLICITA
+        ON SOLICITA.PERS_PERSONA = DOC.DG_NUMEMPL_FK_SOLICITA
+
+
+    WHERE DG_ID = :id";
+
+        $miarray = array(':id' => $id);
+        $infoDoc = $this->ssql($sql, $miarray, 1);
+
+
+        /* print_r($infoDoc);
+         exit;*/
+
+        return $infoDoc;
+
+    }
+    /*    public function getDocGenerico($id)
+        {
+            $sql = "SELECT 
+      DOC.DG_ID, 
+      DOC.DG_TEXTO, 
+      UPPER(TH.LURES) AS URE,
+      PU.UBI_LUGAR AS LUGAR,
+      DOC.DG_FECHA,
+      DOC.DG_FOLIO,
+      DOC.DG_LEMA,
+
+
+
+      --PER1.NOMBRE AS CORRESPONDA,
+      DOC.DG_FK_CARGO_CORRESPONDE,
+      DOC.DG_ASUNTO,
+      --PER2.NOMBRE2 AS FIRMA_NOMBRE,
+      DOC.DG_FK_CARGO_SOLICITA,
+      DOC.DG_CCP1,
+      DOC.DG_CCP2,
+      DOC.DG_CCP3,
+      DOC.DG_CCP4,
+      -- DATOS COMPLEMENTARIOS DEL FIRMANTE
+      GETPREFIJOESTUDIOS(NOMBRE) || ' ' || FP.PERS_NOMBRE || ' ' || FP.PERS_APEPAT || ' ' || FP.PERS_APEMAT AS FIRMA_NOMBRE,
+      GETPREFIJOESTUDIOS(FP.PERS_PERSONA) || ' ' || FP.PERS_NOMBRE || ' ' || FP.PERS_APEPAT || ' ' || FP.PERS_APEMAT AS CORRESPONDA,
+      PP.PTO_PUESTO AS FIRMA_PUESTO,
+      PP.PTO_URE || '-' || TH2.LURES AS FIRMA_URE
+
+    FROM DOC_GENERICOS DOC
+
+
+    LEFT JOIN TURESH TH ON DOC.DG_FK_URE = TH.URES
+    LEFT JOIN PLT_UBICACIONES PU ON DOC.DG_LUGAR = PU.UBI_ID
+
+
+    LEFT JOIN (
+      SELECT PERS_PERSONA AS NUMEMPL, 
+             PERS_NOMBRE || ' ' || PERS_APEPAT || ' ' || PERS_APEMAT AS NOMBRE 
+      FROM FINANZAS.FPERSONAS 
+      WHERE PERS_EMPLEADO = 'S'
+    ) PER1 ON PER1.NUMEMPL = DOC.DG_FK_CORRESPONDA
+
+
+    LEFT JOIN (
+      SELECT PERS_PERSONA AS NUMEMPL, 
+             PERS_NOMBRE || ' ' || PERS_APEPAT || ' ' || PERS_APEMAT AS NOMBRE2 
+      FROM FINANZAS.FPERSONAS 
+      WHERE PERS_EMPLEADO = 'S'
+    ) PER2 ON PER2.NUMEMPL = DOC.DG_NUMEMPL_FK_FIRMANTE
+
+    -- DATOS COMPLETOS DEL FIRMANTE (PREFIJO, PUESTO, URE)
+    LEFT JOIN FINANZAS.FPERSONAS FP ON FP.PERS_PERSONA = DOC.DG_NUMEMPL_FK_FIRMANTE
+    LEFT JOIN PLT_PUESTOS_MOV PPM ON PPM.MPTO_FK_NUMEMPL = FP.PERS_PERSONA AND PPM.MPTO_FECHA_FIN IS NULL
+    LEFT JOIN PLT_PUESTOS PP ON PP.PTO_ID = PPM.MPTO_ID
+    LEFT JOIN TURESH TH2 ON TH2.URES = PP.PTO_URE
+
+    WHERE DOC.DG_ID = :id
+    ";
+
+
+            $miarray = array(':id' => $id);
+            $infoDoc = $this->ssql($sql, $miarray, 1);
+
+            if ($infoDoc && isset($infoDoc['CORRESPONDA'])) {
+                $infoDoc['CORRESPONDA'] = ucwords(strtolower($infoDoc['CORRESPONDA']));
+            }
+
+            return $infoDoc;
+
+        }*/
+
+
+}
