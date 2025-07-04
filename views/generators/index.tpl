@@ -919,24 +919,7 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
                 modal_danger("Error en respuesta","Error: ("+xhr.statusText +")  " + xhr.responseText, "Aceptar");
               }
           })
-          /*.done(function( data, textStatus, jqXHR ) { 
-                var obj = IsJsonString(data);
-                if(obj != false) { 
-                  $('#nombre_ciclo').val(obj.denominacion);
-                  $('#fechaInicio').val(obj.fecha_inicio);
-                  $("#fechaFin").datepicker("option", "minDate", obj.fecha_inicio);
-                  $('#fechaFin').val(obj.fecha_fin);
-                  //$("#estatus").bootstrapSwitch('state', obj.activo);
-
-                }else{
-                  cuadroDialogoDanger("Error",data, "Aceptar");
-                }                             
-            })
-            .fail(function( jqXHR, textStatus, errorThrown ) {
-                alert( "La solicitud a fallado: " +  textStatus);
-                $("div#divLoading").removeClass('show');
-            });*/
-    //}
+          
     $('#id_reg_modal').val(id_reg);
     //$("#modal_formulario").modal("show")
     $('#modal_formulario').modal({
@@ -944,6 +927,13 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
 		});
   }
 
+
+
+
+
+
+
+  
   /*function limpiar_campos_modal() {
     $('#fechaFin').val('');
     $("#fechaFin").datepicker("option", "minDate", "");

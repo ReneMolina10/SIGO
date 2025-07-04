@@ -24,13 +24,14 @@
     <div class="card-header">
        
         <a class="btn btn-outline-dark custom-btn" href="javascript:validaAbrirURL_{$f.nombre}('{$f.generator}','{$f.idrel}');">
-        <a class="btn btn-outline-dark custom-btn" href="javascript:open_modal_{$f.nombre}('{$f.generator}','{$f.idrel}');">
-
-
-            <script type="text/javascript">
-                document.write('{$f.btn_holder}'.trim() ? '{$f.btn_holder}' : 'Nuevo');
-            </script>
+            Registrar {$f.nombre|lower}
         </a>
+        <a class="btn btn-outline-dark custom-btn" href="javascript:open_modal_{$f.nombre}('{$f.generator}','{$f.idrel}');">
+           Registrar {$f.nombre|lower}
+        </a>
+
+
+
         <h3 class="card-title">{$f.encabezado}</h3>
     </div>
     <div class="card-body">
@@ -59,19 +60,21 @@
 <div class="modal fade" id="modal_formulario" tabindex="-1" role="dialog" aria-labelledby="modal_formulario_label" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modal_formulario_label">Formulario</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body" id="formulario">
-                <!-- Aquí se cargará el contenido dinámico del formulario -->
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary" id="guardar_modal">Guardar</button>
-            </div>
+            <form class="bs-example bs-example-form" id="formp" name="formp" action="javascript:guardar_generator('{$BASE_URL}{$controlador}', true)" method="post" enctype="multipart/form-data">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal_formulario_label">Formulario</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="formulario">
+                    <!-- Aquí se cargará el contenido dinámico del formulario -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-dark" id="btnguardar"><i class="fas fa-save"></i> Guardar</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -104,6 +107,10 @@
                     // Mostrar el modal
                     $('#modal_formulario').modal({
                         focus: false
+                    });
+                    // Configurar el botón de guardar para enviar datos al nuevo endpoint
+                    $('#btnguardar').off('click').on('click', function() {
+                        guardar_generator('{$BASE_URL}{$controlador}');
                     });
                 },
                 error: function(xhr) {
