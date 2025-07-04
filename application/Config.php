@@ -1,13 +1,4 @@
 <?php
-// ^ - - - - DATA BASES - - - -
-/*
-$db['local']['HOST'] = '172.16.2.198'; // ^ <-- LOCAL
-$db['local']['MANAGER'] = 'oracle';
-$db['local']['USER'] = 'sisrh';
-$db['local']['PASS'] = 'sisrhpruebas';
-$db['local']['NAME'] = 'bitly';
-$db['local']['CHAR'] = 'utf8';
-*/
 
 // Definición de la base de datos: Uso de variables de entorno
 $db['local']['HOST'] = getenv('DB_HOST') ?: '172.16.2.195'; //prueba: 172.16.2.198
@@ -16,17 +7,6 @@ $db['local']['USER'] = getenv('DB_USER') ?: 'SIGO';
 $db['local']['PASS'] = getenv('DB_PASS') ?: 'sg2025u'; //prueba: SRHP_25#i
 $db['local']['NAME'] = getenv('DB_NAME') ?: 'uqro';
 $db['local']['CHAR'] = getenv('DB_CHAR') ?: 'utf8';
-
-/*
-$db['RH']['HOST'] = getenv('DB_HOST') ?: '172.16.2.195'; //prueba: 172.16.2.198
-$db['RH']['MANAGER'] = getenv('DB_MANAGER') ?: 'oracle';
-$db['RH']['USER'] = getenv('DB_USER') ?: 'SISRH';
-$db['RH']['PASS'] = getenv('DB_PASS') ?: 'SRH_25$i'; //prueba: SRHP_25#i
-$db['RH']['NAME'] = getenv('DB_NAME') ?: 'uqro';
-$db['RH']['CHAR'] = getenv('DB_CHAR') ?: 'utf8';*/
-
-
-
 
 
 
@@ -52,7 +32,9 @@ define('BASE_FILE_SOL_SERV', '/opt/sitios/sau2/admin/files_adjunto');
 // Rutas y configuraciones por defecto
 define('DEFAULT_LAYOUT', 'lte2');
 define('DEFAULT_FOLDER', '');
-define('BASE_URL', getenv('BASE_URL') ?: 'https://sigo.uqroo.mx/'); // URL base del sitio web
+
+define('BASE_URL', getenv('BASE_URL') ?: 'https://localhost/sigo/'); // URL base del sitio web
+//define('BASE_URL', getenv('BASE_URL') ?: 'https://sigo.uqroo.mx/'); // URL base del sitio web
 define('BASE_URL_VIEW', BASE_URL . 'views/layout/' . DEFAULT_LAYOUT . '/'); // URL del HTML template
 
 // Ruta para archivos locales
