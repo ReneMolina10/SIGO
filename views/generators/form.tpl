@@ -33,7 +33,8 @@
 </style>
 {/literal}
 
-
+<input type="hidden" name="filtro"          value="{$filtro|default:0}" />
+<input type="hidden" name="name_crud_table" value="{$nameCrudTable|default:''}" />
 
 {foreach key=key item=f from=$datosf}
 
@@ -152,6 +153,10 @@
 		{else if $f.tipo=="colorpicker" }
 
 			{include file="views/generators/components/colorpicker.tpl"}
+		
+		{else if $f.tipo=="crud-table" }
+
+			{include file="views/generators/components/crud_table.tpl"}
 
 		{/if}
 

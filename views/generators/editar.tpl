@@ -13,6 +13,10 @@
 
 <form class="bs-example bs-example-form" data-example-id="simple-input-groups" id="formp" name="formp" action="javascript:guardar_generator('{$_layoutParams.root}{$controlador}')" method="post" enctype="multipart/form-data">
 
+	{if $nameCrudTable}
+		<input type="hidden" name="name_crud_table" value="{$nameCrudTable}">
+	{/if}
+
 	<div class="card">
 
 		<div class="card-header">
@@ -74,7 +78,7 @@
 	</div>
 	
 </form>
-
+{include file="views/generators/ventanas_modal.tpl"}
 {if $ventana_modal|default:"" != true}
 <div id="divLoading"> </div> 
 <!--<script  src="{$_layoutParams.root}public/js/app.js" type="text/javascript"></script>-->

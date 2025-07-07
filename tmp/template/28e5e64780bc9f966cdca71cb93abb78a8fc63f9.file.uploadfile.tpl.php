@@ -1,0 +1,113 @@
+<?php /* Smarty version Smarty-3.1.8, created on 2025-07-03 14:03:36
+         compiled from "views/generators/components/uploadfile.tpl" */ ?>
+<?php /*%%SmartyHeaderCode:3586145726866c5f8b734a6-58740652%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+$_valid = $_smarty_tpl->decodeProperties(array (
+  'file_dependency' => 
+  array (
+    '28e5e64780bc9f966cdca71cb93abb78a8fc63f9' => 
+    array (
+      0 => 'views/generators/components/uploadfile.tpl',
+      1 => 1751560690,
+      2 => 'file',
+    ),
+  ),
+  'nocache_hash' => '3586145726866c5f8b734a6-58740652',
+  'function' => 
+  array (
+  ),
+  'variables' => 
+  array (
+    'f' => 0,
+    'd' => 0,
+  ),
+  'has_nocache_code' => false,
+  'version' => 'Smarty-3.1.8',
+  'unifunc' => 'content_6866c5f8b85aa0_08277378',
+),false); /*/%%SmartyHeaderCode%%*/?>
+<?php if ($_valid && !is_callable('content_6866c5f8b85aa0_08277378')) {function content_6866c5f8b85aa0_08277378($_smarty_tpl) {?><input name="<?php echo $_smarty_tpl->tpl_vars['f']->value['campo'];?>
+" id="<?php echo $_smarty_tpl->tpl_vars['f']->value['campo'];?>
+" class="file" type="file" data-min-file-count="1" data-theme="fas" 
+<?php if (isset($_smarty_tpl->tpl_vars['f']->value['required'])&&$_smarty_tpl->tpl_vars['f']->value['required']=="true"){?> required="required" <?php }?>
+<?php if (isset($_smarty_tpl->tpl_vars['f']->value['disabled'])&&$_smarty_tpl->tpl_vars['f']->value['disabled']=="true"){?> readonly <?php }?> 
+>
+
+
+
+
+
+<script type="text/javascript">
+	$("#<?php echo $_smarty_tpl->tpl_vars['f']->value['campo'];?>
+").fileinput({
+        theme: 'fas',
+        uploadUrl: '#',
+        language: "es",
+        //uploadUrl: "/file-upload-batch/2",
+        allowedFileExtensions: ["<?php echo implode('", "',$_smarty_tpl->tpl_vars['f']->value['format']);?>
+"],
+        maxFileSize: <?php echo $_smarty_tpl->tpl_vars['f']->value['size'];?>
+, // en KB
+        rtl: true,
+        <?php if (isset($_smarty_tpl->tpl_vars['f']->value['disabled'])&&$_smarty_tpl->tpl_vars['f']->value['disabled']=="true"){?>
+          showBrowse: false, //Oculta el botón Examinar 
+          showCaption: false, //Oculta el cuadro de texto 
+        <?php }?>         
+        showUpload: false,
+        showRemove: false,
+        dropZoneEnabled: false,
+        initialPreviewAsData: true,
+        //initialPreview: false,
+        //previewFileIcon: '<i class="fa fa-file"></i>',
+        //showPreview: false, //Muestra el área de arrastre
+        //allowedPreviewTypes: false, // Muestra el contenido del archivo 
+        /*previewFileIconSettings: {
+            'pdf': '<i class="fa fa-file-pdf-o text-danger"></i>'
+        }*/
+        initialPreview: [
+          <?php if (isset($_smarty_tpl->tpl_vars['d']->value[$_smarty_tpl->tpl_vars['f']->value['campo']]['ruta_archivo'])){?>
+            <?php if ($_smarty_tpl->tpl_vars['d']->value[$_smarty_tpl->tpl_vars['f']->value['campo']]['ext']=="pdf"){?>
+              "<?php echo $_smarty_tpl->tpl_vars['d']->value[$_smarty_tpl->tpl_vars['f']->value['campo']]['ruta_archivo'];?>
+",
+            <?php }else{ ?>
+              '<img src="<?php echo $_smarty_tpl->tpl_vars['d']->value[$_smarty_tpl->tpl_vars['f']->value['campo']]['ruta_archivo'];?>
+" class="kv-preview-data file-preview-image">',
+            <?php }?>
+          <?php }?>          
+        ],
+        initialPreviewConfig: [
+          <?php if (isset($_smarty_tpl->tpl_vars['d']->value[$_smarty_tpl->tpl_vars['f']->value['campo']]['ruta_archivo'])){?>
+            { 
+              type: "pdf",               
+              //size: 100, 
+              downloadUrl: "<?php echo $_smarty_tpl->tpl_vars['d']->value[$_smarty_tpl->tpl_vars['f']->value['campo']]['ruta_archivo'];?>
+",
+              caption: "<?php echo $_smarty_tpl->tpl_vars['d']->value[$_smarty_tpl->tpl_vars['f']->value['campo']]['file_name_full'];?>
+", 
+              width: "120px",
+              url: "<?php echo $_smarty_tpl->tpl_vars['d']->value[$_smarty_tpl->tpl_vars['f']->value['campo']]['ruta_func_delete_file'];?>
+", 
+              key: 1,
+              
+              <?php if ($_smarty_tpl->tpl_vars['d']->value[$_smarty_tpl->tpl_vars['f']->value['campo']]['ext']!="pdf"){?>
+                previewAsData: false,
+              <?php }?> 
+              <?php if (isset($_smarty_tpl->tpl_vars['f']->value['disabled'])&&$_smarty_tpl->tpl_vars['f']->value['disabled']=="true"){?>
+                showRemove: false,
+              <?php }?> 
+            }, 
+          <?php }?>
+          
+        ],
+        fileActionSettings: { //Acciones para la imagen miniatura 
+          <?php if (isset($_smarty_tpl->tpl_vars['f']->value['disabled'])&&$_smarty_tpl->tpl_vars['f']->value['disabled']=="true"){?>
+            showZoom: false,
+          <?php }?> 
+          showUpload: false,
+          //showZoom: true,
+          showDownload: true,
+          showDrag: true,
+          showRemove: true,
+        }
+    });
+
+	banderaSelectGenerator = true; 
+</script><?php }} ?>

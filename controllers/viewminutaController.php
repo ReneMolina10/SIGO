@@ -14,15 +14,15 @@ class pdfl extends TCPDF
 
     public function folioVertical()
     {
-
         if (!empty($this->folioDocumento)) {
             $this->SetFont('helvetica', 'B', 8);
             // Color gris suave (por ejemplo: #888888)
-            $this->SetTextColor(136, 136, 136);
+            $this->SetTextColor(238, 238, 238);
             $this->StartTransform();
-            // Posición: X cerca del borde derecho, Y centrado verticalmente
-            $this->Rotate(90, $this->w - 10, ($this->h / 2));
-            $this->Text($this->w - 10, ($this->h / 2), 'FOLIO DEL DOCUMENTO DIGITAL: ' . $this->folioDocumento);
+            // Posición: X cerca del borde derecho, Y más abajo del centro vertical
+            $yPos = ($this->h / 2) + 80; // 25 puntos más abajo del centro
+            $this->Rotate(90, $this->w - 10, $yPos);
+            $this->Text($this->w - 10, $yPos, 'FOLIO DEL DOCUMENTO DIGITAL: ' . $this->folioDocumento);
             $this->StopTransform();
             $this->SetTextColor(0, 0, 0);
         }
@@ -662,8 +662,6 @@ EOD;
                 'N'
             );
 
-            // Cadena Original con mejor formato
-            $pdf->SetXY($x + $qrSize + 8, $y);
             $htmlCadena = <<<EOD
 <table border="0" cellpadding="4" cellspacing="0" style="width:100%;">
     <tr>
@@ -677,17 +675,23 @@ EOD;
     </tr>
 </table>
 EOD;
+
+            // Cadena Original con mejor formato
+            $pdf->SetXY($x + $qrSize + 8, $y);
             $pdf->writeHTML($htmlCadena, true, false, true, false, '');
             $pdf->Ln(8);
+
+            // --- NUEVO: Mueve el cursor Y debajo del QR antes de la tabla de firmas ---
+            $pdf->SetY($y + $qrSize + 1); // 10 es margen, ajusta si lo necesitas
 
             // Sección de Firmas Digitales
             if (is_array($firmantes) && count($firmantes) > 0) {
                 $htmlFirmantes = <<<EOD
-<table border="0" cellpadding="2" cellspacing="0" style="width:100%;">
-    <tr>
-        <td style="font-weight:bold; text-align:left; border-bottom:1px solid #ddd; padding-bottom:1px;">FIRMAS AUTORIZADAS MEDIANTE CERTIFICACIÓN DIGITAL
-        </td>
-    </tr>
+    <table border="0" cellpadding="2" cellspacing="0" style="width:100%;">
+        <tr>
+            <td style="font-weight:bold; text-align:left; border-bottom:1px solid #ddd; padding-bottom:1px;">FIRMAS AUTORIZADAS MEDIANTE CERTIFICACIÓN DIGITAL
+            </td>
+        </tr>
 EOD;
 
                 foreach ($firmantes as $firmante) {
@@ -717,23 +721,20 @@ EOD;
                             break;
                     }
 
-                    $htmlFirmantes .= <<<EOD
+$htmlFirmantes .= <<<EOD
 <tr>
-    <td >
-        <div style="font-weight:bold; font-size:9px;">
-            {$nombrePrefijo} - {$cargo}
-        </div>
-        <div style="font-size:8px;">
-            <strong>Nombre:</strong> {$nombre} | <strong>CURP:</strong> {$curp} | <strong>Fecha Firma:</strong> {$fechafirma} | <strong>Estado:</strong> {$estadoTexto}<br>
-
-
-            <strong>Sistema:</strong> SISTEMA INSTITUCIONAL DE GESTIÓN DE OFICIOS | <strong>Folio Seguimiento:</strong> {$folioUnicoSeguimiento}<br>
-            <strong>Validación Cifrada de la Firma Electrónica:</strong> <span style="font-family:aealarabiya; font-size:8px;">{$firma}</span>
-        </div>
+    <td style="border-bottom:1px solid #ddd; padding-bottom:4px;">
+        <span style="font-weight:bold; font-size:9px;">{$nombrePrefijo} - {$cargo}</span><br>
+        <span style="font-size:8px;"><strong>Nombre:</strong> {$nombre} | 
+            <strong>CURP:</strong> {$curp} | 
+            <strong>Fecha Firma:</strong> {$fechafirma} | 
+            <strong>Estado:</strong> {$estadoTexto}<br>
+            <strong>Sistema:</strong> SISTEMA INSTITUCIONAL DE GESTIÓN DE OFICIOS | 
+            <strong>Folio Seguimiento:</strong> {$folioUnicoSeguimiento}<br>
+            <strong>Validación Cifrada de la Firma Electrónica:</strong> 
+            <span style="font-family:aealarabiya; font-size:8px;">{$firma}</span>
+        </span>
     </td>
-</tr>
-<tr>
-    <td style="border-bottom:1px solid #eee; padding:0; height:0px; line-height:1px;"></td>
 </tr>
 EOD;
                 }

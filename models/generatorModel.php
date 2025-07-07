@@ -914,6 +914,7 @@ echo "****";
     public function getColums()
     {     
       $sql = $this->info['sqlDeplegar'];
+      //echo $sql."   ";
       $res = $this->ssql($sql, null,1);
       return($res);
     }

@@ -124,9 +124,9 @@ function load_op(path,catalogo,holder){
 
 }
 
-function guardar_generator(path, reload_list = false)
+function guardar_generator(path, reload_list = false, formId = 'formp')
 {
-	var formData = new FormData($("#formp")[0]);
+	var formData = new FormData( $('#' + formId)[0] );
 	$.ajax({
 		//data:  $('#formp').serialize(),
 		data:  formData,
@@ -358,4 +358,62 @@ function cuadroadvertencia(titulo, texto, boton, campoEnfocar = "")
             }
         }
 	});
+}
+
+/**
+ * @param {number} idReg           ID del registro (0 = nuevo)
+ * @param {number} idIdioma        ID de idioma (0 = n/a)
+ * @param {number} duplicar        1 = duplicar, 0 = normal
+ * @param {string} editUrl         URL para AJAX (incluye filtro y subName en path)
+ * @param {string} singular        Texto singular para el título
+ * @param {number} filtro          ID del padre (parentId)
+ * @param {string} nameCrudTable   Identificador del sub-Generator
+ */
+function open_modal_to_edit(
+  idReg = 0,
+  idIdioma = 0,
+  duplicar = 0,
+  editUrl = '',
+  singular = '',
+  filtro = 0,
+  nameCrudTable = ''
+) {
+  // 1) Título y botón
+  $('#tit_modal_edit').html(
+    '<i class="fas fa-pencil-alt"></i> Registrar ' + singular
+  );
+  $('#btnguardar').show();
+
+  // 2) AJAX para traer el form
+  $.ajax({
+    type: 'POST',
+    url: editUrl,
+    data: {
+      id_reg:           idReg,
+      id_idioma:        idIdioma,
+      duplicar:         duplicar,
+      filtro:           filtro,
+      name_crud_table:  nameCrudTable
+    },
+    beforeSend: function() {
+      $('div#divLoading').addClass('show');
+    },
+    success: function(response) {
+      $('#formulario').html(response);
+    },
+    error: function(xhr) {
+      modal_danger(
+        'Error al cargar formulario',
+        'Error: (' + xhr.status + ') ' + xhr.responseText,
+        'Aceptar'
+      );
+    },
+    complete: function() {
+      $('div#divLoading').removeClass('show');
+    }
+  });
+
+  // 3) Preparar y abrir modal
+  $('#id_reg').val(idReg);
+  $('#modal_formulario').modal({ focus: false });
 }
