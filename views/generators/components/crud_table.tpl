@@ -17,6 +17,9 @@
 {assign var="tablaResponsiva" value=$f.bd.tablaResponsiva|default:'true'}
 {assign var="tablaScrollX"    value=$f.bd.tablaScrollX|default:'false'}
 {assign var="checkbox_column" value=$f.bd.checkbox_column|default:'false'}
+{assign var="bPaginate" value=$f.bd.bPaginate|default:true}
+{assign var="bFilter"   value=$f.bd.bFilter|default:true}
+{assign var="bInfo"     value=$f.bd.bInfo|default:true}
 
 
 <div class="card mb-4">
@@ -33,7 +36,10 @@
         tablaResponsiva = $tablaResponsiva
         tablaScrollX    = $tablaScrollX
         checkbox_column = $checkbox_column
+        bPaginate       = $bPaginate
+        bFilter         = $bFilter
+        bInfo           = $bInfo
       }
     
-</div>
+  </div>
 </div>

@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.8, created on 2025-07-04 23:09:38
+<?php /* Smarty version Smarty-3.1.8, created on 2025-07-08 04:33:49
          compiled from "views\generators\components\textarea.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:1000993332686843126826b5-43041850%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '6403ea60271bc7bf3360c04d86b512e4ca4e5427' => 
     array (
       0 => 'views\\generators\\components\\textarea.tpl',
-      1 => 1751663338,
+      1 => 1751667374,
       2 => 'file',
     ),
   ),
@@ -15,6 +15,8 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   'function' => 
   array (
   ),
+  'version' => 'Smarty-3.1.8',
+  'unifunc' => 'content_68684312694844_96056375',
   'variables' => 
   array (
     'f' => 0,
@@ -22,8 +24,6 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'd' => 0,
   ),
   'has_nocache_code' => false,
-  'version' => 'Smarty-3.1.8',
-  'unifunc' => 'content_68684312694844_96056375',
 ),false); /*/%%SmartyHeaderCode%%*/?>
 <?php if ($_valid && !is_callable('content_68684312694844_96056375')) {function content_68684312694844_96056375($_smarty_tpl) {?><style>
 .textarea-elegante {

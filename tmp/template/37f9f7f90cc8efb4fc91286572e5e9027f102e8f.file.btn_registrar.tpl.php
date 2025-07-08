@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.8, created on 2025-07-07 22:31:01
+<?php /* Smarty version Smarty-3.1.8, created on 2025-07-08 00:05:37
          compiled from "views\generators\btn_registrar.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:543405451686c2e85362854-01155477%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '37f9f7f90cc8efb4fc91286572e5e9027f102e8f' => 
     array (
       0 => 'views\\generators\\btn_registrar.tpl',
-      1 => 1751912376,
+      1 => 1751925930,
       2 => 'file',
     ),
   ),
@@ -15,6 +15,8 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   'function' => 
   array (
   ),
+  'version' => 'Smarty-3.1.8',
+  'unifunc' => 'content_686c2e8536eda5_16994530',
   'variables' => 
   array (
     'childTemplate' => 0,
@@ -30,8 +32,6 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'urlAgregar' => 0,
   ),
   'has_nocache_code' => false,
-  'version' => 'Smarty-3.1.8',
-  'unifunc' => 'content_686c2e8536eda5_16994530',
 ),false); /*/%%SmartyHeaderCode%%*/?>
 <?php if ($_valid && !is_callable('content_686c2e8536eda5_16994530')) {function content_686c2e8536eda5_16994530($_smarty_tpl) {?>
 

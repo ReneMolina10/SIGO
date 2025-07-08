@@ -133,6 +133,10 @@ $form = array(
             'busqIgual' => '"ID"',
             'nomPlural' => 'Detalles2',
             'nomSingular' => 'Detalle2',
+            'bPaginate' => false, // o true
+            'bFilter'   => false, // o true
+            'bInfo'     => false, // o true
+            // oculta el botón de agregar nuevo registro
             /*'columnas'     => array(
                 array('campo'=>'ID',     'width'=>200),
                 array('campo'=>'NOMBRE', 'width'=>80),

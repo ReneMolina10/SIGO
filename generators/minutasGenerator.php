@@ -207,7 +207,7 @@ $form = array(
 
         'name_crud_table' => 'DOC_MIN_ASUNTO',
         'tipo' => 'crud-table',
-        'label' => 'tabla de asuntos',
+        'label' => 'Asuntos',
         'col' => 'col-12',
 
         // 1) Campos del formulario del sub‐Generator
@@ -280,13 +280,16 @@ $form = array(
                                     FROM DOC_MIN_ASUNTO DA
                                     LEFT JOIN DOC_MINUTA DM ON DM.MIN_ID = DA.ASU_FK_MINUTA
                                     LEFT JOIN TURESH ON URES = ASU_PRESENTA
-                                    WHERE ASU_FK_MINUTA = [IDPADRE]",
-            // 'sqlDeplegar'  => "SELECT * FROM PRUEBA2 WHERE ID_PADRE = [IDPADRE]",
+                                    WHERE ASU_FK_MINUTA = [IDPADRE]
+                                    ORDER BY ASU_ID DESC",
             'idDeplegar' => 'ID',
             'busqLike' => '"ID"',
             'busqIgual' => '"ID"',
             'nomPlural' => 'Asuntos',
             'nomSingular' => 'asunto',
+            'bPaginate' => false, // o true
+            'bFilter'   => false, // o true
+            'bInfo'     => false, // o true
             /*'columnas' => array(
                 array('campo' => 'ID', 'width' => '5%'),
                 array('campo' => 'TEMA', 'width' => '15%'),
@@ -348,6 +351,8 @@ $form = array(
         'tipo' => 'crud-table',
         'label' => '<span style="font-size:25px;">Acuerdos</span>',
         'col' => 'col-12',
+        
+        
 
         // 1) Campos del formulario del sub‐Generator
         'form' => array(
@@ -446,6 +451,9 @@ $form = array(
             'busqIgual' => '"ID"',
             'nomPlural' => 'Acuerdos',
             'nomSingular' => 'Acuerdo',
+            'bPaginate' => false, // o true
+            'bFilter'   => false, // o true
+            'bInfo'     => false, // o true
             /*'columnas' => array(
                 array('campo' => 'ID', 'width' => '5%'),
                 array('campo' => 'RESPONSABLE', 'width' => '15%'),
@@ -584,6 +592,10 @@ $form = array(
             'busqIgual' => '"ID"',
             'nomPlural' => 'Mejoras',
             'nomSingular' => 'Mejora',
+            'bPaginate' => false, // o true
+            'bFilter'   => false, // o true
+            'bInfo'     => false, // o true
+            
             /*'columnas' => array(
                 array('campo' => 'ID', 'width' => '5%'),
                 array('campo' => 'TIPO', 'width' => '15%'),
@@ -758,6 +770,9 @@ $form = array(
             'busqIgual' => '"ID"',
             'nomPlural' => 'Firmantes',
             'nomSingular' => 'Firmante',
+            'bPaginate' => false, // o true
+            'bFilter'   => false, // o true
+            'bInfo'     => false, // o true
             /*'columnas' => array(
                 array('campo' => 'ID', 'width' => '5%'),
                 array('campo' => 'NUMEMPL', 'width' => '15%'),

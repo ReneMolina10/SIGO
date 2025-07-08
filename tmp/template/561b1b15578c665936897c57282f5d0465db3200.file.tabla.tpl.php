@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.8, created on 2025-07-07 22:30:24
+<?php /* Smarty version Smarty-3.1.8, created on 2025-07-08 04:41:20
          compiled from "views\generators\components\tabla.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:1326464704686843107f4cd1-60131835%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '561b1b15578c665936897c57282f5d0465db3200' => 
     array (
       0 => 'views\\generators\\components\\tabla.tpl',
-      1 => 1751918025,
+      1 => 1751925930,
       2 => 'file',
     ),
   ),

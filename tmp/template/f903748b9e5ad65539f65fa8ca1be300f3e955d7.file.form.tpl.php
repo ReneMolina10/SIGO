@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.8, created on 2025-07-04 23:09:38
+<?php /* Smarty version Smarty-3.1.8, created on 2025-07-08 04:33:48
          compiled from "C:\xampp\htdocs\SIGO\views\generators\form.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:5773478466868431260e606-61087316%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'f903748b9e5ad65539f65fa8ca1be300f3e955d7' => 
     array (
       0 => 'C:\\xampp\\htdocs\\SIGO\\views\\generators\\form.tpl',
-      1 => 1751663338,
+      1 => 1751925930,
       2 => 'file',
     ),
   ),
@@ -15,8 +15,12 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   'function' => 
   array (
   ),
+  'version' => 'Smarty-3.1.8',
+  'unifunc' => 'content_6868431265adb7_99574511',
   'variables' => 
   array (
+    'filtro' => 0,
+    'nameCrudTable' => 0,
     'datosf' => 0,
     'f' => 0,
     'd' => 0,
@@ -26,8 +30,6 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'codigoJS' => 0,
   ),
   'has_nocache_code' => false,
-  'version' => 'Smarty-3.1.8',
-  'unifunc' => 'content_6868431265adb7_99574511',
 ),false); /*/%%SmartyHeaderCode%%*/?>
 <?php if ($_valid && !is_callable('content_6868431265adb7_99574511')) {function content_6868431265adb7_99574511($_smarty_tpl) {?><?php $_smarty_tpl->tpl_vars["libJSFinder"] = new Smarty_variable("0", null, 0);?>
 
@@ -64,7 +66,10 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 </style>
 
 
-
+<input type="hidden" name="filtro"          value="<?php echo (($tmp = @$_smarty_tpl->tpl_vars['filtro']->value)===null||$tmp==='' ? 0 : $tmp);?>
+" />
+<input type="hidden" name="name_crud_table" value="<?php echo (($tmp = @$_smarty_tpl->tpl_vars['nameCrudTable']->value)===null||$tmp==='' ? '' : $tmp);?>
+" />
 
 <?php  $_smarty_tpl->tpl_vars['f'] = new Smarty_Variable; $_smarty_tpl->tpl_vars['f']->_loop = false;
  $_smarty_tpl->tpl_vars['key'] = new Smarty_Variable;
@@ -217,6 +222,11 @@ $_smarty_tpl->tpl_vars['f']->_loop = true;
 		<?php }elseif($_smarty_tpl->tpl_vars['f']->value['tipo']=="colorpicker"){?>
 
 			<?php echo $_smarty_tpl->getSubTemplate ("views/generators/components/colorpicker.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, null, null, array(), 0);?>
+
+		
+		<?php }elseif($_smarty_tpl->tpl_vars['f']->value['tipo']=="crud-table"){?>
+
+			<?php echo $_smarty_tpl->getSubTemplate ("views/generators/components/crud_table.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, null, null, array(), 0);?>
 
 
 		<?php }?>

@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.8, created on 2025-07-07 22:30:24
+<?php /* Smarty version Smarty-3.1.8, created on 2025-07-08 00:05:43
          compiled from "views\generators\ventanas_modal.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:1439150554686c2e60e192a8-32177231%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '34e193e905c444d6f0b53e7c5f37c0a79f8934cc' => 
     array (
       0 => 'views\\generators\\ventanas_modal.tpl',
-      1 => 1751890255,
+      1 => 1751925930,
       2 => 'file',
     ),
   ),
@@ -15,6 +15,8 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   'function' => 
   array (
   ),
+  'version' => 'Smarty-3.1.8',
+  'unifunc' => 'content_686c2e60e20c03_55811950',
   'variables' => 
   array (
     '_layoutParams' => 0,
@@ -26,8 +28,6 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'titulo' => 0,
   ),
   'has_nocache_code' => false,
-  'version' => 'Smarty-3.1.8',
-  'unifunc' => 'content_686c2e60e20c03_55811950',
 ),false); /*/%%SmartyHeaderCode%%*/?>
 <?php if ($_valid && !is_callable('content_686c2e60e20c03_55811950')) {function content_686c2e60e20c03_55811950($_smarty_tpl) {?>
 <!-- ================================ MODAL PARA BUSQUEDAS ========================= -->
