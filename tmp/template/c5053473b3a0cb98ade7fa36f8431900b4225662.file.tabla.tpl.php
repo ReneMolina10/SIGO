@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.8, created on 2025-07-08 08:15:41
+<?php /* Smarty version Smarty-3.1.8, created on 2025-07-09 05:20:33
          compiled from "views\generators\tabla.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:1532245450686c2e8537a956-81620274%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'c5053473b3a0cb98ade7fa36f8431900b4225662' => 
     array (
       0 => 'views\\generators\\tabla.tpl',
-      1 => 1751955339,
+      1 => 1752031223,
       2 => 'file',
     ),
   ),
@@ -132,15 +132,15 @@ $_smarty_tpl->tpl_vars['c']->_loop = true;
         $('#' + tableId + '-select-all').prop("checked", false);
 
         var table = $('#' + tableId).DataTable({
-          "bPaginate": <?php if ($_smarty_tpl->tpl_vars['bPaginate']->value===false||$_smarty_tpl->tpl_vars['bPaginate']->value==='false'){?>false<?php }else{ ?>true<?php }?>,
-          "bLengthChange":   true,
-          "bFilter":   <?php if ($_smarty_tpl->tpl_vars['bFilter']->value===false||$_smarty_tpl->tpl_vars['bFilter']->value==='false'){?>false<?php }else{ ?>true<?php }?>,
-          "bSort":           true,
-          "bInfo":     <?php if ($_smarty_tpl->tpl_vars['bInfo']->value===false||$_smarty_tpl->tpl_vars['bInfo']->value==='false'){?>false<?php }else{ ?>true<?php }?>,
-          "bAutoWidth":      true,
-          "processing":      true,
-          "autoWidth":       true,
-          "serverSide":      true,
+          "bPaginate":        <?php if ($_smarty_tpl->tpl_vars['bPaginate']->value===false||$_smarty_tpl->tpl_vars['bPaginate']->value==='false'){?>false<?php }else{ ?>true<?php }?>,
+          "bLengthChange":    true,
+          "bFilter":          <?php if ($_smarty_tpl->tpl_vars['bFilter']->value===false||$_smarty_tpl->tpl_vars['bFilter']->value==='false'){?>false<?php }else{ ?>true<?php }?>,
+          "bSort":            true,
+          "bInfo":            <?php if ($_smarty_tpl->tpl_vars['bInfo']->value===false||$_smarty_tpl->tpl_vars['bInfo']->value==='false'){?>false<?php }else{ ?>true<?php }?>,
+          "bAutoWidth":       true,
+          "processing":       true,
+          "autoWidth":        true,
+          "serverSide":       true,
           "serverMethod":    'post',
           "ajax": {
             'type': 'POST',
