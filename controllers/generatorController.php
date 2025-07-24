@@ -19,6 +19,8 @@ class generatorController extends Controller{
 	private $_codigoJS;
 	private $_template = array();
 	private $_graficas = array();
+	private $_nameCrudTable = null;
+
 
 	public function __construct($generator,$bd,$tablas,$form,$btnsTabla=array(),$btnsBarra=array(),$clase="",$reports="",$codigoJS="",$template=array(), $graficas=array() ) {
 		parent::__construct();
@@ -67,7 +69,7 @@ class generatorController extends Controller{
 
 
 
-		$this->_columnas = $this->getColumnas();
+		//$this->_columnas = $this->getColumnas();
 
 
 
@@ -99,11 +101,25 @@ class generatorController extends Controller{
 
 	public function get_datos_form($id='0',$idIdioma='0', $duplicar = 0, $filtro = 0)
 	{
-		//$this->_acl->acceso('edit-'.$this->_c);
-		$cont = 0;
 		
+		//$this->_acl->acceso('edit-'.$this->_c);
+		// 1) Reemplazo [IDPADRE] dentro de cada sub‐form de los crud-table
+		
+		// 1) Reemplazo [IDPADRE] en cualquier campo oculto
+		foreach ($this->_form as &$campo) {
+			if (
+				isset($campo['tipo'], $campo['value'])
+				&& $campo['tipo'] === 'oculto'
+				&& $campo['value'] === '[IDPADRE]'
+			) {
+				$campo['value'] = intval($filtro);
+			}
+		}
+		unset($campo);
 
+		$cont = 0;
 		foreach ($this->_form as $campo) {
+
 			//Si el componente tiene la propiedad datosSQL, obtengo los datos con la consulta SQL
 			if(isset($campo['datosSQL'])){
 				$datos_sql = array();
@@ -120,7 +136,8 @@ class generatorController extends Controller{
 
 			$cont++;
 		} //foreach
-
+		//print_r($this->_form);
+		
 		if(@$this->_bd["idIdioma"]!="" and @$this->_bd["idIdGrupoIdioma"]!="" ){
 			$idiomas = $this->_m->getIdiomas();
 				if($idIdioma=='0') $idIdioma=1;
@@ -152,7 +169,7 @@ class generatorController extends Controller{
 		}else{
 
 			if($id!='0' AND !empty($id))
-			{
+			{	
 				$datos = $this->_m->getInfoById($id,0,$this->_c,$duplicar);
 
 
@@ -170,16 +187,17 @@ class generatorController extends Controller{
 	}
 
 
-	public function editar($id=0,$idIdioma='0', $duplicar = 0,$filtro=0)
+	public function editar($id=0,$idIdioma='0', $duplicar = 0,$filtro=0,$nameCrudTable=null)
 	{	
-		//traigo los datos guardados, si existe el formulario en el archivo generator 
-		if( isset($this->_form) ) //(AND $id > 0 no funciono, no carga los selecs)
-			$this->get_datos_form($id, $idIdioma, $duplicar,$filtro);
+		
 
 		//print_r($this->_form);
 
 		$this->_view->assign('filtro',$filtro);
-
+		$this->_view->assign('parentId', $id);
+		$this->_view->assign('nameCrudTable', $nameCrudTable);
+		$this->_nameCrudTable = $nameCrudTable;
+		
 		$this->_view->assign('subtitulo',$this->_nomSingular.": ".$id); //<-- al parecer no se esta usando
 		$this->_view->assign('csseditar',$this->_bd["cssEditar"]);
 		$this->_view->assign('codigoJS',$this->_codigoJS);
@@ -189,26 +207,259 @@ class generatorController extends Controller{
 		$this->_view->assign('controlador',$this->_c);
 		$this->_view->assign('BASE_URL',BASE_URL);
 		$this->_view->assign('BASE_URL_VIEW',BASE_URL_VIEW);
-		$this->_view->assign('datosf',$this->_form);	
+		//$this->_view->assign('datosf',$this->_form);	
+
+		//usado en el componete crud-table
+		 // 3) PRECÁLCULO de columnas para **cada** crud-table incrustado en el padre
+		//    Guardamos en un array $columnas_per_sub[nameCrudTable] => [...columnas]
+		
+		// antes de entrar al bucle, guarda el contexto “padre”
+		$origBd     = $this->_bd;
+		$origForm   = $this->_form;
+		$origTablas = $this->_tablas;
+		$columnas_per_sub = [];
 
 
+		foreach ($this->_form as $el) {
+			// --- restaura contexto padre ---
+			$this->_bd     = $origBd;
+			$this->_form   = $origForm;
+			$this->_tablas = $origTablas;
+			$this->_m->setInfo  ($this->_bd);
+			$this->_m->setForm  ($this->_form);
+			$this->_m->setTablas($this->_tablas);
+			if (isset($el['tipo']) && $el['tipo'] === 'crud-table') {
+				// --- contexto hijo ---
+				$this->_bd     = $el['bd'];
+				$this->_form   = $el['form'];
+				$this->_tablas = $el['tablas'];
 
+				// aquí plantamos el default para btnOpciones
+				if (!isset($this->_bd['btnOpciones'])) {
+					$this->_bd['btnOpciones'] = true;
+				}
+				
+				// informa al modelo
+				$this->_m->setInfo   ($this->_bd);
+				$this->_m->setForm   ($this->_form);
+				$this->_m->setTablas ($this->_tablas);
+
+				// Reemplazo [IDPADRE] en el SQLDeplegar si existe
+				if (!empty($this->_bd['sqlDeplegar'])) {
+					$sql = str_replace(
+						'[IDPADRE]',
+						intval($id),  // <-- aquí
+						$this->_bd['sqlDeplegar']
+					);
+					$this->_m->setInfo(array_merge($this->_bd, ['sqlDeplegar'=>$sql]));
+				}
+				// Obtengo las columnas (o bien bd['columnas'], o por esquema)
+				$cols = !empty($this->_bd['columnas'])
+					? $this->_bd['columnas']
+					: $this->getColumnas();
+					//print_r($el['name_crud_table']);
+				$columnas_per_sub[$el['name_crud_table']] = $cols;
+			}
+		}
+		//print_r($columnas_per_sub);
+		$this->_view->assign('columnas_per_sub', $columnas_per_sub);
+
+		
+		
+
+		// 4) Si NO estoy editando un sub-Generator concreto:
+		if (!$nameCrudTable) {
+			
+			// Calculo y asigno las columnas del grid padre
+			$this->_columnas = $this->getColumnas();					
+			$this->_view->assign('columnas', $this->_columnas);
+			if( isset($this->_form) )
+				$this->get_datos_form($id, $idIdioma, $duplicar, $filtro);
+		}
+
+		// 5) Ahora asigno al form global (del padre)
+		$this->_view->assign('datosf', $this->_form);
+		
+		 // 6) Si la URL trae un nameCrudTable, sobreescribo el contexto para ese hijo
+		if ($nameCrudTable) {
+			foreach ($this->_form as $el) {
+				if (
+					isset($el['tipo'], $el['name_crud_table']) &&
+					$el['tipo']==='crud-table' &&
+					$el['name_crud_table']===$nameCrudTable
+				) {
+					// a) Sobrescribo BD / FORM / TABLAS
+					$this->_bd     = $el['bd'];
+					$this->_form   = $el['form'];
+					$this->_tablas = $el['tablas'];
+
+					// b) Reemplazo [IDPADRE] en sqlDeplegar
+					if (!empty($this->_bd['sqlDeplegar'])) {
+						$this->_bd['sqlDeplegar'] = str_replace(
+							'[IDPADRE]',
+							intval($id),
+							$this->_bd['sqlDeplegar']
+						);
+					}
+
+					if (isset($el['template']) && is_array($el['template'])) {
+						$this->_template = $el['template'];
+						$this->_view->assign('template', $this->_template);
+					}
+
+					// c) Informo al modelo
+					$this->_m->setInfo  ($this->_bd);
+					$this->_m->setForm  ($this->_form);
+					$this->_m->setTablas($this->_tablas);
+
+					// d) **¡Aquí llamamos a get_datos_form con el sub-form ya sobrescrito!**
+					if( isset($this->_form) )
+					$this->get_datos_form($id, $idIdioma, $duplicar, $filtro);
+
+					// d) Recalculo y reasigno columnas SOLO de este sub-Generator
+					$this->_columnas = $this->getColumnas();
+					$this->_view->assign('columnas', $this->_columnas);
+
+					// e) Reasigno datosf para que el form muestre solo los campos del hijo
+					$this->_view->assign('datosf', $this->_form);					
+					break;
+				}
+			}
+		}
+
+
+		
 		$this->_view->renderizar('editar',true);
 	}
 
+
+	//carga los datos en el form
 	public function editar_modal($idFiltro=0)
 	{	
-		$id_reg = $_POST['id_reg'];
-		$idIdioma = $_POST['id_idioima'];
-		$duplicar = $_POST['duplicar'];
-		$filtro = @$_POST['filtro'];
-		//echo "---->".$idFiltro;
+		// 1) Recupero los parámetros de POST
+		$id_reg          = $_POST['id_reg']       ?? 0;
+		$idIdioma        = $_POST['id_idioma']    ?? 0;
+		$duplicar        = $_POST['duplicar']     ?? 0;
+		$filtro          = $_POST['filtro']       ?? 0;
+		$nameCrudTable   = @$_POST['name_crud_table'];
+		
+		// 3) PRECÁLCULO de columnas para **cada** crud-table incrustado en el padre
+		//    Guardamos en un array $columnas_per_sub[nameCrudTable] => [...columnas]
+		$origBd     = $this->_bd;
+		$origForm   = $this->_form;
+		$origTablas = $this->_tablas;
+		$columnas_per_sub = [];
+		foreach ($this->_form as $el) {
+			// --- restaura contexto padre ---
+			$this->_bd     = $origBd;
+			$this->_form   = $origForm;
+			$this->_tablas = $origTablas;
+			$this->_m->setInfo  ($this->_bd);
+			$this->_m->setForm  ($this->_form);
+			$this->_m->setTablas($this->_tablas);
+			if (isset($el['tipo']) && $el['tipo'] === 'crud-table') {
+				// --- contexto hijo ---
+				$this->_bd     = $el['bd'];
+				$this->_form   = $el['form'];
+				$this->_tablas = $el['tablas'];
+
+				// aquí plantamos el default para btnOpciones
+				if (!isset($this->_bd['btnOpciones'])) {
+					$this->_bd['btnOpciones'] = true;
+				}
+				
+				// informa al modelo
+				$this->_m->setInfo   ($this->_bd);
+				$this->_m->setForm   ($this->_form);
+				$this->_m->setTablas ($this->_tablas);
+
+				// Reemplazo [IDPADRE] en el SQLDeplegar si existe
+				if (!empty($this->_bd['sqlDeplegar'])) {
+					$sql = str_replace(
+						'[IDPADRE]',
+						intval($id),  // <-- aquí
+						$this->_bd['sqlDeplegar']
+					);
+					$this->_m->setInfo(array_merge($this->_bd, ['sqlDeplegar'=>$sql]));
+				}
+				// Obtengo las columnas (o bien bd['columnas'], o por esquema)
+				$cols = !empty($this->_bd['columnas'])
+					? $this->_bd['columnas']
+					: $this->getColumnas();
+					//print_r($el['name_crud_table']);
+				$columnas_per_sub[$el['name_crud_table']] = $cols;
+			}
+		}
+
+		$this->_view->assign('columnas_per_sub', $columnas_per_sub);
+
+		// 4) Si NO estoy editando un sub-Generator concreto:
+		//entra cuand padre edit tiene modal como e hijo tiene crud-table
+		if (!$nameCrudTable) {
+			// Calculo y asigno las columnas del grid padre
+			$this->_columnas = $this->getColumnas();
+			$this->_view->assign('columnas', $this->_columnas);
+			if( isset($this->_form) )
+				$this->get_datos_form($id_reg, $idIdioma, $duplicar, $filtro);
+		}
+
+		// 5) Ahora asigno al form global (del padre)
+		$this->_view->assign('datosf', $this->_form);
+
+		// 2) Si es un sub-Generator, override **antes** de get_datos_form()
+		//entra cuand padre edit esta en complet_page e hijo tiene crud-table
+		if ($nameCrudTable) {
+			foreach ($this->_form as $el) {
+				if (
+					isset($el['tipo'], $el['name_crud_table']) &&
+					$el['tipo']             === 'crud-table'                &&
+					$el['name_crud_table']  === $nameCrudTable
+				) {
+					// a) Sobrescribo BD, form y tablas
+					$this->_bd     = $el['bd'];
+					$this->_form   = $el['form'];
+					$this->_tablas = $el['tablas'];
+
+					// b) Reemplazo [IDPADRE] en SQL si aplica
+					if (!empty($this->_bd['sqlDeplegar'])) {
+						$this->_bd['sqlDeplegar'] = str_replace(
+							'[IDPADRE]',
+							intval($filtro),
+							$this->_bd['sqlDeplegar']
+						);
+					}
+
+					if (isset($el['template']) && is_array($el['template'])) {
+						$this->_template = $el['template'];
+						$this->_view->assign('template', $this->_template);
+					}
+
+					// c) Informo al modelo
+					$this->_m->setInfo  ($this->_bd);
+					$this->_m->setForm  ($this->_form);
+					$this->_m->setTablas($this->_tablas);
+
+					// d) **¡Aquí llamamos a get_datos_form con el sub-form ya sobrescrito!**
+					if( isset($this->_form) )
+					$this->get_datos_form($id_reg, $idIdioma, $duplicar, $filtro);
+
+					// d) Recalculo y reasigno columnas SOLO de este sub-Generator
+					$this->_columnas = $this->getColumnas();
+					$this->_view->assign('columnas', $this->_columnas);
+
+					// e) Reasigno datosf para que el form muestre solo los campos del hijo
+					$this->_view->assign('datosf', $this->_form);					
+					break;
+				}
+			}
+		}
+
 		//traigo los datos guardados, si existe el formulario en el archivo generator 
 		if(isset($this->_form))
 			$this->get_datos_form($id_reg, $idIdioma, $duplicar,$filtro);
-
 		$this->_view->assign('filtro',$filtro);
-		
+		$this->_view->assign('parentId', $id_reg);
+		$this->_view->assign('nameCrudTable',  $nameCrudTable);
 		$this->_view->assign('ventana_modal',true); //Para evitar que se carguen librerías que ya están en el index (ejem: app.js)
 		$this->_view->assign('csseditar',$this->_bd["cssEditar"]);
 		$this->_view->assign('codigoJS',$this->_codigoJS);
@@ -281,12 +532,36 @@ class generatorController extends Controller{
 	public function guardar(){
 		//$this->_acl->acceso('edit-'.$this->_c);
 		//print_r($_FILES);
-
+		
 		//si existen campos tipo file
 		if(!empty($_FILES)) 
 			$post = array_merge($_POST, $_FILES);
 		else
 			$post = $_POST;
+		
+		// 1) ¿Es un guardado de sub‐Generator?
+		$nameCrudTable = $post['name_crud_table'] ?? null;
+		if ($nameCrudTable) {
+			// Recorremos la definición de form padre para encontrar el hijo
+			foreach ($this->_form as $el) {
+				if (
+					isset($el['tipo'], $el['name_crud_table']) &&
+					$el['tipo']==='crud-table' &&
+					$el['name_crud_table']===$nameCrudTable
+				) {
+					// — Sobrescribimos BD, form y tablas —
+					$this->_bd     = $el['bd'];
+					$this->_form   = $el['form'];
+					$this->_tablas = $el['tablas'];
+
+					// — Informamos al modelo —
+					$this->_m->setInfo  ($this->_bd);
+					$this->_m->setForm  ($this->_form);
+					$this->_m->setTablas($this->_tablas);
+					break;
+				}
+			}
+		}
 
 		//Aplico función que modifica los datos antes de guardarlos 
 		$post = $this->data_transform($post);
@@ -343,6 +618,7 @@ class generatorController extends Controller{
 		//$columnas = array('0' => 'ID', '1' => 'PAGINA', '2' => 'columns');
 		//print_r($this->_columnas);
 		$this->_view->assign('filtro'  ,  $filtro);
+		$this->_columnas = $this->getColumnas();
 		$this->_view->assign('columnas',  $this->_columnas);
 		$this->_view->assign('reports'  , $this->_reports ); 
 		//$this->_view->assign('btnsTabla',$this->_btnsTabla);
@@ -352,7 +628,8 @@ class generatorController extends Controller{
 		//$this->_view->assign('paginacion', $paginador->getView('prueba', $this->_c.'/index'));
 		
 		$tablaResponsiva = (isset($this->_bd['tablaResponsiva']) ? $this->_bd['tablaResponsiva'] : 'true');
-		$tablaScrollX    = (isset($this->_bd['tablaScrollX']) ? $this->_bd['tablaScrollX'] : 'false');
+		//$tablaScrollX    = (isset($this->_bd['tablaScrollX']) ? $this->_bd['tablaScrollX'] : 'false');
+		$tablaScrollX    = (isset($this->_bd['tablaScrollX']) ? (bool)$this->_bd['tablaScrollX'] : false);
 		$urlbarra        = (isset($this->_bd['urlbtnregresar']) ? $this->_bd['urlbtnregresar'] : ''); 
 		$checkbox_column = (isset($this->_bd['checkbox_column']) ? $this->_bd['checkbox_column'] : false); 
 		
@@ -368,7 +645,7 @@ class generatorController extends Controller{
 		$this->_view->assign('controlador',$this->_c          );
 		$this->_view->assign('template',$this->_template);
 		$this->_view->assign('bd',$this->_bd);
-
+		$this->_view->assign('BASE_URL',BASE_URL);
 
 
 
@@ -379,23 +656,50 @@ class generatorController extends Controller{
 
 
 
-	public function eliminar($id, $return = false)
+	public function eliminar($id = null, $return = false, $nameCrudTable = null)
 	{
 		//$this->_acl->acceso('delete-'.$this->_c);
 		//$id = (int)$id; //El ID podrá ser cadena
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+			$id = (int)$_POST['id']; 
+			$nameCrudTable = $_POST['name_crud_table'];
+		}
 		$res ="";
 		$mensaje_error = "";
+
+		// 2) Si es un sub‐generator válido, sobreescribo BD/form/tablas
+		if ($nameCrudTable) {
+			foreach ($this->_form as $el) {
+				if (
+					isset($el['tipo'], $el['name_crud_table']) &&
+					$el['tipo'] === 'crud-table' &&
+					$el['name_crud_table'] === $nameCrudTable
+				) {
+					$this->_bd     = $el['bd'];
+					$this->_form   = $el['form'];
+					$this->_tablas = $el['tablas'];
+					// actualizo contexto del modelo
+					$this->_m->setInfo  ($this->_bd);
+					$this->_m->setForm  ($this->_form);
+					$this->_m->setTablas($this->_tablas);
+					$controllador = $nameCrudTable;
+					break;
+				}else{
+					$controllador = $this->_c;
+				}
+			}
+		}
 		if($id){			
-			$res = $this->_m->eliminar($id, $this->_c);
-
+			$res = $this->_m->eliminar($id, $controllador); //retorna 1
 			//Verifico si existe algún archivo del registro eliminado 
-
-			foreach ($this->_form as $key => $campo) {
-		       if (@$campo['tipo'] == 'uploadfile') {
-		       		$ruta = $campo['path'] ."/". $id;
-		       		if(file_exists($ruta))
-		       			$this->delete_folder($ruta);
-		       			//$mensaje_error = "error al eliminar archivo";
+			if ($res) {
+				foreach ($this->_form as $campo) {
+					if (!empty($campo['tipo']) && $campo['tipo'] === 'uploadfile') {
+						$ruta = rtrim($campo['path'], '/')."/".$id;
+						if (file_exists($ruta)) {
+							$this->delete_folder($ruta);
+						}
+					}
 				}
 			}
 		}else
@@ -671,7 +975,58 @@ class generatorController extends Controller{
 	}
 
 	public function buscar($filtro=""){
-		//print_r($_POST);
+		// Limpia cualquier buffer de Smarty u otro
+		/*while (ob_get_level()) { ob_end_clean(); }
+		// Avisa que vas a devolver JSON
+		header('Content-Type: application/json; charset=utf-8'); */
+
+
+		// 1) Capturamos el parámetro que viene por POST
+        $nameCrudTable = trim($_POST['name_crud_table'] ?? '');
+        $this->_nameCrudTable = $nameCrudTable;
+        // 2) Si es un sub-generator válido, recargamos BD/FORM/TABLAS
+        if ($nameCrudTable !== "" && $this->isValidSubGenerator($nameCrudTable)) {
+			// Recorro la configuración de formulario para encontrar el f que coincide
+			foreach ($this->_form as $f) {
+				if (isset($f['name_crud_table']) && $f['name_crud_table'] === $nameCrudTable ) {
+					// Sobreescribo la configuración del controller
+					$this->_bd     = $f['bd'];
+					$this->_form   = $f['form'];
+					$this->_tablas = $f['tablas'];
+
+					// Restaurar el default de btnOpciones si no está
+					if (!isset($this->_bd['btnOpciones'])) {
+						$this->_bd['btnOpciones'] = true;
+					}
+
+					// — Sustituyo [IDPADRE] en sqlDeplegar por el filtro (ID del padre) —
+					$this->_bd['sqlDeplegar'] = str_replace(
+						'[IDPADRE]',
+						intval($filtro),           // $filtro viene de la URL: /…/buscar/{filtro}
+						$this->_bd['sqlDeplegar']
+					);
+
+					if (isset($f['template']) && is_array($f['template'])) {
+						$this->_template = $f['template'];
+					}
+
+					// Se la mando al modelo
+					$this->_m->setInfo   ($this->_bd);
+					$this->_m->setForm   ($this->_form);
+					$this->_m->setTablas ($this->_tablas);
+
+					 // **¡Aquí** recalculas las columnas**!**
+					$this->_columnas = $this->getColumnas();
+
+					// Y si la vista los consume directamente:
+					$this->_view->assign('columnas', $this->_columnas);
+					break;
+				}
+			}
+		}else{			
+			$this->_columnas = $this->getColumnas();
+		}
+		
 		$comilla = $this->get_comilla();
 		
 		//$datos = $this->_pruebas->get_conceptos_lista();
@@ -687,7 +1042,7 @@ class generatorController extends Controller{
 		//$searchValue = mysqli_real_escape_string($con,$_POST['search']['value']); // Search value
 		$searchValue = $_POST['search']['value']; // Search value
 		$columns = $_POST['columns']; // columnas
-
+		
 		## BUSCAR POR CAMPOS
 		##Retorna la consulta para hacer la búsqueda de un valor en una columna de la tabla 
 		$searchQuery = $this->get_searchQuery_byCol($columns);
@@ -698,10 +1053,11 @@ class generatorController extends Controller{
 		$totalRecordwithFilter = $this->_m->get_total_con_filtro($searchQuery,$searchValue);
 		## Obtener registros
 		$empRecords = $this->_m->get_datos($searchQuery, $columnName, $columnSortOrder, $row, $rowperpage,$searchValue,$filtro);
-
+		
 		
 		$data = array();
 		//$array_btns = $this->_bd["buttons"]; //array con todos los botones
+		//$this->_columnas = $this->getColumnas();
 		$columnas = $this->_columnas;	//array de las columnas			
 		$idDeplegar = $this->_bd["idDeplegar"];	//nombre del id (debe ser ID)
 
@@ -755,16 +1111,42 @@ class generatorController extends Controller{
 		$btns = '';
 		$cadena = "";
 		$btnOpciones = $this->_bd["btnOpciones"];
-
 		$idDeplegar = $this->_bd["idDeplegar"];
+		// preparamos el sufijo extra para sub-Generator
+		$singular = addslashes($this->_nomSingular);
+		$nameTableGen    = $this->_nameCrudTable ?? 'grid';
 
 		//Verifico si el formulario será en pantalla completa o en ventana modal 				
 		if(isset($this->_template['editForm'] ) AND $this->_template['editForm'] == 'modal'){
-			$hrefEditar = 'javascript:open_modal_to_edit('.$row[$idDeplegar].')';
+			
+			//$subSegment = $nameTableGen ? "/{$nameTableGen}" : "";
+			// URL path ya con filtro y nameTableGen en la ruta
+			$editUrl    = BASE_URL . "{$this->_c}/editar_modal/" . $filtro;
+			$modalId = $nameTableGen ? "modal_{$nameTableGen}" : "modal_formulario";
+        	$formId = $nameTableGen ? "formp_{$nameTableGen}" : "formp_modal";
+			
+			$hrefEditar = sprintf(
+				"javascript:open_modal_to_edit(%d, %d, %d, '%s', '%s', %d, '%s', '%s', '%s')",
+				$row[$idDeplegar],   // idReg
+				0,                   // idIdioma
+				0,                   // duplicar
+				$editUrl,            // editUrl
+				$singular,           // singular
+				$filtro,             // filtro
+				$nameTableGen,             // name_crud_table
+				$modalId,
+				$formId
+			);
+			//$hrefEditar = 'javascript:open_modal_to_edit('.$row[$idDeplegar].')';
 			$hrefDetalles = 'javascript:open_modal_detalles('.$row[$idDeplegar].')';
 			$hrefDuplicar = 'javascript:open_modal_to_edit('.$row[$idDeplegar].',0,1)';
 		}else{
-			$hrefEditar = BASE_URL.''.$this->_c.'/editar/'.$row[$idDeplegar].'/0/0/'.$filtro;
+			 $hrefEditar   = BASE_URL
+                      . "{$this->_c}/editar/"
+                      . $row[$idDeplegar]
+                      . "/0/0/"
+                      . $filtro ."/"
+                      . $nameTableGen;					  
 			$hrefDetalles = BASE_URL.''.$this->_c.'/detalles/'.$row[$idDeplegar].'/';
 			$hrefDuplicar = BASE_URL.''.$this->_c.'/editar/'.$row[$idDeplegar].'/0/1/';
 		}
@@ -792,7 +1174,13 @@ class generatorController extends Controller{
 				'eliminar' => array(
 					'label'=>'<i class="far fa-trash-alt"></i> Eliminar',
 					'class'=>"", 
-					'href'=>"javascript:eliminaregistro(".$row['ID'].")",
+					'href'=> sprintf(
+						"javascript:eliminar_reg_generator('%s', %d, '%s', '%s')",
+						BASE_URL . $this->_c,
+						$row[$idDeplegar],
+						addslashes($this->_nomSingular),
+						$nameTableGen
+					),
 					'target'=>"",
 				),
 			);
@@ -895,10 +1283,13 @@ class generatorController extends Controller{
 			}
 
 			foreach ($this->_bd["columnas"] as $columna) {
-				$columnas[$cont] = $columna;
-				$columnas[$cont]['titulo'] = $columna['campo'];
-				$columnas[$cont]['tipo'] = 'data';
-				$cont ++;
+				$name = strtoupper($columna['campo']);
+				$columnas[$cont] = [
+					'campo'  => $name,
+					'titulo' => $name,
+					'tipo'   => 'data',
+				];
+				$cont++;
 			}
 
 			//COLUMNA DE OPCIONES 
@@ -912,6 +1303,7 @@ class generatorController extends Controller{
 			//Obtiene las columnas de la consulta sql 	
 			$res_cols = $this->_m->getColums();
 
+			
 			if($res_cols == 1 OR empty($res_cols))
 				$res_cols = array();
 			else{
@@ -922,11 +1314,14 @@ class generatorController extends Controller{
 					$columnas[$cont]['tipo'] = 'checkbox_column';
 					$cont ++;
 				}
-				foreach ($res_cols as $columna => $value) {
-					$columnas[$cont]['campo'] = $columna;
-					$columnas[$cont]['titulo'] = $columna;
-					$columnas[$cont]['tipo'] = 'data';
-					$cont ++;
+				foreach ($res_cols as $name_col) {
+					$name = strtoupper($name_col);
+					$columnas[$cont] = [
+						'campo'  => $name,
+						'titulo' => $name,
+						'tipo'   => 'data',
+					];
+					$cont++;
 				}
 				//COLUMNA DE OPCIONES 
 				$cols = $columnas;
@@ -1146,6 +1541,7 @@ class generatorController extends Controller{
 		$empRecords = $this->_m->get_datos($searchQuery, $columnName, $columnSortOrder, 0, 0,$searchValue,$filtro);
 
 		$data = array();
+		$this->_columnas = $this->getColumnas();
 		$columnas = $this->_columnas;	//array de las columnas			
 		$idDeplegar = $this->_bd["idDeplegar"];	//nombre del id (debe ser ID)
 
@@ -1196,6 +1592,7 @@ class generatorController extends Controller{
 		$empRecords = $this->_m->get_datos($searchQuery, $columnName, $columnSortOrder, 0, 0,$searchValue,$filtro);
 
 		$data = array();
+		$this->_columnas = $this->getColumnas();
 		$columnas = $this->_columnas;	//array de las columnas			
 		$idDeplegar = $this->_bd["idDeplegar"];	//nombre del id (debe ser ID)
 		$arrayCol = array();
@@ -1318,6 +1715,7 @@ class generatorController extends Controller{
 	{
 		//print_r($this->_columnas);
 		$this->_view->assign('filtro'  ,  $filtro);
+		$this->_columnas = $this->getColumnas();
 		$this->_view->assign('columnas',  $this->_columnas);
 		$this->_view->assign('reports'  , $this->_reports ); 
 
@@ -1635,9 +2033,13 @@ function infosort($filtro="")
 	protected function data_untransform(array $row): array
 	{
 		foreach ($this->_form as $field) {
-			$name = $field['campo'];
-			if (!empty($field['encrypt']) && !empty($row[$name])) {
-				$row[$name] = $this->decryptValue($row[$name]);
+			
+			//desencriptar 
+			if(isset($field['campo']) ){
+				$name = $field['campo'];
+				if (!empty($field['encrypt']) && !empty($row[$name])) {
+					$row[$name] = $this->decryptValue($row[$name]);
+				}
 			}
 		}
 		return $row;
@@ -1664,6 +2066,21 @@ function infosort($filtro="")
         echo base64_encode($bytes);
         exit; // para no seguir con el flujo normal
     }
+	//----------------------------------------------------
+
+	 /**
+     * Comprueba si $name corresponde a un sub-generator definido en el formulario padre.
+     */
+    private function isValidSubGenerator(string $name): bool
+    {
+        foreach ($this->_form as $el) {
+            if (isset($el['name_crud_table']) && $el['name_crud_table'] === $name) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
 
 }

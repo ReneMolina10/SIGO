@@ -79,16 +79,16 @@ $template = array(
 $form = array(
 
     array('etiq' => '<div class="row">'),
-    array(
-        'campo' => 'ACU_ID',
-        'tipo' => 'oculto',
-    ),
+    /* array(
+         'campo' => 'ACU_ID',
+         'tipo' => 'oculto',
+     ),
 
-    array(
-        'campo' => 'ACU_FK_MINUTA',
-        'tipo' => 'oculto',
-        'value' => $idFiltro
-    ),
+     array(
+         'campo' => 'ACU_FK_MINUTA',
+         'tipo' => 'oculto',
+         'value' => $idFiltro
+     ),*/
 
     array('etiq' => '</div>'),
 

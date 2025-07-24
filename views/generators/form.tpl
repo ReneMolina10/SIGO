@@ -152,6 +152,10 @@
 		{else if $f.tipo=="colorpicker" }
 
 			{include file="views/generators/components/colorpicker.tpl"}
+		
+		{else if $f.tipo=="crud-table" }
+
+			{include file="views/generators/components/crud_table.tpl"}
 
 		{/if}
 
@@ -162,6 +166,7 @@
 	{/if}
 {/foreach}
 
+<input type="hidden" id="id_registro" name="id_registro" value="{$parentId|default:0}"/>
 <input type="hidden" name="id_tabla" id="id_tabla" value="{$d.ID_T|default:''}"></input>
 
 

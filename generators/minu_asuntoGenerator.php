@@ -15,7 +15,8 @@ $bd = array(
             DM.STATUS_DOC
             FROM DOC_MIN_ASUNTO DA
             LEFT JOIN DOC_MINUTA DM ON DM.MIN_ID = DA.ASU_FK_MINUTA
-            LEFT JOIN TURESH ON URES = ASU_PRESENTA",
+            LEFT JOIN TURESH ON URES = ASU_PRESENTA
+            ORDER BY ASU_ID ASC",
 
     'columnas' => array(
         array('campo' => 'ID', 'width' => '5%'),

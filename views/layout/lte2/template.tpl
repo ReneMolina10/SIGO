@@ -63,6 +63,8 @@
 <script src="{$_layoutParams.ruta_view}plugins/jquery/jquery.min.js"></script>
 
 <script type="text/javascript" src="{$_layoutParams.root}public/js/jquery.dragsort.js"></script> 
+<!-- jQuery UI 1.11.4 -->
+<script src="{$_layoutParams.ruta_view}plugins/jquery-ui/jquery-ui.min.js"></script>
 
 
 <!-- Bootstrap4 Duallistbox -->
@@ -77,6 +79,16 @@
 <script src="{$_layoutParams.ruta_view}plugins/fileinput/js/fileinput.js" type="text/javascript"></script>
 <script src="{$_layoutParams.ruta_view}plugins/fileinput/js/locales/es.js" type="text/javascript"></script>
 <script src="{$_layoutParams.ruta_view}plugins/fileinput/themes/fas/theme.js" type="text/javascript"></script>
+<!-- DataTables -->
+<script src="{$_layoutParams.ruta_view}plugins/datatables_1.10.21/datatables.min.js"></script>
+<script src="{$_layoutParams.ruta_view}plugins/datatables_1.10.21/plugins/filtering/accent-neutralise.js"></script>
+<!--<script src="{$_layoutParams.ruta_view}plugins/datatables_1.10.21/plugins/Buttons-1.7.0/js/dataTables.buttons.min.js"></script>
+<script src="{$_layoutParams.ruta_view}plugins/datatables_1.10.21/plugins/Buttons-1.7.0/js/buttons.html5.min.js"></script>-->
+
+<!-- app.js generatork-->
+<script src="{$_layoutParams.root}public/js/app.js?param1={$smarty.now|rand:100000}" type="text/javascript"></script>
+<!-- funciones genericas franwork-->
+<script src="{$_layoutParams.root}public/js/generic_functions.js" type="text/javascript"></script>
 
   <style type="text/css">
     body{ 
@@ -363,8 +375,7 @@
 <!-- ./wrapper -->
 
 
-<!-- jQuery UI 1.11.4 -->
-<script src="{$_layoutParams.ruta_view}plugins/jquery-ui/jquery-ui.min.js"></script>
+
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script>
   $.widget.bridge('uibutton', $.ui.button)
@@ -412,11 +423,7 @@
 <script src="{$_layoutParams.ruta_view}plugins/sweetalert2/sweetalert2.min.js"></script>
 <!-- Toastr -->
 <script src="{$_layoutParams.ruta_view}plugins/toastr/toastr.min.js"></script>
-<!-- DataTables -->
-<script src="{$_layoutParams.ruta_view}plugins/datatables_1.10.21/datatables.min.js"></script>
-<script src="{$_layoutParams.ruta_view}plugins/datatables_1.10.21/plugins/filtering/accent-neutralise.js"></script>
-<!--<script src="{$_layoutParams.ruta_view}plugins/datatables_1.10.21/plugins/Buttons-1.7.0/js/dataTables.buttons.min.js"></script>
-<script src="{$_layoutParams.ruta_view}plugins/datatables_1.10.21/plugins/Buttons-1.7.0/js/buttons.html5.min.js"></script>-->
+
 <!-- bootstrap dialog -->
 <script src="{$_layoutParams.root}public/js/bootstrap-dialog.min.js"></script>
 <!-- ChartJS -->
@@ -426,10 +433,7 @@
 
 
 
-<!-- app.js generatork-->
-<script src="{$_layoutParams.root}public/js/app.js" type="text/javascript"></script>
-<!-- funciones genericas franwork-->
-<script src="{$_layoutParams.root}public/js/generic_functions.js" type="text/javascript"></script>
+
 
 
 

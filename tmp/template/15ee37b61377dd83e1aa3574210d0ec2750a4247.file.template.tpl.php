@@ -1,17 +1,17 @@
-<?php /* Smarty version Smarty-3.1.8, created on 2025-07-04 18:38:47
+<?php /* Smarty version Smarty-3.1.8, created on 2025-07-22 20:46:17
          compiled from "C:\xampp\htdocs\SIGO\views\layout\lte2\template.tpl" */ ?>
-<?php /*%%SmartyHeaderCode:538772953686803970ecdb8-30689680%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:205214395368803ee9187474-10647960%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     '15ee37b61377dd83e1aa3574210d0ec2750a4247' => 
     array (
       0 => 'C:\\xampp\\htdocs\\SIGO\\views\\layout\\lte2\\template.tpl',
-      1 => 1751560690,
+      1 => 1752185911,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '538772953686803970ecdb8-30689680',
+  'nocache_hash' => '205214395368803ee9187474-10647960',
   'function' => 
   array (
   ),
@@ -29,9 +29,9 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   ),
   'has_nocache_code' => false,
   'version' => 'Smarty-3.1.8',
-  'unifunc' => 'content_686803971466b4_98337438',
+  'unifunc' => 'content_68803ee9201e39_59606738',
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_686803971466b4_98337438')) {function content_686803971466b4_98337438($_smarty_tpl) {?><!DOCTYPE html>
+<?php if ($_valid && !is_callable('content_68803ee9201e39_59606738')) {function content_68803ee9201e39_59606738($_smarty_tpl) {?><!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
@@ -121,6 +121,9 @@ plugins/jquery/jquery.min.js"></script>
 
 <script type="text/javascript" src="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['root'];?>
 public/js/jquery.dragsort.js"></script> 
+<!-- jQuery UI 1.11.4 -->
+<script src="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['ruta_view'];?>
+plugins/jquery-ui/jquery-ui.min.js"></script>
 
 
 <!-- Bootstrap4 Duallistbox -->
@@ -142,6 +145,23 @@ plugins/fileinput/js/fileinput.js" type="text/javascript"></script>
 plugins/fileinput/js/locales/es.js" type="text/javascript"></script>
 <script src="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['ruta_view'];?>
 plugins/fileinput/themes/fas/theme.js" type="text/javascript"></script>
+<!-- DataTables -->
+<script src="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['ruta_view'];?>
+plugins/datatables_1.10.21/datatables.min.js"></script>
+<script src="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['ruta_view'];?>
+plugins/datatables_1.10.21/plugins/filtering/accent-neutralise.js"></script>
+<!--<script src="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['ruta_view'];?>
+plugins/datatables_1.10.21/plugins/Buttons-1.7.0/js/dataTables.buttons.min.js"></script>
+<script src="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['ruta_view'];?>
+plugins/datatables_1.10.21/plugins/Buttons-1.7.0/js/buttons.html5.min.js"></script>-->
+
+<!-- app.js generatork-->
+<script src="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['root'];?>
+public/js/app.js?param1=<?php echo rand(time(),100000);?>
+" type="text/javascript"></script>
+<!-- funciones genericas franwork-->
+<script src="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['root'];?>
+public/js/generic_functions.js" type="text/javascript"></script>
 
   <style type="text/css">
     body{ 
@@ -445,9 +465,7 @@ $_smarty_tpl->tpl_vars['wd']->_loop = true;
 <!-- ./wrapper -->
 
 
-<!-- jQuery UI 1.11.4 -->
-<script src="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['ruta_view'];?>
-plugins/jquery-ui/jquery-ui.min.js"></script>
+
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script>
   $.widget.bridge('uibutton', $.ui.button)
@@ -518,15 +536,7 @@ plugins/sweetalert2/sweetalert2.min.js"></script>
 <!-- Toastr -->
 <script src="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['ruta_view'];?>
 plugins/toastr/toastr.min.js"></script>
-<!-- DataTables -->
-<script src="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['ruta_view'];?>
-plugins/datatables_1.10.21/datatables.min.js"></script>
-<script src="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['ruta_view'];?>
-plugins/datatables_1.10.21/plugins/filtering/accent-neutralise.js"></script>
-<!--<script src="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['ruta_view'];?>
-plugins/datatables_1.10.21/plugins/Buttons-1.7.0/js/dataTables.buttons.min.js"></script>
-<script src="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['ruta_view'];?>
-plugins/datatables_1.10.21/plugins/Buttons-1.7.0/js/buttons.html5.min.js"></script>-->
+
 <!-- bootstrap dialog -->
 <script src="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['root'];?>
 public/js/bootstrap-dialog.min.js"></script>
@@ -539,12 +549,7 @@ plugins/party.js/party.min.js"></script>
 
 
 
-<!-- app.js generatork-->
-<script src="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['root'];?>
-public/js/app.js" type="text/javascript"></script>
-<!-- funciones genericas franwork-->
-<script src="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['root'];?>
-public/js/generic_functions.js" type="text/javascript"></script>
+
 
 
 
