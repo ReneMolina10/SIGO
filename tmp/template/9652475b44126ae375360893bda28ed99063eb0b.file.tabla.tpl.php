@@ -1,62 +1,72 @@
-<?php /* Smarty version Smarty-3.1.8, created on 2025-07-07 16:19:10
+<?php /* Smarty version Smarty-3.1.8, created on 2025-07-15 16:59:27
          compiled from "views/generators/tabla.tpl" */ ?>
-<?php /*%%SmartyHeaderCode:11398745916869fe0733c856-77272773%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:698368128687526717f2939-95889272%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     '9652475b44126ae375360893bda28ed99063eb0b' => 
     array (
       0 => 'views/generators/tabla.tpl',
-      1 => 1751919545,
+      1 => 1752613164,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '11398745916869fe0733c856-77272773',
+  'nocache_hash' => '698368128687526717f2939-95889272',
   'function' => 
   array (
   ),
   'version' => 'Smarty-3.1.8',
-  'unifunc' => 'content_6869fe0733dea0_32119613',
+  'unifunc' => 'content_68752671876e05_26212033',
   'variables' => 
   array (
     'tableId' => 0,
     'columnas' => 0,
-    'rutaBuscar' => 0,
-    'name_crud_table' => 0,
+    'BASE_URL' => 0,
+    'controlador' => 0,
     'parentId' => 0,
+    'name_crud_table' => 0,
     'tablaResponsiva' => 0,
     'tablaScrollX' => 0,
     'checkbox_column' => 0,
+    'bPaginate' => 0,
+    'bFilter' => 0,
+    'bInfo' => 0,
+    'mostrarTfoot' => 0,
     'c' => 0,
     'key' => 0,
+    'rutaBuscar' => 0,
     '_layoutParams' => 0,
-    'controlador' => 0,
     'nomplural' => 0,
     'btn' => 0,
   ),
   'has_nocache_code' => false,
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_6869fe0733dea0_32119613')) {function content_6869fe0733dea0_32119613($_smarty_tpl) {?>
+<?php if ($_valid && !is_callable('content_68752671876e05_26212033')) {function content_68752671876e05_26212033($_smarty_tpl) {?><?php if (!is_callable('smarty_modifier_escape')) include '/opt/sitios/sigo/libs/smarty/libs/plugins/modifier.escape.php';
+?>
 
 
 <?php $_smarty_tpl->tpl_vars["tableId"] = new Smarty_variable((($tmp = @$_smarty_tpl->tpl_vars['tableId']->value)===null||$tmp==='' ? '' : $tmp), null, 0);?>
 <?php $_smarty_tpl->tpl_vars["columnas"] = new Smarty_variable((($tmp = @$_smarty_tpl->tpl_vars['columnas']->value)===null||$tmp==='' ? array() : $tmp), null, 0);?>
-<?php $_smarty_tpl->tpl_vars["rutaBuscar"] = new Smarty_variable((($tmp = @$_smarty_tpl->tpl_vars['rutaBuscar']->value)===null||$tmp==='' ? '' : $tmp), null, 0);?>
+<?php $_smarty_tpl->tpl_vars["rutaBuscar"] = new Smarty_variable(($_smarty_tpl->tpl_vars['BASE_URL']->value).($_smarty_tpl->tpl_vars['controlador']->value)."/buscar/".($_smarty_tpl->tpl_vars['parentId']->value), null, 0);?>
 <?php $_smarty_tpl->tpl_vars["name_crud_table"] = new Smarty_variable((($tmp = @$_smarty_tpl->tpl_vars['name_crud_table']->value)===null||$tmp==='' ? '' : $tmp), null, 0);?>
 <?php $_smarty_tpl->tpl_vars["parentId"] = new Smarty_variable((($tmp = @$_smarty_tpl->tpl_vars['parentId']->value)===null||$tmp==='' ? '' : $tmp), null, 0);?>
 <?php $_smarty_tpl->tpl_vars["tablaResponsiva"] = new Smarty_variable((($tmp = @$_smarty_tpl->tpl_vars['tablaResponsiva']->value)===null||$tmp==='' ? true : $tmp), null, 0);?>
 <?php $_smarty_tpl->tpl_vars["tablaScrollX"] = new Smarty_variable((($tmp = @$_smarty_tpl->tpl_vars['tablaScrollX']->value)===null||$tmp==='' ? false : $tmp), null, 0);?>
-<?php $_smarty_tpl->tpl_vars["checkbox_column"] = new Smarty_variable((($tmp = @$_smarty_tpl->tpl_vars['checkbox_column']->value)===null||$tmp==='' ? 'false' : $tmp), null, 0);?>
+<?php $_smarty_tpl->tpl_vars["checkbox_column"] = new Smarty_variable((($tmp = @$_smarty_tpl->tpl_vars['checkbox_column']->value)===null||$tmp==='' ? false : $tmp), null, 0);?>
+<?php $_smarty_tpl->tpl_vars["bPaginate"] = new Smarty_variable((($tmp = @$_smarty_tpl->tpl_vars['bPaginate']->value)===null||$tmp==='' ? true : $tmp), null, 0);?>
+<?php $_smarty_tpl->tpl_vars["bFilter"] = new Smarty_variable((($tmp = @$_smarty_tpl->tpl_vars['bFilter']->value)===null||$tmp==='' ? true : $tmp), null, 0);?>
+<?php $_smarty_tpl->tpl_vars["bInfo"] = new Smarty_variable((($tmp = @$_smarty_tpl->tpl_vars['bInfo']->value)===null||$tmp==='' ? true : $tmp), null, 0);?>
+<?php $_smarty_tpl->tpl_vars["mostrarTfoot"] = new Smarty_variable((($tmp = @$_smarty_tpl->tpl_vars['mostrarTfoot']->value)===null||$tmp==='' ? true : $tmp), null, 0);?>
 
-<?php if (count($_smarty_tpl->tpl_vars['columnas']->value)>0){?> 
 
-  <?php if (!$_smarty_tpl->tpl_vars['tableId']->value||!$_smarty_tpl->tpl_vars['columnas']->value){?>
+
+  <?php if (!$_smarty_tpl->tpl_vars['tableId']->value){?>
     <div class="alert alert-warning">
-      Error en tabla.tpl: faltan <code>tableId</code> o <code>columnas</code>.
+      Error en tabla.tpl: faltan <code>tableId</code>.
     </div>
   <?php }else{ ?>
 
-  <form class="bs-example bs-example-form" enctype="multipart/form-data" id="form_principal" name="form_principal" action="" method="post"> 
+  <!--<form class="bs-example bs-example-form prevent-submit" enctype="multipart/form-data" id="form_principal" name="form_principal" action="" method="post"> -->
     <table id="<?php echo $_smarty_tpl->tpl_vars['tableId']->value;?>
 " class="stripe hover order-column table-sm cell-border compact" style="width:100%">
       <thead>
@@ -66,12 +76,13 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 foreach ($_from as $_smarty_tpl->tpl_vars['c']->key => $_smarty_tpl->tpl_vars['c']->value){
 $_smarty_tpl->tpl_vars['c']->_loop = true;
 ?>
-            <th><?php echo $_smarty_tpl->tpl_vars['c']->value['titulo'];?>
+            <th><?php echo (($tmp = @$_smarty_tpl->tpl_vars['c']->value['titulo'])===null||$tmp==='' ? $_smarty_tpl->tpl_vars['c']->value['campo'] : $tmp);?>
 </th>
           <?php } ?>
         </tr>
       </thead>
       <tbody></tbody>
+      <?php if ((($tmp = @$_smarty_tpl->tpl_vars['mostrarTfoot']->value)===null||$tmp==='' ? true : $tmp)){?>
       <tfoot>
         <tr>
             <?php  $_smarty_tpl->tpl_vars['c'] = new Smarty_Variable; $_smarty_tpl->tpl_vars['c']->_loop = false;
@@ -86,35 +97,257 @@ $_smarty_tpl->tpl_vars['c']->_loop = true;
 "></th>
                 <?php }else{ ?>
                     <th id="thfoot_<?php echo $_smarty_tpl->tpl_vars['key']->value;?>
-"><?php echo $_smarty_tpl->tpl_vars['c']->value['titulo'];?>
+"><?php echo (($tmp = @$_smarty_tpl->tpl_vars['c']->value['titulo'])===null||$tmp==='' ? $_smarty_tpl->tpl_vars['c']->value['campo'] : $tmp);?>
 </th>
                 <?php }?>                    
             <?php } ?>
         </tr>
       </tfoot>
+      <?php }?>
     </table>
-  </form>
+  <!--</form>-->
 
 
   <script>
   (function($){
-    
-    // Variables con valores por defecto si no se pasan en el include
-      var tableId          = '<?php echo (($tmp = @$_smarty_tpl->tpl_vars['tableId']->value)===null||$tmp==='' ? "tbl_default" : $tmp);?>
+    // Construyo un objeto JSON con TODO lo que necesito
+    var config = {
+      tableId:          '<?php echo (($tmp = @$_smarty_tpl->tpl_vars['tableId']->value)===null||$tmp==='' ? "grid" : $tmp);?>
 ',
-          rutaBuscar       = '<?php echo (($tmp = @$_smarty_tpl->tpl_vars['rutaBuscar']->value)===null||$tmp==='' ? '' : $tmp);?>
+      rutaBuscar:       '<?php echo (($tmp = @$_smarty_tpl->tpl_vars['rutaBuscar']->value)===null||$tmp==='' ? '' : $tmp);?>
 ',
-          name_crud_table  = '<?php echo (($tmp = @$_smarty_tpl->tpl_vars['name_crud_table']->value)===null||$tmp==='' ? '' : $tmp);?>
+      name_crud_table:  '<?php echo (($tmp = @$_smarty_tpl->tpl_vars['name_crud_table']->value)===null||$tmp==='' ? '' : $tmp);?>
 ',
-          tablaResponsiva  = <?php echo (($tmp = @$_smarty_tpl->tpl_vars['tablaResponsiva']->value)===null||$tmp==='' ? true : $tmp);?>
+      tablaResponsiva:  <?php echo json_encode((($tmp = @$_smarty_tpl->tpl_vars['tablaResponsiva']->value)===null||$tmp==='' ? true : $tmp));?>
 ,
-          tablaScrollX     = <?php echo (($tmp = @$_smarty_tpl->tpl_vars['tablaScrollX']->value)===null||$tmp==='' ? false : $tmp);?>
+      tablaScrollX:     <?php echo json_encode((($tmp = @$_smarty_tpl->tpl_vars['tablaScrollX']->value)===null||$tmp==='' ? false : $tmp));?>
 ,
-          checkbox_column  = <?php echo (($tmp = @$_smarty_tpl->tpl_vars['checkbox_column']->value)===null||$tmp==='' ? false : $tmp);?>
-;
-        
+      checkbox_column:  <?php echo json_encode((($tmp = @$_smarty_tpl->tpl_vars['checkbox_column']->value)===null||$tmp==='' ? false : $tmp));?>
+,
+      columnas:         <?php echo json_encode($_smarty_tpl->tpl_vars['columnas']->value);?>
+,
+      parentId:         '<?php echo smarty_modifier_escape($_smarty_tpl->tpl_vars['parentId']->value, 'js');?>
+',
+      bPaginate:        <?php echo json_encode((($tmp = @$_smarty_tpl->tpl_vars['bPaginate']->value)===null||$tmp==='' ? true : $tmp));?>
+,      
+      bFilter:          <?php echo json_encode((($tmp = @$_smarty_tpl->tpl_vars['bFilter']->value)===null||$tmp==='' ? true : $tmp));?>
+,
+      bInfo:            <?php echo json_encode((($tmp = @$_smarty_tpl->tpl_vars['bInfo']->value)===null||$tmp==='' ? true : $tmp));?>
+,
+      mostrarTfoot:     <?php echo json_encode((($tmp = @$_smarty_tpl->tpl_vars['mostrarTfoot']->value)===null||$tmp==='' ? true : $tmp));?>
+, 
+      root:            '<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['root'];?>
+',
+      controlador:     '<?php echo $_smarty_tpl->tpl_vars['controlador']->value;?>
+'
+    };
+     //console.log("Tipo de tablaScrollX:", typeof config.tablaScrollX, "Valor:", config.tablaScrollX);
+     
 
-    function traer_conceptos(){
+    // $(document).ready(function() {
+      
+    //   CrudGenerator.register(config);
+    // });
+
+    setTimeout(function(){
+      CrudGenerator.register(config);
+    }, 500 );
+ 
+
+    // Variables con valores por defecto si no se pasan en el include
+    var tableId          = '<?php echo (($tmp = @$_smarty_tpl->tpl_vars['tableId']->value)===null||$tmp==='' ? "tbl_default" : $tmp);?>
+',
+        rutaBuscar       = '<?php echo (($tmp = @$_smarty_tpl->tpl_vars['rutaBuscar']->value)===null||$tmp==='' ? '' : $tmp);?>
+',
+        name_crud_table  = '<?php echo (($tmp = @$_smarty_tpl->tpl_vars['name_crud_table']->value)===null||$tmp==='' ? '' : $tmp);?>
+',
+        tablaResponsiva  = <?php echo (($tmp = @$_smarty_tpl->tpl_vars['tablaResponsiva']->value)===null||$tmp==='' ? true : $tmp);?>
+,
+        tablaScrollX     = false,
+        checkbox_column  = <?php echo json_encode((($tmp = @$_smarty_tpl->tpl_vars['checkbox_column']->value)===null||$tmp==='' ? false : $tmp));?>
+,
+        columnas         = <?php echo json_encode($_smarty_tpl->tpl_vars['columnas']->value);?>
+;
+  })(jQuery);
+
+      /*initCrudTable({
+        tableId:          '<?php echo $_smarty_tpl->tpl_vars['tableId']->value;?>
+',
+        rutaBuscar:       '<?php echo $_smarty_tpl->tpl_vars['rutaBuscar']->value;?>
+',
+        nameCrudTable:    '<?php echo (($tmp = @$_smarty_tpl->tpl_vars['name_crud_table']->value)===null||$tmp==='' ? '' : $tmp);?>
+',
+        columnas:         <?php echo json_encode($_smarty_tpl->tpl_vars['columnas']->value);?>
+,
+        tablaResponsiva:  <?php echo (($tmp = @$_smarty_tpl->tpl_vars['tablaResponsiva']->value)===null||$tmp==='' ? true : $tmp);?>
+,
+        tablaScrollX:     <?php echo (($tmp = @$_smarty_tpl->tpl_vars['tablaScrollX']->value)===null||$tmp==='' ? false : $tmp);?>
+,
+        checkboxColumn:   <?php echo (($tmp = @$_smarty_tpl->tpl_vars['checkbox_column']->value)===null||$tmp==='' ? false : $tmp);?>
+
+      });*/
+      
+    /*function traer_conceptos(tableId = "", cfg = {}){
+      //console.log(tableId, cfg);
+      // 1) Normaliza argumentos
+      tableId = tableId || '';
+      cfg = cfg || _configs[tableId];
+      if (!cfg) {
+        console.error("Falta configuración para", tableId);
+        return;
+      }
+
+      // 2) Limpia formf si existe
+      //document.getElementById("formf").innerHTML = "";
+      var elf = document.getElementById("formf");
+      if (elf) elf.innerHTML = "";
+
+      // 3) Si ya existe DataTable, recarga
+      if (_tables[tableId]) {
+        _tables[tableId].ajax.reload();
+        return;
+      }
+
+      // 4) Si no existe, lo creas por primera vez
+      var $tbl = $('#' + tableId);
+      $tbl.dataTable().fnDestroy();
+      $('#' + tableId + '-select-all').prop("checked", false);      
+      //$('#' + tableId).dataTable().fnDestroy();
+      //$('#' + tableId + '-select-all').prop("checked", false);
+
+      
+      //var table = $('#' + tableId).DataTable({
+      _tables[tableId] = $tbl.DataTable({
+        
+        "bPaginate":      cfg.bPaginate,
+        "bLengthChange":  true,
+        "bFilter":        cfg.bFilter,
+        "bSort":          true,
+        "bInfo":          cfg.bInfo,
+        "bAutoWidth":      true,
+        "processing":      true,
+        "autoWidth":       true,
+        "serverSide":      true,
+        "serverMethod":    'post',
+        "ajax": {
+          'type': 'POST',
+          "url": cfg.rutaBuscar,
+          data: function(d) {
+            //d.nivel = nivel;
+            d.name_crud_table = cfg.name_crud_table;
+          },
+          beforeSend: function(){
+            $("div#divLoading").addClass('show');
+            $("#btnf").prop("disabled", true).val('Espere un momento por favor...');
+          },
+          complete: function(){
+            $("div#divLoading").removeClass('show');
+            $("#btnf").prop("disabled", false).val('Filtrar');
+            mostrar_botones_opciones_checkboxes();
+            $('input:checkbox[name="id[]"]').click(mostrar_botones_opciones_checkboxes);
+            $('input:checkbox[name=select_all]').click(mostrar_botones_opciones_checkboxes);
+          },
+          error: function(){
+            $("div#divLoading").removeClass('show');
+            modal_danger("Error","Ha ocurrido un error","Aceptar");
+          }
+        },
+        // Columnas
+        columns: cfg.columnas.map(function(col){
+          return { data: col.campo };
+        }),
+        // Definiciones por columna
+        columnDefs: cfg.columnas.map(function(col, idx){
+          var def = {
+            name:      col.campo,
+            targets:   idx,
+            className: col.class || '',
+            search:    false
+          };
+          if(col.tipo === 'data'){
+            if(col.width) def.width = col.width;
+            def.orderable = true;
+          }
+          else if(col.tipo === 'checkbox_column'){
+            def.width      = '5%';
+            def.searchable = false;
+            def.orderable  = false;
+            def.className  = 'dt-body-center';
+            def.render     = function(data){
+              return '<input type="checkbox" name="id[]" value="'+$('<div/>').text(data).html()+'">';
+            };
+          }
+          else if(col.tipo === 'opciones'){
+            def.width     = '5%';
+            def.orderable = false;
+            def.className = 'text-center';
+          }
+          return def;
+        }),
+        language:    { url: "<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['ruta_view'];?>
+/plugins/datatables_1.10.21/language/Spanish.json" },
+        responsive:  cfg.tablaResponsiva,
+        scrollX:     cfg.tablaScrollX,
+        fixedHeader: true,
+        lengthMenu:  [[10,25,50,100,-1],[10,25,50,100,"Todos"]],
+
+        // Cuando se haya inicializado por completo
+        initComplete: function(settings,json){
+          $('#' + tableId + '_filter input')
+            .unbind()
+            .bind('keyup', function(e){
+              if (e.keyCode === 13) table.search(this.value).draw();
+            });
+        }
+
+      });
+
+      // Recuperamos la instancia
+      var table = _tables[tableId];
+
+      // Orden inicial según checkbox_column
+      if (cfg.checkbox_column) {
+        table.order([1, 'desc']).draw();
+      } else {
+        table.order([0, 'desc']).draw();
+      }
+
+
+      set_search_boxes();
+      // Iniciamos los search boxes pasándole el tableId y la configuración
+      //set_search_boxes(tableId, cfg);
+      
+
+      // Botones de recarga y descarga
+      $('#btnf').
+        off('click.' + tableId).
+        on('click.' + tableId, function() {
+        table.draw();
+      });
+      $('#btnDescRes').off('click.' + tableId).on('click.' + tableId, function() {
+        var params = table.ajax.params();
+        window.location.href = '<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['root'];?>
+<?php echo $_smarty_tpl->tpl_vars['controlador']->value;?>
+/descargar_resultados?datos=' + JSON.stringify(params);
+      });
+      $('#btnDescResScv').off('click.' + tableId).on('click.' + tableId, function() {
+        var params = table.ajax.params();
+        window.location.href = '<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['root'];?>
+<?php echo $_smarty_tpl->tpl_vars['controlador']->value;?>
+/descargar_resultados_csv?datos=' + JSON.stringify(params);
+      });
+    }
+    /*
+    window.traer_conceptos = traer_conceptos;
+
+    // 4) ¡y aquí la llamamos de inmediato!
+    traer_conceptos('<?php echo smarty_modifier_escape($_smarty_tpl->tpl_vars['tableId']->value, 'js');?>
+', config);
+    
+  })(jQuery);
+  
+
+    /*function traer_conceptos(){
       //document.getElementById("formf").innerHTML = "";
       var el = document.getElementById("formf");
       if (el) el.innerHTML = "";
@@ -122,11 +355,11 @@ $_smarty_tpl->tpl_vars['c']->_loop = true;
       $('#' + tableId + '-select-all').prop("checked", false);
 
       var table = $('#' + tableId).DataTable({
-        "bPaginate":       true,
+        "bPaginate": <?php if ($_smarty_tpl->tpl_vars['bPaginate']->value===false||$_smarty_tpl->tpl_vars['bPaginate']->value==='false'){?>false<?php }else{ ?>true<?php }?>,
         "bLengthChange":   true,
-        "bFilter":         true,
+        "bFilter":   <?php if ($_smarty_tpl->tpl_vars['bFilter']->value===false||$_smarty_tpl->tpl_vars['bFilter']->value==='false'){?>false<?php }else{ ?>true<?php }?>,
         "bSort":           true,
-        "bInfo":           true,
+        "bInfo":     <?php if ($_smarty_tpl->tpl_vars['bInfo']->value===false||$_smarty_tpl->tpl_vars['bInfo']->value==='false'){?>false<?php }else{ ?>true<?php }?>,
         "bAutoWidth":      true,
         "processing":      true,
         "autoWidth":       true,
@@ -228,6 +461,7 @@ $_smarty_tpl->tpl_vars['c']->_loop = true;
         <?php }?>
 
       set_search_boxes();
+      
 
       $('#btnf').off('click').on('click', function(){
         table.draw();
@@ -250,7 +484,7 @@ $_smarty_tpl->tpl_vars['c']->_loop = true;
 
     // 4) ¡y aquí la llamamos de inmediato!
     traer_conceptos();
-  })(jQuery);
+  })(jQuery);*/
 
 
     //////////////////////////////////////////////////////////////////////////////////////////
@@ -258,6 +492,7 @@ $_smarty_tpl->tpl_vars['c']->_loop = true;
     //////////////////////////////////////////////////////////////////////////////////////////
 
     function set_search_boxes(){
+        
         var table = $('#grid').DataTable();
 
         //Creo un array para definir que columnas van a tener el cuadro de búsqueda 
@@ -432,6 +667,12 @@ $_smarty_tpl->tpl_vars['c']->_loop = true;
         //$('#modal_busqueda').modal('hide');
         table.draw();
     } );
+    //cambiar por este cuando modifique la ventana modal de búsqueda
+    /*$('.btnBuscar').off('click').on('click', function(){
+      var sel = $(this).data('table');    // e.g. "#grid" o "#tbl_prueba2"
+      $(sel).DataTable().draw();
+    });*/
+    
 
     function formatear_valor_busqueda(i, id_input){
       var op = $( "#operadores"+i ).val();
@@ -677,17 +918,6 @@ $_smarty_tpl->tpl_vars['btn']->_loop = true;
     //////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////
 
-    
-
-
   </script>
   <?php }?>
-<?php }else{ ?>
-  <table    class="table-sm" style="width:100%; color: #757575;"> 
-    <tbody> 
-      <tr>            
-        <th>No hay registros </th>
-      </tr>         
-    </tbody>
-  </table>
-<?php }?> <?php }} ?>
+<?php }} ?>

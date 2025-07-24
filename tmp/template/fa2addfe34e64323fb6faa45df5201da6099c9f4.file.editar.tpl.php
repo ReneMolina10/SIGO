@@ -1,22 +1,22 @@
-<?php /* Smarty version Smarty-3.1.8, created on 2025-07-07 08:03:10
+<?php /* Smarty version Smarty-3.1.8, created on 2025-07-20 23:12:43
          compiled from "/opt/sitios/sigo/views/generators/editar.tpl" */ ?>
-<?php /*%%SmartyHeaderCode:655285456866c5f8b21c27-30224178%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:4637504516875268bcacb57-56406156%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     'fa2addfe34e64323fb6faa45df5201da6099c9f4' => 
     array (
       0 => '/opt/sitios/sigo/views/generators/editar.tpl',
-      1 => 1751889557,
+      1 => 1753067555,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '655285456866c5f8b21c27-30224178',
+  'nocache_hash' => '4637504516875268bcacb57-56406156',
   'function' => 
   array (
   ),
   'version' => 'Smarty-3.1.8',
-  'unifunc' => 'content_6866c5f8b43eb4_14621575',
+  'unifunc' => 'content_6875268bcd58d2_82624546',
   'variables' => 
   array (
     '_layoutParams' => 0,
@@ -36,7 +36,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   ),
   'has_nocache_code' => false,
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_6866c5f8b43eb4_14621575')) {function content_6866c5f8b43eb4_14621575($_smarty_tpl) {?>
+<?php if ($_valid && !is_callable('content_6875268bcd58d2_82624546')) {function content_6875268bcd58d2_82624546($_smarty_tpl) {?>
 <style>
 
 .content{
@@ -49,9 +49,9 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 
 </style>
 
-<form class="bs-example bs-example-form" data-example-id="simple-input-groups" id="formp" name="formp" action="javascript:guardar_generator('<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['root'];?>
+<form class="bs-example bs-example-form prevent-submit" data-example-id="simple-input-groups" id="formp" name="formp" action="javascript:guardar_generator('<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['root'];?>
 <?php echo $_smarty_tpl->tpl_vars['controlador']->value;?>
-')" method="post" enctype="multipart/form-data">
+',false,'formp')" method="post" enctype="multipart/form-data">
 
 	<?php if ($_smarty_tpl->tpl_vars['nameCrudTable']->value){?>
 		<input type="hidden" name="name_crud_table" value="<?php echo $_smarty_tpl->tpl_vars['nameCrudTable']->value;?>
@@ -80,7 +80,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 <?php echo $_smarty_tpl->tpl_vars['controlador']->value;?>
 /index/">Salir</a>
 				<?php if ((($tmp = @$_smarty_tpl->tpl_vars['detalles']->value)===null||$tmp==='' ? '' : $tmp)!="readonly"){?> 
-					<button type="submit" class="btn btn-success" id="btnguardar"><i class="fas fa-save"></i> Guardar</button>
+					<button type="submit" class="btn btn-success btnguardar" id="btnguardar"><i class="fas fa-save mr-2"></i> Guardar</button>
 				<?php }?>	
 			</div>
 			
@@ -138,12 +138,15 @@ $_smarty_tpl->tpl_vars['datoi']->_loop = true;
 	</div>
 	
 </form>
+
 <?php echo $_smarty_tpl->getSubTemplate ("views/generators/ventanas_modal.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, null, null, array(), 0);?>
 
-<?php if ((($tmp = @$_smarty_tpl->tpl_vars['ventana_modal']->value)===null||$tmp==='' ? '' : $tmp)!=true){?>
-<div id="divLoading"> </div> 
+<?php if ((($tmp = @$_smarty_tpl->tpl_vars['ventana_modal']->value)===null||$tmp==='' ? false : $tmp)){?>
+	
 <!--<script  src="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['root'];?>
 public/js/app.js" type="text/javascript"></script>-->
+<?php }else{ ?>
+	<div id="divLoading"> </div> 
 <?php }?>
 
 

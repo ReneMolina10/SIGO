@@ -189,16 +189,15 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
 
 
 
-    {if count($columnas)>0 }    
        
         {include file="views/generators/tabla.tpl"
-          tableId         = "grid"
+          tableId         = "tbl_grid"
           columnas        = $columnas
           rutaBuscar      = "{$_layoutParams.root}{$controlador}/buscar/{$filtro}"
-          name_crud_table = ''
+          name_crud_table = 'grid'
           parentId        = $filtro
           tablaResponsiva = "{$tablaResponsiva|default:true}"
-          tablaScrollX    = "{$tablaScrollX|default:false}"
+          tablaScrollX    = "{$tablaScrollX|default:false}" 
           checkbox_column = "{$bd.checkbox_column|default:false}"
         }
       
@@ -216,7 +215,7 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
                       {/if}
                     {/foreach}
                   {/if}
-                  <input type="button" id="btnf"  class=" btn btn-primary ml-1" value="Filtrar">
+                  <input type="button" id="btnf"  class=" btn btn-info ml-1" value="Filtrar">
                   <button  type="button" class="btn btn-secondary ml-1" data-toggle="modal" data-target="#modal_busqueda"><i class="fas fa-sliders-h"></i> Búsqueda avanzada </button>
                   
                   </div>
@@ -232,16 +231,6 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
           </div>
         {/if}
 
-
-    {else}
-      <table    class="table-sm" style="width:100%; color: #757575;"> 
-        <tbody> 
-          <tr>            
-            <th>No hay registros en la base de datos </th>
-          </tr>         
-        </tbody>
-      </table>
-    {/if}
 
       {/if}
       
@@ -306,114 +295,8 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
 </div>
 
 
-<!-- ================================ MODAL PARA BUSQUEDAS ========================= -->
-<div class="modal fade" id="modal_busqueda" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog modal-xl">
-    <!-- Modal content-->
-    <div class="modal-content">
-      <form class="bs-example bs-example-form" enctype="multipart/form-data" id="form_search" name="busqueda" action="" method="post">
-        <div class="modal-header">     
-            <h5 class="modal-title"><i class="fas fa-search"></i> Búsqueda avanzada  </h5>             
-            <button type="button" class="close" data-dismiss="modal">&times;</button>                          
-        </div>
-        <div class="modal-body"> 
-            <div class='row'>
-              <div class='col-sm-12 '>
-
-                <table class="table table-sm table-striped table-bordered">
-                  <thead>
-                    <tr>
-                      <th width="30%">Campo</th>
-                      <th width="30%">Opción de búsqueda</th>
-                      <th width="40%">Valor</th>
-                    </tr>
-                  </thead>
-                  <tbody id="formf"></tbody>
-                </table >
-
-              </div>
-          </div>
-        </div>
-        <div class="modal-footer justify-content-between">
-          <input type="hidden" id="id_oficio" name="id_oficio" value=""/> <!-- ¿? -->
-          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-          <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnBuscar"><i class="fas fa-search"></i> Buscar</button>
-          <!--<button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Buscar</button>-->
-        </div>
-      </form>
-    </div>                          
-  </div>
-</div><!-- /.modal -->
-
-
-<!-- ================================ MODAL PARA INSERTAR Y EDITAR ========================= -->
-<div class="modal fade" id="modal_formulario" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog modal-xl">
-    <!-- Modal content-->
-    <div class="modal-content">
-      <form class="bs-example bs-example-form" data-example-id="simple-input-groups" id="formp" name="formp" action="javascript:guardar_generator('{$_layoutParams.root}{$controlador}',true)" method="post" enctype="multipart/form-data" >
-        <div class="modal-header">  
-            <h5 id="tit_modal_edit" class="modal-title"><i class="fas fa-edit"></i> Registrar {$nomsingular}  </h5>                         
-            <button type="button" class="close" data-dismiss="modal">&times;</button>                          
-        </div>
-        <div class="modal-body" id="formulario"> 
-            {include file="views/generators/form.tpl"}
-        </div>
-        <div class="modal-footer justify-content-between">
-          <input type="hidden" id="id_reg" name="id_reg" value=""/>
-          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-          <button class="btn btn-success" id="btnguardar" type="submit"><i class="fas fa-save"></i> Guardar</button>
-          <!--<button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Buscar</button>-->
-        </div>
-      </form>
-    </div>                          
-  </div>
-</div><!-- /.modal -->
-
-
-{if isset($graficas) && $graficas != ''}
-<!-- ================================ MODAL PARA VER GRAFICAS  ========================= -->
-<div class="modal fade" id="modal_graficas" tabindex="-1" role="dialog" aria-labelledby="ModalGraficas">
-  <div class="modal-dialog modal-lg">
-    <!-- Modal content-->
-    
-    <div class="modal-content">
-        <div class="modal-header">  
-            <h5 class="modal-title"><i class="fas fa-chart-pie"></i> <span id="tit_modal_graficas" > {$titulo} </span>  </h5>                         
-            <button type="button" class="close" data-dismiss="modal">&times;</button>                          
-        </div>
-        <div class="modal-body" id="div_grafica"> 
-            
-        </div>
-        <div class="modal-footer justify-content-between">
-
-          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-        </div>
-    </div>                          
-  </div>
-</div><!-- /.modal -->
-{/if}
-
-<!-- ================================ MODAL PARA IFRAMES  ========================= -->
-<div class="modal fade" id="modal_iframe" tabindex="-1" role="dialog" aria-labelledby="myModalLabelIframe">
-  <div class="modal-dialog modal-xl" style="min-width:calc(100%);">
-    <!-- Modal content-->
-    <div class="modal-content">
-      
-        <div class="modal-header">  
-            <h5 id="tit_modal_edit" class="modal-title"><i class="fas fa-edit"></i> Registrar {$nomsingular}  </h5>                         
-            <button type="button" class="close" data-dismiss="modal">&times;</button>                          
-        </div>
-        <div class="modal-body" id="formulario_iframe"> 
-            +++
-        </div>
-        <div class="modal-footer justify-content-between">
-          
-        </div>
-      
-    </div>                          
-  </div>
-</div><!-- /.modal -->
+<!-- ================================ MODALES ========================= -->
+{include file="views/generators/ventanas_modal.tpl"}
 
 
 <div id="divLoading"> </div> 
@@ -485,9 +368,9 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
 
 
 
-  function eliminaregistro(id){
+  /*function eliminaregistro(id){
     eliminar_reg_generator('{$_layoutParams.root}{$controlador}',id,'{$nomsingular} ');
-  }
+  }*/
    
   /*$("#txtbuscar").on('keyup', function (e) {
     if (e.keyCode == 13) {
@@ -511,7 +394,7 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
 
   
   //Crear función que me traiga el formulario con los datos cada que le de clic en el botón Editar/ duplicar 
-  function open_modal_to_edit(id_reg = 0, id_idioima = 0, duplicar = 0) {
+  /*function open_modal_to_edit(id_reg = 0, id_idioima = 0, duplicar = 0) {
     $("#tit_modal_edit").html('<i class="fas fa-pencil-alt"></i> Registrar {$nomsingular}');
     $("#btnguardar").show();
     //var id_reg_modal = $("#modal_formulario").val(); 
@@ -556,12 +439,12 @@ table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
                 $("div#divLoading").removeClass('show');
             });*/
     //}
-    $('#id_reg_modal').val(id_reg);
+  /*  $('#id_reg_modal').val(id_reg);
     //$("#modal_formulario").modal("show")
     $('#modal_formulario').modal({
 			focus: false
 		});
-  }
+  }*/
 
   /*function limpiar_campos_modal() {
     $('#fechaFin').val('');

@@ -42,13 +42,13 @@ class loginController extends Controller
                 $this->getAlphaNum('usuario'),
                 $this->getSql('pass')
             );
-            
+
             if (!$row) {
                 $this->_view->assign('_error', 'Usuario o contraseña incorrecta');
                 $this->_view->renderizar('index', 'login');
                 exit;
             }
-            
+
             if (($row['role'] == 0)) {
                 $this->_view->assign('_error', 'El usuario <b>' . $_GET["nickname"] . '</b> no está habilitado');
                 $this->_view->renderizar('index', 'login');
@@ -99,7 +99,7 @@ class loginController extends Controller
         }
         return $key;
     }
-
+/*
     public function validao365()
     {
         $LONG_CODE = 16;
@@ -107,7 +107,7 @@ class loginController extends Controller
 
         header("Location:http://login.uqroo.mx/index.php?code=" . $_SESSION["code_login365"] . "&server=" . BASE_URL . "/usuarios/login/ingresao365/");
     }
-
+*/
 
     public function validao365_2()
     {
@@ -116,9 +116,9 @@ class loginController extends Controller
 
         $_SESSION['servidor_origen'] = BASE_URL . "usuarios/login/ingresao365/";
 
-        ///echo "----->".$_SESSION["code_login365"]; exit();
+     //   echo "----->".$_SESSION["code_login365"]; exit();
 
-        header("Location:https://gesco.uqroo.mx/login365/index.php?code=" . $_SESSION["code_login365"] . "&server=" . BASE_URL . "usuarios/login/ingresao365/");
+        header("Location:https://sigo.uqroo.mx/login365/index.php?code=" . $_SESSION["code_login365"] . "&server=" . BASE_URL . "usuarios/login/ingresao365/");
 
 
     }
@@ -146,18 +146,24 @@ class loginController extends Controller
         //$this->_view->assign('prueba', 'prueba_________________');
 
         /*
-        echo "<pre>";
-        print_r($_GET);
-        echo "</pre>";
+        
 
         */
 
 
-        // if($_GET["code"]!=$this->encrypt($_SESSION["code_login365"],LLAVE_CERTIFICADO)){
+       //  if($_GET["code"]!=$this->encrypt($_SESSION["code_login365"],LLAVE_CERTIFICADO)){
         if (false) {
+
+       echo "<pre>";
+        print_r($_GET);
+        echo "</pre>";
 
             //$this->redireccionar(); 
             echo "Error en el certificado de seguridad";
+            echo "code".$_GET["code"]."<br/>".LLAVE_CERTIFICADO."<br/>";
+            echo $_SESSION["code_login365"]."<br/>";
+            echo $this->encrypt($_SESSION["code_login365"],LLAVE_CERTIFICADO)."<br/>";
+
             exit();
         }
 

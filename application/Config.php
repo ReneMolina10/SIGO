@@ -33,7 +33,7 @@ define('BASE_FILE_SOL_SERV', '/opt/sitios/sau2/admin/files_adjunto');
 define('DEFAULT_LAYOUT', 'lte2');
 define('DEFAULT_FOLDER', '');
 
-define('BASE_URL', getenv('BASE_URL') ?: 'https://localhost/sigo/'); // URL base del sitio web
+define('BASE_URL', getenv('BASE_URL') ?: 'http://localhost/sigo/'); // URL base del sitio web
 //define('BASE_URL', getenv('BASE_URL') ?: 'https://sigo.uqroo.mx/'); // URL base del sitio web
 define('BASE_URL_VIEW', BASE_URL . 'views/layout/' . DEFAULT_LAYOUT . '/'); // URL del HTML template
 

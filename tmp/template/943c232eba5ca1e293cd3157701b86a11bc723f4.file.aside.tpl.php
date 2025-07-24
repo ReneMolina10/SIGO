@@ -1,6 +1,6 @@
-<?php /* Smarty version Smarty-3.1.8, created on 2025-07-03 17:13:01
+<?php /* Smarty version Smarty-3.1.8, created on 2025-07-14 11:46:32
          compiled from "/opt/sitios/sigo/views/layout/lte2/aside.tpl" */ ?>
-<?php /*%%SmartyHeaderCode:14392405746866a3ff598012-46761039%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:1286169260687526583ca6b9-91267921%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
@@ -11,19 +11,19 @@ $_valid = $_smarty_tpl->decodeProperties(array (
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '14392405746866a3ff598012-46761039',
+  'nocache_hash' => '1286169260687526583ca6b9-91267921',
   'function' => 
   array (
   ),
-  'version' => 'Smarty-3.1.8',
-  'unifunc' => 'content_6866a3ff5a7521_35402426',
   'variables' => 
   array (
     '_layoutParams' => 0,
   ),
   'has_nocache_code' => false,
+  'version' => 'Smarty-3.1.8',
+  'unifunc' => 'content_68752658454cd5_54284780',
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_6866a3ff5a7521_35402426')) {function content_6866a3ff5a7521_35402426($_smarty_tpl) {?>  
+<?php if ($_valid && !is_callable('content_68752658454cd5_54284780')) {function content_68752658454cd5_54284780($_smarty_tpl) {?>  
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4" >
     <!-- Brand Logo -->

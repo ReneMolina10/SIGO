@@ -15,11 +15,14 @@
 
 {* Preparo los valores por defecto para pasarlos *}
 {assign var="tablaResponsiva" value=$f.bd.tablaResponsiva|default:'true'}
-{assign var="tablaScrollX"    value=$f.bd.tablaScrollX|default:'false'}
-{assign var="checkbox_column" value=$f.bd.checkbox_column|default:'false'}
-{assign var="bPaginate" value=$f.bd.bPaginate|default:true}
-{assign var="bFilter"   value=$f.bd.bFilter|default:true}
-{assign var="bInfo"     value=$f.bd.bInfo|default:true}
+{assign var="tablaScrollX"    value=$f.bd.tablaScrollX|default:false}
+{assign var="checkbox_column" value=$f.bd.checkbox_column|default:false}
+{assign var="bPaginate"       value=$f.bd.bPaginate|default:true}
+{assign var="bFilter"         value=$f.bd.bFilter|default:true}
+{assign var="bInfo"           value=$f.bd.bInfo|default:true}
+{assign var="mostrarTfoot"    value=$f.bd.mostrarTfoot|default:true}
+
+{* Si es un modal, no muestro el título *}
 
 
 <div class="card mb-4">
@@ -31,7 +34,7 @@
       {include file="views/generators/tabla.tpl"
         tableId         = "tbl_{$f.name_crud_table}"
         columnas        = $columnas
-        rutaBuscar      = "{$_layoutParams.root}{$controlador}/buscar/{$parentId}"
+        
         name_crud_table = $f.name_crud_table
         tablaResponsiva = $tablaResponsiva
         tablaScrollX    = $tablaScrollX
@@ -39,7 +42,8 @@
         bPaginate       = $bPaginate
         bFilter         = $bFilter
         bInfo           = $bInfo
+        mostrarTfoot    = $mostrarTfoot
       }
-    
-  </div>
+    {* rutaBuscar      = "{$_layoutParams.root}{$controlador}/buscar/{$parentId}" *}
+</div>
 </div>

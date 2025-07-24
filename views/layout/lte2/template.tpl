@@ -63,6 +63,8 @@
 <script src="{$_layoutParams.ruta_view}plugins/jquery/jquery.min.js"></script>
 
 <script type="text/javascript" src="{$_layoutParams.root}public/js/jquery.dragsort.js"></script> 
+<!-- jQuery UI 1.11.4 -->
+<script src="{$_layoutParams.ruta_view}plugins/jquery-ui/jquery-ui.min.js"></script>
 
 
 <!-- Bootstrap4 Duallistbox -->
@@ -84,7 +86,7 @@
 <script src="{$_layoutParams.ruta_view}plugins/datatables_1.10.21/plugins/Buttons-1.7.0/js/buttons.html5.min.js"></script>-->
 
 <!-- app.js generatork-->
-<script src="{$_layoutParams.root}public/js/app.js?param1=7" type="text/javascript"></script>
+<script src="{$_layoutParams.root}public/js/app.js?param1={$smarty.now|rand:100000}" type="text/javascript"></script>
 <!-- funciones genericas franwork-->
 <script src="{$_layoutParams.root}public/js/generic_functions.js" type="text/javascript"></script>
 
@@ -373,8 +375,7 @@
 <!-- ./wrapper -->
 
 
-<!-- jQuery UI 1.11.4 -->
-<script src="{$_layoutParams.ruta_view}plugins/jquery-ui/jquery-ui.min.js"></script>
+
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script>
   $.widget.bridge('uibutton', $.ui.button)

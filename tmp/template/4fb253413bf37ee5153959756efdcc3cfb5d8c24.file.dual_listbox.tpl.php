@@ -1,17 +1,17 @@
-<?php /* Smarty version Smarty-3.1.8, created on 2025-07-04 23:09:36
+<?php /* Smarty version Smarty-3.1.8, created on 2025-07-21 20:39:49
          compiled from "views\generators\components\dual_listbox.tpl" */ ?>
-<?php /*%%SmartyHeaderCode:763286588686843107e1ae8-03197842%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:884668015687e8975245592-98271568%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     '4fb253413bf37ee5153959756efdcc3cfb5d8c24' => 
     array (
       0 => 'views\\generators\\components\\dual_listbox.tpl',
-      1 => 1751663338,
+      1 => 1752018588,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '763286588686843107e1ae8-03197842',
+  'nocache_hash' => '884668015687e8975245592-98271568',
   'function' => 
   array (
   ),
@@ -23,9 +23,9 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   ),
   'has_nocache_code' => false,
   'version' => 'Smarty-3.1.8',
-  'unifunc' => 'content_686843107ee4b4_21262381',
+  'unifunc' => 'content_687e897528c258_99623023',
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_686843107ee4b4_21262381')) {function content_686843107ee4b4_21262381($_smarty_tpl) {?><?php if (!is_callable('smarty_modifier_capitalize')) include 'C:\\xampp\\htdocs\\SIGO\\libs\\smarty\\libs\\plugins\\modifier.capitalize.php';
+<?php if ($_valid && !is_callable('content_687e897528c258_99623023')) {function content_687e897528c258_99623023($_smarty_tpl) {?><?php if (!is_callable('smarty_modifier_capitalize')) include 'C:\\xampp\\htdocs\\sigo\\libs\\smarty\\libs\\plugins\\modifier.capitalize.php';
 ?>
   <select multiple="multiple" size="10" name="<?php echo $_smarty_tpl->tpl_vars['f']->value['campo'];?>
 []" title="<?php echo $_smarty_tpl->tpl_vars['f']->value['campo'];?>

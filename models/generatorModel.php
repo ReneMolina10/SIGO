@@ -75,12 +75,12 @@ class generatorModel extends Model
     {
       if(DB['local']['MANAGER']=="oracle"){ $cadLimite = "AND ROWNUM = 1"; } else { $cadLimite = " LIMIT  1";}
         $sql = "DELETE FROM ".$this->tablas['p']['nom']." WHERE ".$this->tablas['p']['id']."=:id $cadLimite "; //LIMIT 1
-
+      
         $array = array(':id' =>trim($id));
 
  
         $res = $this->ssql($sql,$array);
-       $this->putLog($controlador, 3, $id);
+       //$this->putLog($controlador, 3, $id);
 
         return($res);
     }
@@ -331,6 +331,7 @@ echo "****";
     }
 
     public function putPost($num,$datos,$form,$keyt,$infoTabla, $controlador){ //$cont,$post,$this->form,$key,$fila
+     
       $nomt = $infoTabla["nom"];
       $idt  = $infoTabla["id"];
       $camposInsert1 = "";
@@ -342,6 +343,7 @@ echo "****";
       $cadenaUpd     = "";
       $idUpd         = "";
       $insertar      = false;
+
       //if($num==0) { 
         /*
         $idC = $datos["id_tabla"]; 
@@ -392,7 +394,6 @@ echo "****";
                       $valores = $datos[$fila["campo"]];
                     else
                       $valores = 0;
-
                    //$idTabla = ;
                     //echo $fila["tabla"]."<br/>";
                     //echo $keyt."<br/>";
@@ -400,23 +401,18 @@ echo "****";
 
                    // $this->insertMultiple($fila, $valores, $datos["id"], $insertar); //array de los datos del Check, valores del check, id registro
                      //$this->insertMultiple($fila, $valores, $datos[$infoTabla["id"] ], $insertar); //array de los datos del Check, valores del check, id registro
-
-
                   }else{
                     if($fila["tipo"]=="date"  ){ 
                       if(DB['local']['MANAGER']=="oracle")
                       $campo = "TO_DATE( :".$fila["campo"]." , 'YYYY-MM-DD' )";
                       else
                       $campo = "DATE_FORMAT( :".$fila["campo"]." , '%Y-%m-%d' )";
-
                     }else if($fila["tipo"]=='datetime-local'){ 
                           if(DB['local']['MANAGER']=="oracle"){ 
                               $campo = "TO_DATE( :".$fila["campo"]." , 'YYYY-MM-DD HH24:MI')";
 
                           }
-                            //FALTA AGREGAR PARA MYSQL
-
-                   
+                            //FALTA AGREGAR PARA MYSQL                   
                     }elseif($fila["tipo"]=="uploadfile"){
                       if(isset($datos[$fila["campo"]])){                        
                         if($datos[$fila["campo"]]['name']!=''){ //Verifico si fue seleccionado el archivo por el usuario
@@ -475,7 +471,7 @@ echo "****";
           }
 
       }
-      //echo "--"; print_r($camposInsert2); echo "--";
+      //echo "--"; print_r($camposInsert2); echo "--";exit;
     
       if($insertar){
         $sql = "INSERT INTO $nomt ($camposInsert1) VALUES ($camposInsert2)";
@@ -911,13 +907,101 @@ echo "****";
       return $res;
     }
 
-    public function getColums()
+    /*public function getColums()
     {     
-      $sql = $this->info['sqlDeplegar'];
-      //echo $sql."   ";
-      $res = $this->ssql($sql, null,1);
-      return($res);
+      if(DB['local']['MANAGER']=="oracle"){
+        // Nombre de la tabla principal (en mayúsculas)
+        $table = strtoupper($this->tablas['p']['nom'] ?? '');
+        if (!$table) {
+            return [];
+        }
+
+        // Consulta al diccionario de Oracle para obtener las columnas
+        $sql = "
+          SELECT column_name
+          FROM user_tab_columns
+          WHERE table_name = '{$table}'
+        ";
+        $rows = $this->ssql($sql, null, 2);
+        //print_r($rows);
+        if (!is_array($rows)) {
+            return [];
+        }
+
+        // Extraigo solo el campo COLUMN_NAME
+        return array_map(function($r){
+            return $r['COLUMN_NAME'];
+        }, $rows);
+      }else{
+        // Para MySQL
+
+      }
+
+    }*/
+
+    public function getColums()
+    {
+        // 1) ¿Tenemos un sqlDeplegar definido?
+        $sql = $this->info['sqlDeplegar'] ?? '';        
+        if (preg_match('/^\s*SELECT\s+(.*?)\s+FROM\s+/is', $sql, $m)) {
+            $colsList = trim($m[1]);
+            // 1.a) Si es sólo un "*", vuelvo al metadata
+            if ($colsList === '*' || preg_match('/^\*\s*(,\s*\*)*$/', $colsList)) {
+                return $this->getColumnsFromMetadata();
+            }
+            // 1.b) Desgloso la lista separada por comas
+            $pieces = explode(',', $colsList);
+            $result = [];
+            foreach ($pieces as $col) {
+                $col = trim($col);
+                // alias con " AS "
+                if (preg_match('/\s+AS\s+(.+)$/i', $col, $am)) {
+                    $name = trim($am[1], '"` ');
+                }
+                // alias sin AS: "expr alias"
+                elseif (preg_match('/\s+([A-Za-z0-9_"]+)$/', $col, $am2)) {
+                    $name = trim($am2[1], '"` ');
+                }
+                else {
+                    // quito calificador de tabla: "tabla.col"
+                    $parts = explode('.', $col);
+                    $name  = trim(end($parts), '"` ');
+                }
+                $result[] = $name;
+            }
+            return $result;
+        }
+
+        // 2) Si no pude extraer columnas explícitas, voy al metadata
+        return $this->getColumnsFromMetadata();
     }
+
+  /**
+   * Consulta al diccionario de Oracle o MySQL para sacar
+   * los nombres de campo sin traer filas.
+   */
+  private function getColumnsFromMetadata(): array
+  {
+      // detecto manager
+      if (DB['local']['MANAGER'] === "oracle") {
+          $table = strtoupper($this->tablas['p']['nom'] ?? '');
+          if (!$table) return [];
+          $sql = "SELECT column_name FROM user_tab_columns WHERE table_name = '{$table}'";
+          $rows = $this->ssql($sql, null, 2);
+          return is_array($rows)
+              ? array_map(function($r) { return $r['COLUMN_NAME']; }, $rows)
+              : [];
+      } else {
+          // MySQL
+          $table = $this->tablas['p']['nom'] ?? '';
+          if (!$table) return [];
+          $rows = $this->ssql("SHOW COLUMNS FROM {$table}", null, 1);
+          return is_array($rows)
+              ? array_map(function($r) { return $r['Field']; }, $rows)
+              : [];
+      }
+  }
+
     
        
     public function putLog($generator, $id_accion, $id_reg)

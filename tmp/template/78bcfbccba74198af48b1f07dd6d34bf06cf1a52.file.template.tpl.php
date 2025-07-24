@@ -1,22 +1,20 @@
-<?php /* Smarty version Smarty-3.1.8, created on 2025-07-07 04:56:20
+<?php /* Smarty version Smarty-3.1.8, created on 2025-07-14 11:46:32
          compiled from "/opt/sitios/sigo/views/layout/lte2/template.tpl" */ ?>
-<?php /*%%SmartyHeaderCode:14162803746866a3ff556206-42166455%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:5745386606875265832ebc3-20932759%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     '78bcfbccba74198af48b1f07dd6d34bf06cf1a52' => 
     array (
       0 => '/opt/sitios/sigo/views/layout/lte2/template.tpl',
-      1 => 1751878577,
+      1 => 1752185911,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '14162803746866a3ff556206-42166455',
+  'nocache_hash' => '5745386606875265832ebc3-20932759',
   'function' => 
   array (
   ),
-  'version' => 'Smarty-3.1.8',
-  'unifunc' => 'content_6866a3ff595e58_72901410',
   'variables' => 
   array (
     '_layoutParams' => 0,
@@ -30,8 +28,10 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'js' => 0,
   ),
   'has_nocache_code' => false,
+  'version' => 'Smarty-3.1.8',
+  'unifunc' => 'content_687526583c8410_60066217',
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_6866a3ff595e58_72901410')) {function content_6866a3ff595e58_72901410($_smarty_tpl) {?><!DOCTYPE html>
+<?php if ($_valid && !is_callable('content_687526583c8410_60066217')) {function content_687526583c8410_60066217($_smarty_tpl) {?><!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
@@ -121,6 +121,9 @@ plugins/jquery/jquery.min.js"></script>
 
 <script type="text/javascript" src="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['root'];?>
 public/js/jquery.dragsort.js"></script> 
+<!-- jQuery UI 1.11.4 -->
+<script src="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['ruta_view'];?>
+plugins/jquery-ui/jquery-ui.min.js"></script>
 
 
 <!-- Bootstrap4 Duallistbox -->
@@ -154,7 +157,8 @@ plugins/datatables_1.10.21/plugins/Buttons-1.7.0/js/buttons.html5.min.js"></scri
 
 <!-- app.js generatork-->
 <script src="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['root'];?>
-public/js/app.js?param1=7" type="text/javascript"></script>
+public/js/app.js?param1=<?php echo rand(time(),100000);?>
+" type="text/javascript"></script>
 <!-- funciones genericas franwork-->
 <script src="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['root'];?>
 public/js/generic_functions.js" type="text/javascript"></script>
@@ -461,9 +465,7 @@ $_smarty_tpl->tpl_vars['wd']->_loop = true;
 <!-- ./wrapper -->
 
 
-<!-- jQuery UI 1.11.4 -->
-<script src="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['ruta_view'];?>
-plugins/jquery-ui/jquery-ui.min.js"></script>
+
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script>
   $.widget.bridge('uibutton', $.ui.button)

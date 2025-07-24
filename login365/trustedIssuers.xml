@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <issuers>
-	<issuer name="cursos.uqroo.mx" displayName="Longin a Cursos Moodle"
-		realm="spn:f96cd4b3-d6fa-4c38-9668-baeb23e2c1ac" />
+	<issuer name="sigo.uqroo.mx" displayName="Longin a SIGO UQROO"
+		realm="spn:8c2d1967-3f45-4dea-9d74-b6e2469a7a83" />
 </issuers>

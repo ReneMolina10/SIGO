@@ -80,74 +80,17 @@ if ($pos == 0) {
 
 $form = array(
     array('etiq' => '<div class="row">'),
-
     array(
-        'col' => 'col-md-3',
-        'campo' => 'FIR_NUMEMPL',
-        'tipo' => 'text',
-        'label' => 'Número de Empleado',
-        'holder' => 'Escriba su número de empleado',
-        'tabla' => 'p'
+            'col' => 'col-md-12',
+            'campo' => 'FIR_NUMEMPL',
+            'tipo' => 'select',
+            'datosSQL' => "SELECT FE_NUMEMPL AS ID, FE_NUMEMPL || '-' || FE_NOMBRE AS CAMPO FROM sau.PADRON_FIRMAELECTRONICA",
+            
+            'label' => 'Número de Empleado',
+            'holder' => 'Escriba su número de empleado',
+            'tabla' => 'p'
     ),
 
-    array(
-        'col' => 'col-md-2',
-        'campo' => 'FIR_PREFIJOESTUDIOS',
-        'tipo' => 'text',
-        'label' => 'Prefijo de Estudios',
-        'holder' => 'Mtro., Dra., Ing., etc.',
-        'max' => '10',
-        'tabla' => 'p'
-    ),
-    array(
-        'col' => 'col-md-7',
-        'campo' => 'FIR_NOMBRE',
-        'tipo' => 'text',
-        'holder' => 'Escriba su nombre',
-        'max' => '80',
-        'label' => 'Nombre',
-        'tabla' => 'p'
-    ),
-
-    array('etiq' => '</div>'),
-    array('etiq' => '<div class="row">'),
-
-
-    array(
-        'col' => 'col-md-2',
-        'campo' => 'FIR_CURP',
-        'tipo' => 'text',
-        'label' => 'CURP',
-        'max' => '18',
-        //'pattern' => '[A-Z]{4}[0-9]{6}[A-Z]{6}[0-9]{2}',
-        //'required' => true,
-        'holder' => 'Escriba su CURP',
-        'tabla' => 'p'
-    ),
-
-    array(
-        'col' => 'col-md-4',
-        'campo' => 'FIR_CORREO',
-        'tipo' => 'email',
-        'label' => ' Correo Electrónico',
-        'holder' => ' Micorreo@uqroo.mx',
-        'max' => '80',
-        'tabla' => 'p'
-    ),
-    array(
-        'col' => 'col-md-6',
-        'campo' => 'FIR_CARGO',
-        'tipo' => 'text',
-        'label' => 'Cargo',
-        'holder' => 'Jefe dpto, Director, etc.',
-        'tabla' => 'p'
-    ),
-
-    array('etiq' => '</div>'),
-
-
-
-    array('etiq' => '<div class="row">'),
     array(
         'campo' => 'FIR_ID',
         'tipo' => 'oculto',

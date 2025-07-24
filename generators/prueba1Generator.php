@@ -1,4 +1,6 @@
 <?php
+$template = array('editForm' => 'modal',);
+
 $tablas["p"] = array(
     'nom' => 'PRUEBA1',
     'id' => 'ID',
@@ -62,14 +64,14 @@ $form = array(
 
         // 1) Campos del formulario del sub‐Generator
         'form' => array(
-            array('campo' => 'NOMBRE', 'label' => 'Nombre hijo', 'tipo' => 'text', 'required' => true),
+            array('campo' => 'NOMBRE2', 'label' => 'Nombre hijo', 'tipo' => 'text', 'required' => true),
             array('campo' => 'ID', 'tipo' => 'oculto', ),
             array('campo' => 'ID_PADRE', 'tipo' => 'oculto', 'value' => '[IDPADRE]'),
         ),
 
-        // 2) Definición de tablas (MVS) del sub‐Generator
+        // 2) Definición de tablas del sub‐Generator
         'tablas' => array(
-            'd' => array(
+            'p' => array(
                 'nom' => 'PRUEBA2',
                 'id' => 'ID',
                 'getId' => 'SELECT (MAX(ID)+1) AS ID FROM PRUEBA2',
@@ -82,7 +84,7 @@ $form = array(
         'bd' => array(
             'sqlDeplegar' => "SELECT * FROM PRUEBA2 WHERE ID_PADRE = [IDPADRE]",
             'idDeplegar' => 'ID',
-            'busqLike' => '"NOMBRE"',
+            'busqLike' => '"NOMBRE2"',
             'busqIgual' => '"ID"',
             'nomPlural' => 'Detalles',
             'nomSingular' => 'Detalle',
@@ -92,10 +94,10 @@ $form = array(
             ),*/
             //'btnOpciones'  => array()  // usa los botones por defecto
         ),
-        'template' => [
+        'template' => array(
             'editForm' => 'modal',
             //'btnRegistrar' => false,
-        ],
+        ),
     ),
     //======================================================================================
 
@@ -114,9 +116,9 @@ $form = array(
             array('campo' => 'ID_PADRE', 'tipo' => 'oculto', 'value' => '[IDPADRE]'),
         ),
 
-        // 2) Definición de tablas (MVS) del sub‐Generator
+        // 2) Definición de tablas del sub‐Generator
         'tablas' => array(
-            'd' => array(
+            'p' => array(
                 'nom' => 'PRUEBA3',
                 'id' => 'ID',
                 'getId' => 'SELECT (MAX(ID)+1) AS ID FROM PRUEBA3',
@@ -136,7 +138,6 @@ $form = array(
             'bPaginate' => false, // o true
             'bFilter'   => false, // o true
             'bInfo'     => false, // o true
-            // oculta el botón de agregar nuevo registro
             /*'columnas'     => array(
                 array('campo'=>'ID',     'width'=>200),
                 array('campo'=>'NOMBRE', 'width'=>80),

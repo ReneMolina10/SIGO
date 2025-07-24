@@ -128,7 +128,7 @@ class viewminutaController extends Controller
     {
         parent::__construct();
 
-        $this->_nom = $this->loadModel('docminutas'); // Cargar el modelo de minutas
+        $this->_nom = $this->loadModel('viewminuta'); // Cargar el modelo de minutas
     }
 
     public function index()
@@ -250,11 +250,31 @@ class viewminutaController extends Controller
 
     function previsualizarPDF($id)
     {
+/*
 
-        //   echo "-- $id  ---"; exit();
+
+       echo "<pre>";
+        print_r($_SERVER['HTTP_REFERER']);
+        echo "</pre>";
+
+        echo "-- $id  ---"; exit();
 
         ini_set('display_errors', 1);
         error_reporting(E_ALL);
+        */
+
+
+       /*$referer = $_SERVER['HTTP_REFERER'] ?? '';
+
+            if (
+                strpos($referer, 'https://sigo.uqroo.mx') === false &&
+                strpos($referer, 'https://efirma.uqroo.mx') === false
+            ) {
+                echo "No permitido";
+                exit();
+            }*/
+
+
 
         $infoGen = $this->_nom->getInfoGeneral($id);
         $asuntos = $this->_nom->getAsuntos($id);
@@ -466,9 +486,9 @@ EOD;
         <td colspan="3" $styleTitulo>Acuerdos Generales</td>
     </tr>
     <tr>
-        <td $styleSubtitulo width="50%">Descripción del acuerdo</td>
-        <td $styleSubtitulo width="25%">Responsable</td>
-        <td $styleSubtitulo width="25%">Fecha término</td>
+        <td style="background-color:#7bab6a; color:#fff; font-weight:bold; font-size:12px;" width="50%">Descripción</td>
+        <td style="background-color:#7bab6a; color:#fff; font-weight:bold; font-size:12px;" width="25%">Responsable</td>
+        <td style="background-color:#7bab6a; color:#fff; font-weight:bold; font-size:12px;" width="25%">Fecha término</td>
     </tr>
 EOD;
 
@@ -644,7 +664,7 @@ EOD;
             // Sección QR y Cadena Original
             $x = $pdf->GetX();
             $y = $pdf->GetY();
-            $qrSize = 45;
+            $qrSize = 40;
             $urlQR = "https://efirma.uqroo.mx/verify/" . $infoGen['FOLIO_DOC'];
             //$urlQR = BASE_URL . 'viewminuta/previsualizarPDF/' . $id;
 
@@ -661,6 +681,7 @@ EOD;
                 [],
                 'N'
             );
+
 
             $htmlCadena = <<<EOD
 <table border="0" cellpadding="4" cellspacing="0" style="width:100%;">
@@ -680,7 +701,11 @@ EOD;
             $pdf->SetXY($x + $qrSize + 8, $y);
             $pdf->writeHTML($htmlCadena, true, false, true, false, '');
             $pdf->Ln(8);
-
+            
+           /* $pdf->SetFont('aealarabiya', 'B', 7, '', true);
+            $pdf->SetXY(20,65);
+            $pdf->writeHTML('<a href="https://efirma.uqroo.mx/verify/' . $infoGen['FOLIO_DOC'] . '" target="_blank" style="text-decoration:none; color:#0000EE;">URL del Documento Comprobatorio</a>', true, false, true, false, '');
+*/
             // --- NUEVO: Mueve el cursor Y debajo del QR antes de la tabla de firmas ---
             $pdf->SetY($y + $qrSize + 1); // 10 es margen, ajusta si lo necesitas
 
@@ -721,7 +746,7 @@ EOD;
                             break;
                     }
 
-$htmlFirmantes .= <<<EOD
+                    $htmlFirmantes .= <<<EOD
 <tr>
     <td style="border-bottom:1px solid #ddd; padding-bottom:4px;">
         <span style="font-weight:bold; font-size:9px;">{$nombrePrefijo} - {$cargo}</span><br>
@@ -1128,7 +1153,6 @@ EOD;
             "data" => $doc
         ]);
     }
-
 
 
 }

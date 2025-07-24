@@ -11,7 +11,7 @@
 
 </style>
 
-<form class="bs-example bs-example-form" data-example-id="simple-input-groups" id="formp" name="formp" action="javascript:guardar_generator('{$_layoutParams.root}{$controlador}')" method="post" enctype="multipart/form-data">
+<form class="bs-example bs-example-form prevent-submit" data-example-id="simple-input-groups" id="formp" name="formp" action="javascript:guardar_generator('{$_layoutParams.root}{$controlador}',false,'formp')" method="post" enctype="multipart/form-data">
 
 	{if $nameCrudTable}
 		<input type="hidden" name="name_crud_table" value="{$nameCrudTable}">
@@ -31,7 +31,7 @@
 				<!--<a class="btn" href="{$_layoutParams.root}{$controlador}/index/{$filtro|default:''}">Sarlir</a>-->
 				<a class="btn" href="{$_layoutParams.root}{$controlador}/index/">Salir</a>
 				{if $detalles|default:""!="readonly"} 
-					<button type="submit" class="btn btn-success" id="btnguardar"><i class="fas fa-save"></i> Guardar</button>
+					<button type="submit" class="btn btn-success btnguardar" id="btnguardar"><i class="fas fa-save mr-2"></i> Guardar</button>
 				{/if}	
 			</div>
 			
@@ -78,10 +78,13 @@
 	</div>
 	
 </form>
+
 {include file="views/generators/ventanas_modal.tpl"}
-{if $ventana_modal|default:"" != true}
-<div id="divLoading"> </div> 
+{if $ventana_modal|default:false}
+	
 <!--<script  src="{$_layoutParams.root}public/js/app.js" type="text/javascript"></script>-->
+{else}
+	<div id="divLoading"> </div> 
 {/if}
 
 

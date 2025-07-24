@@ -1,26 +1,22 @@
-<?php /* Smarty version Smarty-3.1.8, created on 2025-07-07 08:23:07
+<?php /* Smarty version Smarty-3.1.8, created on 2025-07-14 11:47:52
          compiled from "/opt/sitios/sigo/views/generators/form.tpl" */ ?>
-<?php /*%%SmartyHeaderCode:816464926866a95707f782-28995149%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:345302762687526a804b696-92402981%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     '6ed038669fe8a942dada71b8a13c54f09efc0f9b' => 
     array (
       0 => '/opt/sitios/sigo/views/generators/form.tpl',
-      1 => 1751889557,
+      1 => 1752359877,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '816464926866a95707f782-28995149',
+  'nocache_hash' => '345302762687526a804b696-92402981',
   'function' => 
   array (
   ),
-  'version' => 'Smarty-3.1.8',
-  'unifunc' => 'content_6866a9570c5143_37426712',
   'variables' => 
   array (
-    'filtro' => 0,
-    'nameCrudTable' => 0,
     'datosf' => 0,
     'f' => 0,
     'd' => 0,
@@ -30,8 +26,10 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'codigoJS' => 0,
   ),
   'has_nocache_code' => false,
+  'version' => 'Smarty-3.1.8',
+  'unifunc' => 'content_687526a80973d3_96237496',
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_6866a9570c5143_37426712')) {function content_6866a9570c5143_37426712($_smarty_tpl) {?><?php $_smarty_tpl->tpl_vars["libJSFinder"] = new Smarty_variable("0", null, 0);?>
+<?php if ($_valid && !is_callable('content_687526a80973d3_96237496')) {function content_687526a80973d3_96237496($_smarty_tpl) {?><?php $_smarty_tpl->tpl_vars["libJSFinder"] = new Smarty_variable("0", null, 0);?>
 
   
 <style>
@@ -66,10 +64,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 </style>
 
 
-<input type="hidden" name="filtro"          value="<?php echo (($tmp = @$_smarty_tpl->tpl_vars['filtro']->value)===null||$tmp==='' ? 0 : $tmp);?>
-" />
-<input type="hidden" name="name_crud_table" value="<?php echo (($tmp = @$_smarty_tpl->tpl_vars['nameCrudTable']->value)===null||$tmp==='' ? '' : $tmp);?>
-" />
+
 
 <?php  $_smarty_tpl->tpl_vars['f'] = new Smarty_Variable; $_smarty_tpl->tpl_vars['f']->_loop = false;
  $_smarty_tpl->tpl_vars['key'] = new Smarty_Variable;

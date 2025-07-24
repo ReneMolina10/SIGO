@@ -1,22 +1,20 @@
-<?php /* Smarty version Smarty-3.1.8, created on 2025-07-07 14:13:47
+<?php /* Smarty version Smarty-3.1.8, created on 2025-07-14 11:46:57
          compiled from "/opt/sitios/sigo/views/generators/index.tpl" */ ?>
-<?php /*%%SmartyHeaderCode:1546607926866a3ff5a8925-05632920%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:1835300483687526716d8b10-36028320%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     'd01337e33d18b363172dcf8c812dde2fb10ed00c' => 
     array (
       0 => '/opt/sitios/sigo/views/generators/index.tpl',
-      1 => 1751911963,
+      1 => 1752446948,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '1546607926866a3ff5a8925-05632920',
+  'nocache_hash' => '1835300483687526716d8b10-36028320',
   'function' => 
   array (
   ),
-  'version' => 'Smarty-3.1.8',
-  'unifunc' => 'content_6866a3ff609ac8_06249529',
   'variables' => 
   array (
     'csseditar' => 0,
@@ -39,12 +37,13 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'tablaScrollX' => 0,
     'checkbox_column' => 0,
     'btn' => 0,
-    'titulo' => 0,
     'nombreMenu' => 0,
   ),
   'has_nocache_code' => false,
+  'version' => 'Smarty-3.1.8',
+  'unifunc' => 'content_687526717b9565_84607804',
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_6866a3ff609ac8_06249529')) {function content_6866a3ff609ac8_06249529($_smarty_tpl) {?><style type="text/css">
+<?php if ($_valid && !is_callable('content_687526717b9565_84607804')) {function content_687526717b9565_84607804($_smarty_tpl) {?><style type="text/css">
 
   <?php echo (($tmp = @$_smarty_tpl->tpl_vars['csseditar']->value)===null||$tmp==='' ? '' : $tmp);?>
 
@@ -272,12 +271,11 @@ unidades" type="submit"  id="guardarsalir" class="btn btn-success">Guardar y sal
 
 
 
-    <?php if (count($_smarty_tpl->tpl_vars['columnas']->value)>0){?>    
        
         <?php ob_start();?><?php echo (($tmp = @$_smarty_tpl->tpl_vars['tablaResponsiva']->value)===null||$tmp==='' ? true : $tmp);?>
 <?php $_tmp3=ob_get_clean();?><?php ob_start();?><?php echo (($tmp = @$_smarty_tpl->tpl_vars['tablaScrollX']->value)===null||$tmp==='' ? false : $tmp);?>
 <?php $_tmp4=ob_get_clean();?><?php ob_start();?><?php echo (($tmp = @$_smarty_tpl->tpl_vars['bd']->value['checkbox_column'])===null||$tmp==='' ? false : $tmp);?>
-<?php $_tmp5=ob_get_clean();?><?php echo $_smarty_tpl->getSubTemplate ("views/generators/tabla.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, null, null, array('tableId'=>"grid",'columnas'=>$_smarty_tpl->tpl_vars['columnas']->value,'rutaBuscar'=>($_smarty_tpl->tpl_vars['_layoutParams']->value['root']).($_smarty_tpl->tpl_vars['controlador']->value)."/buscar/".($_smarty_tpl->tpl_vars['filtro']->value),'name_crud_table'=>'','parentId'=>$_smarty_tpl->tpl_vars['filtro']->value,'tablaResponsiva'=>$_tmp3,'tablaScrollX'=>$_tmp4,'checkbox_column'=>$_tmp5), 0);?>
+<?php $_tmp5=ob_get_clean();?><?php echo $_smarty_tpl->getSubTemplate ("views/generators/tabla.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, null, null, array('tableId'=>"tbl_grid",'columnas'=>$_smarty_tpl->tpl_vars['columnas']->value,'rutaBuscar'=>($_smarty_tpl->tpl_vars['_layoutParams']->value['root']).($_smarty_tpl->tpl_vars['controlador']->value)."/buscar/".($_smarty_tpl->tpl_vars['filtro']->value),'name_crud_table'=>'grid','parentId'=>$_smarty_tpl->tpl_vars['filtro']->value,'tablaResponsiva'=>$_tmp3,'tablaScrollX'=>$_tmp4,'checkbox_column'=>$_tmp5), 0);?>
 
       
       
@@ -303,7 +301,7 @@ $_smarty_tpl->tpl_vars['btn']->_loop = true;
                       <?php }?>
                     <?php } ?>
                   <?php }?>
-                  <input type="button" id="btnf"  class=" btn btn-primary ml-1" value="Filtrar">
+                  <input type="button" id="btnf"  class=" btn btn-info ml-1" value="Filtrar">
                   <button  type="button" class="btn btn-secondary ml-1" data-toggle="modal" data-target="#modal_busqueda"><i class="fas fa-sliders-h"></i> Búsqueda avanzada </button>
                   
                   </div>
@@ -319,16 +317,6 @@ $_smarty_tpl->tpl_vars['btn']->_loop = true;
           </div>
         <?php }?>
 
-
-    <?php }else{ ?>
-      <table    class="table-sm" style="width:100%; color: #757575;"> 
-        <tbody> 
-          <tr>            
-            <th>No hay registros en la base de datos </th>
-          </tr>         
-        </tbody>
-      </table>
-    <?php }?>
 
       <?php }?>
       
@@ -393,120 +381,9 @@ $_smarty_tpl->tpl_vars['btn']->_loop = true;
 </div>
 
 
-<!-- ================================ MODAL PARA BUSQUEDAS ========================= -->
-<div class="modal fade" id="modal_busqueda" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog modal-xl">
-    <!-- Modal content-->
-    <div class="modal-content">
-      <form class="bs-example bs-example-form" enctype="multipart/form-data" id="form_search" name="busqueda" action="" method="post">
-        <div class="modal-header">     
-            <h5 class="modal-title"><i class="fas fa-search"></i> Búsqueda avanzada  </h5>             
-            <button type="button" class="close" data-dismiss="modal">&times;</button>                          
-        </div>
-        <div class="modal-body"> 
-            <div class='row'>
-              <div class='col-sm-12 '>
+<!-- ================================ MODALES ========================= -->
+<?php echo $_smarty_tpl->getSubTemplate ("views/generators/ventanas_modal.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, null, null, array(), 0);?>
 
-                <table class="table table-sm table-striped table-bordered">
-                  <thead>
-                    <tr>
-                      <th width="30%">Campo</th>
-                      <th width="30%">Opción de búsqueda</th>
-                      <th width="40%">Valor</th>
-                    </tr>
-                  </thead>
-                  <tbody id="formf"></tbody>
-                </table >
-
-              </div>
-          </div>
-        </div>
-        <div class="modal-footer justify-content-between">
-          <input type="hidden" id="id_oficio" name="id_oficio" value=""/> <!-- ¿? -->
-          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-          <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnBuscar"><i class="fas fa-search"></i> Buscar</button>
-          <!--<button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Buscar</button>-->
-        </div>
-      </form>
-    </div>                          
-  </div>
-</div><!-- /.modal -->
-
-
-<!-- ================================ MODAL PARA INSERTAR Y EDITAR ========================= -->
-<div class="modal fade" id="modal_formulario" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog modal-xl">
-    <!-- Modal content-->
-    <div class="modal-content">
-      <form class="bs-example bs-example-form" data-example-id="simple-input-groups" id="formp" name="formp" action="javascript:guardar_generator('<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['root'];?>
-<?php echo $_smarty_tpl->tpl_vars['controlador']->value;?>
-',true)" method="post" enctype="multipart/form-data" >
-        <div class="modal-header">  
-            <h5 id="tit_modal_edit" class="modal-title"><i class="fas fa-edit"></i> Registrar <?php echo $_smarty_tpl->tpl_vars['nomsingular']->value;?>
-  </h5>                         
-            <button type="button" class="close" data-dismiss="modal">&times;</button>                          
-        </div>
-        <div class="modal-body" id="formulario"> 
-            <?php echo $_smarty_tpl->getSubTemplate ("views/generators/form.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, null, null, array(), 0);?>
-
-        </div>
-        <div class="modal-footer justify-content-between">
-          <input type="hidden" id="id_reg" name="id_reg" value=""/>
-          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-          <button class="btn btn-success" id="btnguardar" type="submit"><i class="fas fa-save"></i> Guardar</button>
-          <!--<button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Buscar</button>-->
-        </div>
-      </form>
-    </div>                          
-  </div>
-</div><!-- /.modal -->
-
-
-<?php if (isset($_smarty_tpl->tpl_vars['graficas']->value)&&$_smarty_tpl->tpl_vars['graficas']->value!=''){?>
-<!-- ================================ MODAL PARA VER GRAFICAS  ========================= -->
-<div class="modal fade" id="modal_graficas" tabindex="-1" role="dialog" aria-labelledby="ModalGraficas">
-  <div class="modal-dialog modal-lg">
-    <!-- Modal content-->
-    
-    <div class="modal-content">
-        <div class="modal-header">  
-            <h5 class="modal-title"><i class="fas fa-chart-pie"></i> <span id="tit_modal_graficas" > <?php echo $_smarty_tpl->tpl_vars['titulo']->value;?>
- </span>  </h5>                         
-            <button type="button" class="close" data-dismiss="modal">&times;</button>                          
-        </div>
-        <div class="modal-body" id="div_grafica"> 
-            
-        </div>
-        <div class="modal-footer justify-content-between">
-
-          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-        </div>
-    </div>                          
-  </div>
-</div><!-- /.modal -->
-<?php }?>
-
-<!-- ================================ MODAL PARA IFRAMES  ========================= -->
-<div class="modal fade" id="modal_iframe" tabindex="-1" role="dialog" aria-labelledby="myModalLabelIframe">
-  <div class="modal-dialog modal-xl" style="min-width:calc(100%);">
-    <!-- Modal content-->
-    <div class="modal-content">
-      
-        <div class="modal-header">  
-            <h5 id="tit_modal_edit" class="modal-title"><i class="fas fa-edit"></i> Registrar <?php echo $_smarty_tpl->tpl_vars['nomsingular']->value;?>
-  </h5>                         
-            <button type="button" class="close" data-dismiss="modal">&times;</button>                          
-        </div>
-        <div class="modal-body" id="formulario_iframe"> 
-            +++
-        </div>
-        <div class="modal-footer justify-content-between">
-          
-        </div>
-      
-    </div>                          
-  </div>
-</div><!-- /.modal -->
 
 
 <div id="divLoading"> </div> 
@@ -581,12 +458,12 @@ $_smarty_tpl->tpl_vars['btn']->_loop = true;
 
 
 
-  function eliminaregistro(id){
+  /*function eliminaregistro(id){
     eliminar_reg_generator('<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['root'];?>
 <?php echo $_smarty_tpl->tpl_vars['controlador']->value;?>
 ',id,'<?php echo $_smarty_tpl->tpl_vars['nomsingular']->value;?>
  ');
-  }
+  }*/
    
   /*$("#txtbuscar").on('keyup', function (e) {
     if (e.keyCode == 13) {
@@ -612,7 +489,7 @@ $_smarty_tpl->tpl_vars['btn']->_loop = true;
 
   
   //Crear función que me traiga el formulario con los datos cada que le de clic en el botón Editar/ duplicar 
-  function open_modal_to_edit(id_reg = 0, id_idioima = 0, duplicar = 0) {
+  /*function open_modal_to_edit(id_reg = 0, id_idioima = 0, duplicar = 0) {
     $("#tit_modal_edit").html('<i class="fas fa-pencil-alt"></i> Registrar <?php echo $_smarty_tpl->tpl_vars['nomsingular']->value;?>
 ');
     $("#btnguardar").show();
@@ -661,12 +538,12 @@ $_smarty_tpl->tpl_vars['btn']->_loop = true;
                 $("div#divLoading").removeClass('show');
             });*/
     //}
-    $('#id_reg_modal').val(id_reg);
+  /*  $('#id_reg_modal').val(id_reg);
     //$("#modal_formulario").modal("show")
     $('#modal_formulario').modal({
 			focus: false
 		});
-  }
+  }*/
 
   /*function limpiar_campos_modal() {
     $('#fechaFin').val('');

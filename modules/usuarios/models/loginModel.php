@@ -27,36 +27,39 @@ class loginModel extends Model
     }
 
 
-    /*public function getUsuarioByUsr($info)
+    public function getUsuarioByUsr($info) 
     {
-        //Verifica si es una persona registrada usuario del SAU
-        $sql = "SELECT 
-            USUA_ID_USUARIO AS IDI,
-            ID AS id,
-            USUA_CORREO as usuario, 
-            '' as img, USUA_ID_ROLE as \"idrole\", 
-            USR_FK_UA AS UA,
-            USUA_ACTIVO
-        FROM CNT_usuarios USR
-    WHERE  UPPER(USUA_CORREO) = UPPER('" . $info["nickname"] . "')  ";
+    //Verifica si es una persona registrada usuario del SAU
+    $sql = "SELECT 
+            
+             ID AS IDI, ID AS id, EMAIL as usuario, '' as img, ROLE as \"idrole\", 1 AS UA, ESTADO 
 
-        //echo " $sql ";
+        FROM USUARIOS USR
+    WHERE  UPPER(EMAIL) = UPPER('".$info["nickname"]."')  ";
 
-        $res = $this->ssql($sql);
+  //  echo " $sql ";
+
+    $res = $this->ssql($sql,null,1);
 
 
 
 
 
 
-        $res = array_change_key_case($res[0], CASE_LOWER); //convierte a minusculas 
+        //  $res = array_change_key_case($res[0], CASE_LOWER ); //convierte a minusculas 
+          /*
 
+         
+          */
+/*
 
+          print_r($res);
+          echo "[$res]";
+          exit();
+          */
 
-
-
-        return $res;
-    }*/
+      return $res;
+    }
 
 
 

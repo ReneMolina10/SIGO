@@ -33,8 +33,7 @@
 </style>
 {/literal}
 
-<input type="hidden" name="filtro"          value="{$filtro|default:0}" />
-<input type="hidden" name="name_crud_table" value="{$nameCrudTable|default:''}" />
+
 
 {foreach key=key item=f from=$datosf}
 
@@ -167,6 +166,7 @@
 	{/if}
 {/foreach}
 
+<input type="hidden" id="id_registro" name="id_registro" value="{$parentId|default:0}"/>
 <input type="hidden" name="id_tabla" id="id_tabla" value="{$d.ID_T|default:''}"></input>
 
 
