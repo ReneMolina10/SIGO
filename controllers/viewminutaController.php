@@ -170,6 +170,8 @@ class viewminutaController extends Controller
                 }
             }
         }
+
+
         $infoGen = $this->_nom->getInfoGeneral($id);
         $folioDoc = $infoGen['FOLIO_DOC'] ?? null;
         $fechaCreacion = $infoGen['MIN_FECHA'] ?? null; // Extract MIN_FECHA
@@ -702,11 +704,7 @@ EOD;
             $pdf->writeHTML($htmlCadena, true, false, true, false, '');
             $pdf->Ln(8);
             
-           /* $pdf->SetFont('aealarabiya', 'B', 7, '', true);
-            $pdf->SetXY(20,65);
-            $pdf->writeHTML('<a href="https://efirma.uqroo.mx/verify/' . $infoGen['FOLIO_DOC'] . '" target="_blank" style="text-decoration:none; color:#0000EE;">URL del Documento Comprobatorio</a>', true, false, true, false, '');
-*/
-            // --- NUEVO: Mueve el cursor Y debajo del QR antes de la tabla de firmas ---
+          
             $pdf->SetY($y + $qrSize + 1); // 10 es margen, ajusta si lo necesitas
 
             // Sección de Firmas Digitales

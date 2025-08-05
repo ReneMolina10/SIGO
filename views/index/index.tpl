@@ -95,7 +95,7 @@
               <p class="card-text text-left">Firma digital en documentos propios.</p>
             </div>
             <div class="card-body div-boton">
-              <a role="button" class="btn btn-outline-dark  btn-block" title="" href="{$_layoutParams.root}dictamenes_tecnicos/">Ingresar</a>
+              <a role="button" class="btn btn-outline-dark  btn-block" title="" href="{$_layoutParams.root}documentospropios/">Ingresar</a>
             </div>
           </div>
         </div>
@@ -121,61 +121,71 @@
 
 
 
-    <!-- Tabla de documentos pendientes por firmar-->
+  
+    <!-- Tabla de documentos pendientes-->
 
     <div class="row mt-4">
   <div class="col-12">
     <div class="card card-outline card-dark shadow rounded">
-      <div class="card-header bg-dark text-white" style="cursor:pointer;" data-toggle="collapse" data-target="#cardMinutasPendientes" aria-expanded="false" aria-controls="cardMinutasPendientes">
-        <h4 class="mb-0 d-inline"><i class="fas fa-file-signature mr-2"></i> Documentos pendientes por firmar</h4>
+      <div class="card-header bg-dark text-white" style="cursor:pointer;" data-toggle="collapse" data-target="#cardDocumentosPendientes" aria-expanded="false" aria-controls="cardDocumentosPendientes">
+        <h4 class="mb-0 d-inline"><i class="fas fa-file-signature mr-2"></i> Documentos pendientes</h4>
         <span class="float-right">
           <i class="fas fa-chevron-down"></i>
         </span>
       </div>
-      <div id="cardMinutasPendientes" class="collapse">
+      <div id="cardDocumentosPendientes" class="collapse">
         <div class="card-body">
-          <div class="d-flex justify-content-end mb-2">
-            <div class="input-group" style="max-width: 300px;">
-              <input type="text" id="buscadorMinutas" class="form-control form-control-sm border-dark rounded-pill" placeholder="Buscar documento...">
-              <div class="input-group-append">
-                <span class="input-group-text bg-dark text-white rounded-pill" style="border-left:0;">
-                  <i class="fas fa-search"></i>
-                </span>
-              </div>
-            </div>
-          </div>
           <div class="table-responsive">
-            <table class="table table-bordered table-hover table-striped align-middle mb-0">
-              <thead class="thead-dark">
+            <table class="table">
+              <thead>
                 <tr>
-                  <th class="bg-dark text-white text-center" style="width: 15%;">Origen</th>
-                  <th class="bg-dark text-white text-center" style="width: 25%;">Documento</th>
-                  <th class="bg-dark text-white text-center" style="width: 20%;">Tipo</th>
-                  <th class="bg-dark text-white text-center" style="width: 20%;">CLAVE</th>
-                  <th class="bg-dark text-white text-center" style="width: 20%;">Opciones</th>
+                  <th>Origen</th>
+                  <th>Denominación</th>
+                  <th>Folio</th>
+                  <th>Tipo</th>
+                  <th>Acciones</th>
                 </tr>
               </thead>
               <tbody>
-                {if $minutasPendientes|@count > 0}
-                  {foreach from=$minutasPendientes item=minuta}
+                {if $documentosPendientes|@count > 0}
+                  {foreach from=$documentosPendientes item=doc}
                     <tr>
-                      <td class="text-center align-middle"><span class="badge badge-info px-3 py-2">SIGO</span></td>
-                      <td class="align-middle">{$minuta.MIN_PROCESO}</td>
-                      <td class="align-middle">{$minuta.TIPO_DOCUMENTO}</td>
-                      <td class="align-middle text-center"><b class="text-primary">{$minuta.MIN_FOLIO}</b></td>
-                      <td class="text-center align-middle">
-                        <a href="#" onclick="abrirModalPdf('{$_layoutParams.root}viewminuta/previsualizarpdf/{$minuta.HASH_MINUTA}'); return false;" title="Ver" class="btn btn-sm btn-primary mr-2">
-                          <i class="fas fa-eye"></i> Ver
-                        </a>
-                        <a href="https://efirma.uqroo.mx/verify/{$minuta.FOLIO_DOC}" target="_blank" title="Firmar" class="btn btn-sm btn-success">
-                          <i class="fas fa-pen-nib"></i> Firmar
-                        </a>
-                      </td>
+                      <td><span class="badge badge-info px-3 py-2 text-uppercase">{$doc.origen}</span></td>
+                      <td>{$doc.denominacion}</td>
+                      <td class="font-weight-bold text-primary">{$doc.folio}</td>
+                      <td>{$doc.tipo}</td>
+                        <td>
+                        <div class="btn-group" role="group">
+                          <!-- Botón dinámico para abrir el modal -->
+                          <button 
+                          onclick="abrirModalPdf('{$_layoutParams.root}{if $doc.origen == 'Minuta'}viewminuta{else}viewdocpropio{/if}/previsualizarPDF/{$doc.hash}'); return false;" 
+                          class="btn btn-primary rounded-circle" 
+                          style="width:40px;height:40px;padding:0;display:flex;align-items:center;justify-content:center;"
+                          title="Ver">
+                          <i class="fas fa-eye"></i>
+                          </button>
+                          <!-- Botón para firmar -->
+                          <a href="{$doc.url_firma}" target="_blank" class="btn btn-success rounded-circle" 
+                           style="width:40px;height:40px;padding:0;display:flex;align-items:center;justify-content:center;" 
+                           title="Firmar">
+                          <i class="fas fa-pen-nib"></i>
+                          </a>
+                          <!-- Botón para verificar -->
+                          <a href="{$doc.url_verify}" target="_blank" class="btn btn-warning rounded-circle" 
+                           style="width:40px;height:40px;padding:0;display:flex;align-items:center;justify-content:center;" 
+                           title="Verificar">
+                          <i class="fas fa-check-circle"></i>
+                          </a>
+                        </div>
+                        </td>
                     </tr>
                   {/foreach}
                 {else}
                   <tr>
-                    <td colspan="5" class="text-center">No hay documentos pendientes por firmar.</td>
+                    <td colspan="5" class="table-empty">
+                      <i class="fas fa-inbox fa-2x mb-2"></i><br>
+                      No hay documentos pendientes
+                    </td>
                   </tr>
                 {/if}
               </tbody>
@@ -186,8 +196,6 @@
     </div>
   </div>
 </div>
-
-
 
   </div>
 </div>
@@ -205,10 +213,99 @@
 .vibrando-noti {
   animation: vibrarNoti .8s infinite;
 }
+
+/* Estilo renovado para la tabla */
+.table {
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+  background-color: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.table thead {
+  background: linear-gradient(135deg, #343a40 0%, #212529 100%);
+  color: #fff;
+}
+
+.table thead th {
+  padding: 12px;
+  text-align: center;
+  font-weight: bold;
+  text-transform: uppercase;
+  border-bottom: 2px solid #dee2e6;
+}
+
+.table tbody tr {
+  transition: all 0.2s ease;
+}
+
+.table tbody tr:hover {
+  background-color: rgba(0, 123, 255, 0.1);
+}
+
+.table tbody td {
+  padding: 12px;
+  text-align: center;
+  vertical-align: middle;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.table tbody td:first-child {
+  border-left: 1px solid #dee2e6;
+}
+
+.table tbody td:last-child {
+  border-right: 1px solid #dee2e6;
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Estilo para celdas vacías */
+.table-empty {
+  text-align: center;
+  color: #6c757d;
+  font-style: italic;
+  padding: 20px;
+}
+
+/* Botones de acción */
+.table .btn {
+  font-size: 0.85rem;
+  padding: 6px 12px;
+  border-radius: 5px;
+}
+
+.table .btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+  color: #fff;
+}
+
+.table .btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #004085;
+}
+
+.table .btn-success {
+  background-color: #28a745;
+  border-color: #28a745;
+  color: #fff;
+}
+
+.table .btn-success:hover {
+  background-color: #1e7e34;
+  border-color: #1c7430;
+}
 </style>
 
 <script>
 function abrirModalPdf(url) {
+  console.log("URL del PDF:", url); // Verifica la URL en la consola del navegador
   document.getElementById('iframePdf').src = url;
   $('#verPdfModal').modal('show');
 }

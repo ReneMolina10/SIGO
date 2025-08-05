@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.8, created on 2025-07-23 02:00:02
+<?php /* Smarty version Smarty-3.1.8, created on 2025-08-03 23:48:29
          compiled from "views\generators\btn_registrar.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:1017066781687e897532a838-64339874%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '37f9f7f90cc8efb4fc91286572e5e9027f102e8f' => 
     array (
       0 => 'views\\generators\\btn_registrar.tpl',
-      1 => 1753204798,
+      1 => 1754282900,
       2 => 'file',
     ),
   ),
