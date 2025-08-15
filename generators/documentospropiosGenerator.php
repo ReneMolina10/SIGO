@@ -6,6 +6,14 @@ $tablas["p"] = [
 ];
 
 
+$correoUsuario = '';
+if (!empty($_SESSION['infousr']['email'])) {
+    $correoUsuario = $_SESSION['infousr']['email'];
+} elseif (!empty($_SESSION['getOffice']['nickname'])) {
+    $correoUsuario = $_SESSION['getOffice']['nickname'];
+}
+
+
 $bd = array(
     'sqlDeplegar' => 'SELECT
     DP_ID AS ID,
@@ -15,6 +23,8 @@ $bd = array(
     DP_FOLIO AS FOLIO,
     DP_FECHA AS FECHA,
     DP_STATUS_DOC,
+    DP_RUTA_PDF,
+    CORREO_CREADOR,
                 CASE
                     -- 1. Sin firmantes
                     WHEN (SELECT COUNT(*) FROM DOC_PRO_FIRMANTES F WHERE F.DP_FK_DOCPROPIO = DP_ID) = 0 THEN
@@ -52,7 +62,9 @@ $bd = array(
                         </a>\'
                     END AS FIRMANTES
 
-    FROM DOC_PROPIOS ORDER BY DP_ID DESC',
+    FROM DOC_PROPIOS 
+      WHERE CORREO_CREADOR = \'' . $correoUsuario . '\'
+      ORDER BY DP_ID DESC',
 
     'columnas' => array(
         array('campo' => 'ID', 'width' => '2%'),
@@ -60,7 +72,7 @@ $bd = array(
         array('campo' => 'DESCRIPCION', 'width' => '30%'),
         array('campo' => 'FOLIO', 'width' => '10%'),
         array('campo' => 'FIRMANTES', 'width' => '10%'),
-    ), 
+    ),
 
     'idDeplegar' => 'ID',
     'idFiltro' => 'DP_ID',
@@ -106,6 +118,11 @@ $form = array(
         'tipo' => 'oculto',
         //'tabla' => 'p'
     ),
+    array(
+        'campo' => 'CORREO_CREADOR',
+        'tipo' => 'oculto',
+        'value' => $correoUsuario
+    ),
 
     array('etiq' => '<h5 style="font-weight:bold; color:#28a745; margin-top:20px; margin-bottom:10px;">Información del Documento</h5>'),
     array('etiq' => '<hr style="margin-bottom:15px; border-top:2px solidrgb(35, 96, 161);">'),
@@ -133,37 +150,37 @@ $form = array(
     array('etiq' => '</div>'),
     array('etiq' => '<div class="row">'),
 
-    
-            array(
-                'col' => 'col-md-12',
-                'campo' => 'DP_DESCRIPCION',
-                'tipo' => 'textarea',
-                'label' => 'Descripción',
-                'holder' => 'Descripción',
-                'tabla' => 'p',
-                'alto' => '100px',
-                'max' => '500',
-                'encrypt' => true,
-            ),
+
+    array(
+        'col' => 'col-md-12',
+        'campo' => 'DP_DESCRIPCION',
+        'tipo' => 'textarea',
+        'label' => 'Descripción',
+        'holder' => 'Descripción',
+        'tabla' => 'p',
+        'alto' => '100px',
+        'max' => '500',
+        'encrypt' => true,
+    ),
     array('etiq' => '</div>'),
 
     array('etiq' => '<div class="row">'),
 
-    
-     array(
+
+    array(
         'col' => 'col-12',
-        'campo' => 'PDFPROPIO',
+        'campo' => 'DP_RUTA_PDF',
         'tipo' => 'uploadfile', // Para subida de archivo
         'format' => ["jpeg", "jpg", "pdf", "png"],
-        'multiple' => 'true',
+        //'multiple' => 'true',
         'size' => '10000', //En KB
-        'path' => 'documentos_almacenados/Doc_propios', //Ruta para guardar
+        'path' => $_SERVER['DOCUMENT_ROOT'] . 'documentos_almacenados/Doc_propios', //Ruta para guardar
         'label' => 'Documento',
-        'file_name' => $idFiltro, //Nombre del archivo para guardar
-        ),
+        'file_name' => 'documento', //Nombre del archivo para guardar
+        'required' => 'true',
+    ),
 
-       
-    array(''=> '</div>'),
+    array('' => '</div>'),
 
 
     //**------------------------------------------------------------------------------------------------------------------------ */

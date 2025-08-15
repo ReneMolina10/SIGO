@@ -10,7 +10,17 @@ $tablas["p"] = [
 
 \'<a href="' . BASE_URL . 'viewminuta/previsualizarPDF/\' || MD5(MIN_ID||\'_minuta\') || \'" target="_blank"> <div style="text-align:center"> <i class="far fa-eye nav-icon"></i> </div> </a>\' AS PDF_INTERNO,
 */
+// Obtener el correo del usuario logueado
+$correoUsuario = '';
+if (!empty($_SESSION['infousr']['email'])) {
+    $correoUsuario = $_SESSION['infousr']['email'];
+} elseif (!empty($_SESSION['getOffice']['nickname'])) {
+    $correoUsuario = $_SESSION['getOffice']['nickname'];
+}
 
+/*
+echo 'correoUsuario: ' . $correoUsuario . '<br>';
+exit();*/
 
 $bd = array(
     'sqlDeplegar' => 'SELECT
@@ -23,6 +33,8 @@ $bd = array(
     MIN_LUGAR AS LUGAR,
     MIN_FK_AREAS_PARTICIPA AS AREAS_PARTICIPA,
     STATUS_DOC,
+    RUTA_PDF_MINUTA,
+    CORREO_CREADOR,
 
 
     
@@ -61,8 +73,10 @@ $bd = array(
         </a>\'
 END AS FIRMANTES
 
-    FROM DOC_MINUTA ORDER BY MIN_ID DESC
-    ',
+    FROM DOC_MINUTA 
+     WHERE CORREO_CREADOR = \'' . $correoUsuario . '\'
+     ORDER BY MIN_ID DESC
+   ',
 
     'columnas' => array(
         array('campo' => 'ID', 'width' => '2%'),
@@ -129,8 +143,14 @@ $form = array(
         'tipo' => 'oculto',
         //'tabla' => 'p'
     ),
+    array(
+        'campo' => 'CORREO_CREADOR',
+        'tipo' => 'oculto',
+        'value' => $correoUsuario
+    ),
 
-    array('etiq' => '
+    array(
+        'etiq' => '
         <div class="">
             <button type="button" class="btn btn-primary" id="btn-preview-pdf" style="margin-bottom:10px;">
                 Ver Documento
@@ -153,7 +173,8 @@ $form = array(
             </div>
         </div>
     </div>
-'),
+'
+    ),
 
     array('etiq' => '<h5 style="font-weight:bold; color:#28a745; margin-top:20px; margin-bottom:10px;">Información General</h5>'),
     array('etiq' => '<hr style="margin-bottom:15px; border-top:2px solidrgb(35, 96, 161);">'),
@@ -201,7 +222,7 @@ $form = array(
         'tabla' => 'p',
         'value' => date('H:i'),
     ),
-    
+
     array(
         'col' => 'col-md-3',
         'campo' => 'MIN_HFIN',
@@ -232,6 +253,7 @@ $form = array(
         'tipo' => 'dual_listbox',
         'class' => 'select2',
         'id_local' => 'MIN_ID',//Tabla origen
+
         'tabla_g' => 'DOC_FIR_AREAS_PARTICIPA', //nombre de la tabla en donde quieres guardar 
         'id_tabla_g' => 'ID_FK_MINUTA', //nombre de la columna en donde se guarda el id del registro
         'valor_tabla_g' => 'ID_URE_PAR', //nombre de la columna en la tabla donde se el valor de la opcion del check
@@ -240,7 +262,22 @@ $form = array(
         'label' => 'Áreas participantes',
     ),
 
-    array('etiq' => '</div>'),
+
+
+    array(
+        'col' => 'col-12',
+        'campo' => 'RUTA_PDF_MINUTA',
+        'tipo' => 'uploadfile', // Para subida de archivo
+        'format' => ["jpeg", "jpg", "pdf", "png"],
+        //'multiple' => 'true',
+        'size' => '10000', //En KB
+        'path' => $_SERVER['DOCUMENT_ROOT'] . 'documentos_almacenados/minutas', //Ruta para guardar
+        'label' => 'Documento',
+        'file_name' => 'documento', //Nombre del archivo para guardar
+        //'required' => 'true',
+    ),
+
+    array('' => '</div>'),
 
 
     //**------------------------------------------------------------------------------------------------------------------------ */
@@ -271,7 +308,7 @@ $form = array(
                 'campo' => 'ASU_PRESENTA',
                 'tipo' => 'select',
                 'datosSQL' => "SELECT ID_URE_PAR AS ID, ID_URE_PAR||' - '||LURES AS CAMPO FROM DOC_FIR_AREAS_PARTICIPA 
-                        LEFT JOIN TURESH ON URES = ID_URE_PAR
+                        LEFT JOIN SISRH.TURESH ON URES = ID_URE_PAR
                         WHERE ID_FK_MINUTA= $idFiltro",
                 'holder' => 'Presenta el asunto',
                 'label' => 'Área que presenta',
@@ -333,7 +370,7 @@ $form = array(
             'nomPlural' => 'Asuntos',
             'nomSingular' => 'Asunto',
 
-            
+
 
             //* Parámetros de la tabla
             'bPaginate' => false,       // o true
@@ -546,7 +583,7 @@ $form = array(
                 'campo' => 'MEJ_TIPO',
                 'tipo' => 'select',
                 'datos' => array(
-                    array('ID' => '0', 'CAMPO' => 'Seleccione...'),
+                    array('ID' => '0', 'CAMPO' => 'Mejora General'),
                     array('ID' => '1', 'CAMPO' => 'Mejora(s) al proceso concluidas'),
                     array('ID' => '2', 'CAMPO' => 'Nuevas mejora(s) al proceso identificadas y comprometidas para la sig. reunión'),
                 ),
@@ -564,8 +601,8 @@ $form = array(
                 'holder' => 'Descripción del acuerdo',
                 'label' => 'Descripción',
                 'tabla' => 'p',
-                'alto' => '300px', //agregar px si no, no funciona
-                'max' => '300',
+                'alto' => '200px', //agregar px si no, no funciona
+                'max' => '600',
                 'encrypt' => true,
             ),
             array('etiq' => '</div>')
@@ -606,8 +643,17 @@ $form = array(
             'mostrarTfoot' => false, // o true
             'columnas' => array(
                 array('campo' => 'ID', 'width' => '5%'),
-                array('campo' => 'TIPO', 'width' => '15%'),
-                array('campo' => 'DESCRIPCION', 'width' => '30%'),
+                // array('campo' => 'TIPO', 'width' => '15%'),
+                array(
+                    'campo' => 'TIPO',
+                    'width' => '15%',
+                    'status_style' => array(
+                        array('value' => '0', 'text' => 'Mejora general'),
+                        array('value' => '1', 'text' => 'Mejora(s) al proceso concluidas'),
+                        array('value' => '2', 'text' => 'Nuevas mejora(s) al proceso identificadas y comprometidas para la sig. reunión'),
+                    ),
+                ),
+                array('campo' => 'DESCRIPCION', 'width' => '80%'),
                 array('campo' => 'OPCIONES', 'width' => '1%'),
 
             ),

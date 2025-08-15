@@ -124,70 +124,68 @@
   
     <!-- Tabla de documentos pendientes-->
 
+    {if $documentosPendientes|@count > 0}
     <div class="row mt-4">
   <div class="col-12">
     <div class="card card-outline card-dark shadow rounded">
-      <div class="card-header bg-dark text-white" style="cursor:pointer;" data-toggle="collapse" data-target="#cardDocumentosPendientes" aria-expanded="false" aria-controls="cardDocumentosPendientes">
+      <div class="card-header bg-dark text-white">
         <h4 class="mb-0 d-inline"><i class="fas fa-file-signature mr-2"></i> Documentos pendientes</h4>
-        <span class="float-right">
-          <i class="fas fa-chevron-down"></i>
-        </span>
       </div>
-      <div id="cardDocumentosPendientes" class="collapse">
+      <div>
         <div class="card-body">
           <div class="table-responsive">
             <table class="table">
               <thead>
                 <tr>
                   <th>Origen</th>
-                  <th>Denominación</th>
-                  <th>Folio</th>
                   <th>Tipo</th>
+                  <th>Folio</th>
+                  <th>Denominación</th>
                   <th>Acciones</th>
                 </tr>
               </thead>
               <tbody>
-                {if $documentosPendientes|@count > 0}
-                  {foreach from=$documentosPendientes item=doc}
+                {foreach from=$documentosPendientes item=doc}
+                  {assign var=tipo_parts value="|"|explode:$doc.tipo}
                     <tr>
-                      <td><span class="badge badge-info px-3 py-2 text-uppercase">{$doc.origen}</span></td>
-                      <td>{$doc.denominacion}</td>
-                      <td class="font-weight-bold text-primary">{$doc.folio}</td>
-                      <td>{$doc.tipo}</td>
-                        <td>
-                        <div class="btn-group" role="group">
-                          <!-- Botón dinámico para abrir el modal -->
-                          <button 
-                          onclick="abrirModalPdf('{$_layoutParams.root}{if $doc.origen == 'Minuta'}viewminuta{else}viewdocpropio{/if}/previsualizarPDF/{$doc.hash}'); return false;" 
-                          class="btn btn-primary rounded-circle" 
+                      <td>
+                        <span class="badge badge-info px-3 py-2 text-uppercase">
+                          {$tipo_parts[1]|trim}
+                        </span>
+                      </td>
+                      <td>
+                        {$tipo_parts[0]|trim}
+                      </td>
+                    <td class="font-weight-bold text-primary">{$doc.folio}</td>
+                    <td class="text-left">{$doc.denominacion}</td>
+                    <td>
+                      <div class="btn-group" role="group">
+                        <!-- Botón dinámico para abrir el modal -->
+                        <button 
+                            onclick="abrirModalPdf('{$doc.base_url}'); return false;"
+
+
+                            class="btn btn-primary rounded-circle" 
                           style="width:40px;height:40px;padding:0;display:flex;align-items:center;justify-content:center;"
                           title="Ver">
                           <i class="fas fa-eye"></i>
-                          </button>
-                          <!-- Botón para firmar -->
-                          <a href="{$doc.url_firma}" target="_blank" class="btn btn-success rounded-circle" 
-                           style="width:40px;height:40px;padding:0;display:flex;align-items:center;justify-content:center;" 
-                           title="Firmar">
+                        </button>
+                        <!-- Botón para firmar -->
+                        <a href="{$doc.url_firma}" target="_blank" class="btn btn-success rounded-circle" 
+                          style="width:40px;height:40px;padding:0;display:flex;align-items:center;justify-content:center;" 
+                          title="Firmar">
                           <i class="fas fa-pen-nib"></i>
-                          </a>
-                          <!-- Botón para verificar -->
-                          <a href="{$doc.url_verify}" target="_blank" class="btn btn-warning rounded-circle" 
-                           style="width:40px;height:40px;padding:0;display:flex;align-items:center;justify-content:center;" 
-                           title="Verificar">
+                        </a>
+                        <!-- Botón para verificar -->
+                        <a href="{$doc.url_verify}" target="_blank" class="btn btn-warning rounded-circle" 
+                          style="width:40px;height:40px;padding:0;display:flex;align-items:center;justify-content:center;" 
+                          title="Verificar">
                           <i class="fas fa-check-circle"></i>
-                          </a>
-                        </div>
-                        </td>
-                    </tr>
-                  {/foreach}
-                {else}
-                  <tr>
-                    <td colspan="5" class="table-empty">
-                      <i class="fas fa-inbox fa-2x mb-2"></i><br>
-                      No hay documentos pendientes
+                        </a>
+                      </div>
                     </td>
                   </tr>
-                {/if}
+                {/foreach}
               </tbody>
             </table>
           </div>
@@ -196,6 +194,7 @@
     </div>
   </div>
 </div>
+{/if}
 
   </div>
 </div>

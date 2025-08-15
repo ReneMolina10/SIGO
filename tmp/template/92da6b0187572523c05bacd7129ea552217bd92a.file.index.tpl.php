@@ -1,32 +1,33 @@
-<?php /* Smarty version Smarty-3.1.8, created on 2025-08-04 23:24:47
+<?php /* Smarty version Smarty-3.1.8, created on 2025-08-15 00:45:40
          compiled from "C:\xampp\htdocs\SIGO\views\index\index.tpl" */ ?>
-<?php /*%%SmartyHeaderCode:189602913968803ee925bf82-98014478%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:1594911989689ae6c21ba205-87266001%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     '92da6b0187572523c05bacd7129ea552217bd92a' => 
     array (
       0 => 'C:\\xampp\\htdocs\\SIGO\\views\\index\\index.tpl',
-      1 => 1754367885,
+      1 => 1754590739,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '189602913968803ee925bf82-98014478',
+  'nocache_hash' => '1594911989689ae6c21ba205-87266001',
   'function' => 
   array (
   ),
   'version' => 'Smarty-3.1.8',
-  'unifunc' => 'content_68803ee9271ba4_91857603',
+  'unifunc' => 'content_689ae6c223dc37_74384058',
   'variables' => 
   array (
     'minutasPendientes' => 0,
     '_layoutParams' => 0,
     'documentosPendientes' => 0,
     'doc' => 0,
+    'tipo_parts' => 0,
   ),
   'has_nocache_code' => false,
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_68803ee9271ba4_91857603')) {function content_68803ee9271ba4_91857603($_smarty_tpl) {?><div class="content pt-4">
+<?php if ($_valid && !is_callable('content_689ae6c223dc37_74384058')) {function content_689ae6c223dc37_74384058($_smarty_tpl) {?><div class="content pt-4">
   <div class="container">
 
     <div class="row text-center">
@@ -164,82 +165,79 @@ documentospropios/">Ingresar</a>
   
     <!-- Tabla de documentos pendientes-->
 
+    <?php if (count($_smarty_tpl->tpl_vars['documentosPendientes']->value)>0){?>
     <div class="row mt-4">
   <div class="col-12">
     <div class="card card-outline card-dark shadow rounded">
-      <div class="card-header bg-dark text-white" style="cursor:pointer;" data-toggle="collapse" data-target="#cardDocumentosPendientes" aria-expanded="false" aria-controls="cardDocumentosPendientes">
+      <div class="card-header bg-dark text-white">
         <h4 class="mb-0 d-inline"><i class="fas fa-file-signature mr-2"></i> Documentos pendientes</h4>
-        <span class="float-right">
-          <i class="fas fa-chevron-down"></i>
-        </span>
       </div>
-      <div id="cardDocumentosPendientes" class="collapse">
+      <div>
         <div class="card-body">
           <div class="table-responsive">
             <table class="table">
               <thead>
                 <tr>
                   <th>Origen</th>
-                  <th>Denominación</th>
-                  <th>Folio</th>
                   <th>Tipo</th>
+                  <th>Folio</th>
+                  <th>Denominación</th>
                   <th>Acciones</th>
                 </tr>
               </thead>
               <tbody>
-                <?php if (count($_smarty_tpl->tpl_vars['documentosPendientes']->value)>0){?>
-                  <?php  $_smarty_tpl->tpl_vars['doc'] = new Smarty_Variable; $_smarty_tpl->tpl_vars['doc']->_loop = false;
+                <?php  $_smarty_tpl->tpl_vars['doc'] = new Smarty_Variable; $_smarty_tpl->tpl_vars['doc']->_loop = false;
  $_from = $_smarty_tpl->tpl_vars['documentosPendientes']->value; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array');}
 foreach ($_from as $_smarty_tpl->tpl_vars['doc']->key => $_smarty_tpl->tpl_vars['doc']->value){
 $_smarty_tpl->tpl_vars['doc']->_loop = true;
 ?>
+                  <?php $_smarty_tpl->tpl_vars['tipo_parts'] = new Smarty_variable(explode("|",$_smarty_tpl->tpl_vars['doc']->value['tipo']), null, 0);?>
                     <tr>
-                      <td><span class="badge badge-info px-3 py-2 text-uppercase"><?php echo $_smarty_tpl->tpl_vars['doc']->value['origen'];?>
-</span></td>
-                      <td><?php echo $_smarty_tpl->tpl_vars['doc']->value['denominacion'];?>
+                      <td>
+                        <span class="badge badge-info px-3 py-2 text-uppercase">
+                          <?php echo trim($_smarty_tpl->tpl_vars['tipo_parts']->value[1]);?>
+
+                        </span>
+                      </td>
+                      <td>
+                        <?php echo trim($_smarty_tpl->tpl_vars['tipo_parts']->value[0]);?>
+
+                      </td>
+                    <td class="font-weight-bold text-primary"><?php echo $_smarty_tpl->tpl_vars['doc']->value['folio'];?>
 </td>
-                      <td class="font-weight-bold text-primary"><?php echo $_smarty_tpl->tpl_vars['doc']->value['folio'];?>
+                    <td class="text-left"><?php echo $_smarty_tpl->tpl_vars['doc']->value['denominacion'];?>
 </td>
-                      <td><?php echo $_smarty_tpl->tpl_vars['doc']->value['tipo'];?>
-</td>
-                        <td>
-                        <div class="btn-group" role="group">
-                          <!-- Botón dinámico para abrir el modal -->
-                          <button 
-                          onclick="abrirModalPdf('<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['root'];?>
-<?php if ($_smarty_tpl->tpl_vars['doc']->value['origen']=='Minuta'){?>viewminuta<?php }else{ ?>viewdocpropio<?php }?>/previsualizarPDF/<?php echo $_smarty_tpl->tpl_vars['doc']->value['hash'];?>
-'); return false;" 
-                          class="btn btn-primary rounded-circle" 
+                    <td>
+                      <div class="btn-group" role="group">
+                        <!-- Botón dinámico para abrir el modal -->
+                        <button 
+                            onclick="abrirModalPdf('<?php echo $_smarty_tpl->tpl_vars['doc']->value['base_url'];?>
+'); return false;"
+
+
+                            class="btn btn-primary rounded-circle" 
                           style="width:40px;height:40px;padding:0;display:flex;align-items:center;justify-content:center;"
                           title="Ver">
                           <i class="fas fa-eye"></i>
-                          </button>
-                          <!-- Botón para firmar -->
-                          <a href="<?php echo $_smarty_tpl->tpl_vars['doc']->value['url_firma'];?>
+                        </button>
+                        <!-- Botón para firmar -->
+                        <a href="<?php echo $_smarty_tpl->tpl_vars['doc']->value['url_firma'];?>
 " target="_blank" class="btn btn-success rounded-circle" 
-                           style="width:40px;height:40px;padding:0;display:flex;align-items:center;justify-content:center;" 
-                           title="Firmar">
+                          style="width:40px;height:40px;padding:0;display:flex;align-items:center;justify-content:center;" 
+                          title="Firmar">
                           <i class="fas fa-pen-nib"></i>
-                          </a>
-                          <!-- Botón para verificar -->
-                          <a href="<?php echo $_smarty_tpl->tpl_vars['doc']->value['url_verify'];?>
+                        </a>
+                        <!-- Botón para verificar -->
+                        <a href="<?php echo $_smarty_tpl->tpl_vars['doc']->value['url_verify'];?>
 " target="_blank" class="btn btn-warning rounded-circle" 
-                           style="width:40px;height:40px;padding:0;display:flex;align-items:center;justify-content:center;" 
-                           title="Verificar">
+                          style="width:40px;height:40px;padding:0;display:flex;align-items:center;justify-content:center;" 
+                          title="Verificar">
                           <i class="fas fa-check-circle"></i>
-                          </a>
-                        </div>
-                        </td>
-                    </tr>
-                  <?php } ?>
-                <?php }else{ ?>
-                  <tr>
-                    <td colspan="5" class="table-empty">
-                      <i class="fas fa-inbox fa-2x mb-2"></i><br>
-                      No hay documentos pendientes
+                        </a>
+                      </div>
                     </td>
                   </tr>
-                <?php }?>
+                <?php } ?>
               </tbody>
             </table>
           </div>
@@ -248,6 +246,7 @@ $_smarty_tpl->tpl_vars['doc']->_loop = true;
     </div>
   </div>
 </div>
+<?php }?>
 
   </div>
 </div>
