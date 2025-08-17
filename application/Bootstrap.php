@@ -54,8 +54,10 @@ class Bootstrap
                 $template = null;
                 $graficas = null;
 
-                $rutaGenerador = ROOT . 'generators' . DS . $generator . 'Generator.php';
-                if (is_readable($rutaGenerador)) {
+                // NUEVO: búsqueda recursiva en subcarpetas de /generators
+                $rutaGenerador = self::buscarGenerador($generator);
+
+                if ($rutaGenerador && is_readable($rutaGenerador)) {
 
                     require_once $rutaGenerador;
                     $rutaControlador = ROOT . 'controllers' . DS . 'generatorController.php';
@@ -104,6 +106,33 @@ class Bootstrap
                 include("./public/files/500.php");
             }
         }
+    }
+
+    // NUEVO: búsqueda recursiva del archivo {Nombre}Generator.php dentro de /generators y subcarpetas
+    private static function buscarGenerador($generator)
+    {
+        $baseDir = ROOT . 'generators' . DS;
+        $filename = $generator . 'Generator.php';
+
+        // Búsqueda directa primero
+        $direct = $baseDir . $filename;
+        if (is_readable($direct)) {
+            return $direct;
+        }
+
+        // Búsqueda recursiva en subcarpetas
+        $iterator = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($baseDir),
+            RecursiveIteratorIterator::LEAVES_ONLY
+        );
+
+        foreach ($iterator as $file) {
+            if ($file->getFilename() === $filename) {
+                return $file->getPathname();
+            }
+        }
+
+        return null; // No se encontró el generador
     }
 }
 

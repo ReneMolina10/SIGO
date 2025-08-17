@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.8, created on 2025-08-15 00:45:40
+<?php /* Smarty version Smarty-3.1.8, created on 2025-08-17 02:20:05
          compiled from "C:\xampp\htdocs\SIGO\views\index\index.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:1594911989689ae6c21ba205-87266001%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '92da6b0187572523c05bacd7129ea552217bd92a' => 
     array (
       0 => 'C:\\xampp\\htdocs\\SIGO\\views\\index\\index.tpl',
-      1 => 1754590739,
+      1 => 1755415203,
       2 => 'file',
     ),
   ),
@@ -140,6 +140,27 @@ documentospropios/">Ingresar</a>
             </div>
           </div>
         </div>
+
+        <div class="col-12 col-sm-6 col-md-3   card-modulo">
+          <div class="card card-outline card-dark " style="width: ;">
+            <a title="Ingresar" href="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['root'];?>
+doc_firmados/index">
+              <!--<img class="card-img-top" src="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['root'];?>
+public/img/autoeval2.jpg" alt="Card image cap">-->
+              <img class="card-img-top" src="https://sigo.uqroo.mx/public/img/index/firmados.jpg" alt="Card image cap ">
+            </a>
+            <div class="card-body">
+              <h5 class="card-title text-left">
+                <b>Mis documentos firmados</b>
+              </h5>
+              <p class="card-text text-left">Documentos firmados.</p>
+            </div>
+            <div class="card-body div-boton">
+              <a role="button" class="btn btn-outline-dark  btn-block" title="" href="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['root'];?>
+doc_firmados/index">Ingresar</a>
+            </div>
+          </div>
+        </div>
       
     </div>
 
@@ -170,7 +191,7 @@ documentospropios/">Ingresar</a>
   <div class="col-12">
     <div class="card card-outline card-dark shadow rounded">
       <div class="card-header bg-dark text-white">
-        <h4 class="mb-0 d-inline"><i class="fas fa-file-signature mr-2"></i> Documentos pendientes</h4>
+        <h4 class="mb-0 d-inline"><i class="fas fa-file-signature mr-2"></i> Documentos pendientes por firmar</h4>
       </div>
       <div>
         <div class="card-body">
