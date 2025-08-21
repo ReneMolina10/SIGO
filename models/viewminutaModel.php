@@ -4,11 +4,14 @@ class viewminutaModel extends Model
 {
 
 
+
     public function getInfoGeneral($id)
     {
+
         $sql = "SELECT
             MD5(MIN_ID||'_minuta'), -- FILTRAR POR MINUTA
             MIN_PROCESO,
+            TIPO_DOCUMENTO,
             MIN_FOLIO,
             MIN_FECHA,
             MIN_HINICIO,
@@ -16,6 +19,10 @@ class viewminutaModel extends Model
             MIN_LUGAR,
             FOLIO_DOC,
             TH.LURES AS MIN_FK_AREAS_PARTICIPA,
+            RUTA_PDF_MINUTA,
+            METADATOS_DOC,
+            BINARIO_DOC,
+            TIPO_DOCUMENTO,
             MIN_CADENA AS CADENA_ORIGINAL_SHA_256
         FROM DOC_MINUTA DM
         LEFT JOIN TURESH TH ON TH.URES = DM.MIN_FK_AREAS_PARTICIPA
@@ -35,12 +42,16 @@ class viewminutaModel extends Model
 
     public function getAsuntos($id)
     {
+
+        $S_key = base64_encode(GENERATOR_TEXT_ENCRYPTION_KEY);
+
+
         $sql = "SELECT
             ASU_ID,
             ASU_FK_MINUTA, --FILTRAR POR MINUTA
             ASU_TEMA,
             LURES AS ASU_PRESENTA,
-            ASU_RESUMEN
+            MY_DECRYPT(ASU_RESUMEN, '$S_key') as  ASU_RESUMEN
         FROM DOC_MIN_ASUNTO
         LEFT JOIN TURESH ON URES = ASU_PRESENTA
         WHERE MD5(ASU_FK_MINUTA||'_minuta')  = :id";
@@ -49,11 +60,11 @@ class viewminutaModel extends Model
         $asuntos = $this->ssql($sql, $miarray);
 
         //desencriptado de ASU_RESUMEN
-        foreach ($asuntos as &$asunto) {
-            if (!empty($asunto['ASU_RESUMEN'])) {
-                $asunto['ASU_RESUMEN'] = $this->decryptValue($asunto['ASU_RESUMEN']);
-            }
-        }
+        /* foreach ($asuntos as &$asunto) {
+             if (!empty($asunto['ASU_RESUMEN'])) {
+                 $asunto['ASU_RESUMEN'] = $this->decryptValue($asunto['ASU_RESUMEN']);
+             }
+         }*/
 
         /* print_r($asuntos);
          exit;*/
@@ -83,9 +94,12 @@ class viewminutaModel extends Model
 
     public function getAcuerdos($id)
     {
+        $S_key = base64_encode(GENERATOR_TEXT_ENCRYPTION_KEY);
+
+
         $sql = "SELECT
             ACU_ID,
-            ACU_DESCRIPCION,
+             MY_DECRYPT(ACU_DESCRIPCION, '$S_key') as ACU_DESCRIPCION,
             ACU_RESPONSABLE AS RESPONSABLE_ID,
             TH.LURES AS ACU_RESPONSABLE,
             ACU_FECHA_FIN,
@@ -99,12 +113,16 @@ class viewminutaModel extends Model
         $acuerdos = $this->ssql($sql, $miarray);
 
 
-        //desencriptado de ACU_DESCRIPCION 
-        foreach ($acuerdos as &$acuerdo) {
-        if (!empty($acuerdo['ACU_DESCRIPCION'])) {
-            $acuerdo['ACU_DESCRIPCION'] = $this->decryptValue($acuerdo['ACU_DESCRIPCION']);
-        }
-    }
+        //desencriptado de ACU_DESCRIPCION
+
+        /* foreach ($acuerdos as &$acuerdo) {
+             if (!empty($acuerdo['ACU_DESCRIPCION'])) {
+                 $acuerdo['ACU_DESCRIPCION'] = $this->decryptValue($acuerdo['ACU_DESCRIPCION']);
+             }
+         }*/
+
+
+
         /* print_r($acuerdos);
          exit;*/
 
@@ -114,10 +132,12 @@ class viewminutaModel extends Model
 
     public function getMejoras($id)
     {
+        $S_key = base64_encode(GENERATOR_TEXT_ENCRYPTION_KEY);
+
         $sql = "SELECT
             MEJ_ID AS ID,
             MEJ_TIPO,
-            MEJ_DESCRIPCION,
+            MY_DECRYPT(MEJ_DESCRIPCION, '$S_key') as MEJ_DESCRIPCION,
             MEJ_FK_MINUTA
         FROM DOC_MIN_MEJORAS
         WHERE MD5(MEJ_FK_MINUTA||'_minuta') = :id";
@@ -126,11 +146,11 @@ class viewminutaModel extends Model
         $mejoras = $this->ssql($sql, $miarray);
 
         //desencriptado de MEJ_DESCRIPCION
-        foreach ($mejoras as &$mejora) {
+        /*foreach ($mejoras as &$mejora) {
             if (!empty($mejora['MEJ_DESCRIPCION'])) {
                 $mejora['MEJ_DESCRIPCION'] = $this->decryptValue($mejora['MEJ_DESCRIPCION']);
             }
-        }
+        }*/
 
         /* print_r($mejoras);
          exit;*/
@@ -176,9 +196,12 @@ class viewminutaModel extends Model
         return $firmantes;
     }
 
-protected function decryptValue(string $ciphertext): string {
-    list($iv, $cipher) = explode('::', base64_decode($ciphertext), 2);
-    return openssl_decrypt($cipher, 'AES-256-CBC', GENERATOR_TEXT_ENCRYPTION_KEY, 0, $iv);
-}
+
+
+    /* protected function decryptValue(string $ciphertext): string
+     {
+         list($iv, $cipher) = explode('::', base64_decode($ciphertext), 2);
+         return openssl_decrypt($cipher, 'AES-256-CBC', GENERATOR_TEXT_ENCRYPTION_KEY, 0, $iv);
+     }*/
 }
 

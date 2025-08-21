@@ -1,22 +1,20 @@
-<?php /* Smarty version Smarty-3.1.8, created on 2025-08-16 02:44:49
+<?php /* Smarty version Smarty-3.1.8, created on 2025-08-21 00:02:34
          compiled from "C:\xampp\htdocs\SIGO\views\layout\lte2\template.tpl" */ ?>
-<?php /*%%SmartyHeaderCode:1198887383689ae69fa31f97-90103798%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:185031199468a645fa786655-54237493%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     '15ee37b61377dd83e1aa3574210d0ec2750a4247' => 
     array (
       0 => 'C:\\xampp\\htdocs\\SIGO\\views\\layout\\lte2\\template.tpl',
-      1 => 1755330088,
+      1 => 1755649692,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '1198887383689ae69fa31f97-90103798',
+  'nocache_hash' => '185031199468a645fa786655-54237493',
   'function' => 
   array (
   ),
-  'version' => 'Smarty-3.1.8',
-  'unifunc' => 'content_689ae69fafbf47_22804519',
   'variables' => 
   array (
     '_layoutParams' => 0,
@@ -30,8 +28,10 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'js' => 0,
   ),
   'has_nocache_code' => false,
+  'version' => 'Smarty-3.1.8',
+  'unifunc' => 'content_68a645fa7d45a7_17667323',
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_689ae69fafbf47_22804519')) {function content_689ae69fafbf47_22804519($_smarty_tpl) {?><!DOCTYPE html>
+<?php if ($_valid && !is_callable('content_68a645fa7d45a7_17667323')) {function content_68a645fa7d45a7_17667323($_smarty_tpl) {?><!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
@@ -162,6 +162,17 @@ public/js/app.js?param1=<?php echo rand(time(),100000);?>
 <!-- funciones genericas franwork-->
 <script src="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['root'];?>
 public/js/generic_functions.js" type="text/javascript"></script>
+
+<!-- Select2 -->
+<script src="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['ruta_view'];?>
+plugins/select2/js/select2.full.min.js"></script>
+<script src="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['ruta_view'];?>
+plugins/select2/js/i18n/es.js"></script>
+<!-- CKEditor 5 -->
+ <link rel="stylesheet" href="https://sigo.uqroo.mx/files/layout/lte2/plugins/ckeditor5/ckeditor5/ckeditor5.css">
+
+
+
 
   <style type="text/css">
     body{ 
@@ -513,11 +524,6 @@ dist/js/pages/dashboard.js"></script>-->
 <!-- AdminLTE for demo purposes -->
 <!--<script src="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['ruta_view'];?>
 dist/js/demo.js"></script>-->
-<!-- Select2 -->
-<script src="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['ruta_view'];?>
-plugins/select2/js/select2.full.min.js"></script>
-<script src="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['ruta_view'];?>
-plugins/select2/js/i18n/es.js"></script>
 <!-- date-range-picker -->
 <script src="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['ruta_view'];?>
 plugins/daterangepicker/daterangepicker.js"></script>
@@ -775,8 +781,24 @@ public/js/jquery.nestable.js"></script>
 
     $(".bootstrap-switch-handle-on").html("SI"); 
     $(".bootstrap-switch-handle-off").html("NO"); 
+
+    
     
   </script>   
+
+  <script type="importmap">
+    {
+      "imports": {
+        "ckeditor5": "<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['ruta_view'];?>
+plugins/ckeditor5/ckeditor5/ckeditor5.js",
+        "ckeditor5/": "<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['ruta_view'];?>
+plugins/ckeditor5/ckeditor5/"
+      }
+    }
+    </script>
+  <script type="module" src="<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['ruta_view'];?>
+plugins/ckeditor5/ckeditor5/ckeditor-main.js?v=<?php echo rand(time(),100000);?>
+"></script>
 
 </body>
 </html>

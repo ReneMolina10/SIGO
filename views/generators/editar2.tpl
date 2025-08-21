@@ -37,7 +37,7 @@
 		{if isset($idiomas) }
 		<div class="bs-example bs-navbar-top-example" data-example-id="navbar-static-top"> 
 			<nav class="navbar navbar-default navbar-static-top">  
-		        <div class="container-fluid"> 
+		        <div class="container"> 
 		            <div class="navbar-header"> 
 		                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-8" aria-expanded="false"> 		
 		                    <span class="sr-only">Toggle navigation</span> 

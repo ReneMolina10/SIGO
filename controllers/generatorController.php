@@ -178,7 +178,7 @@ class generatorController extends Controller{
 					echo "Acción no permitida.";
 					exit;
 				}else{
-					$datos = $this->data_untransform($datos);
+					// $datos = $this->data_untransform($datos);
 					$this->_view->assign('d',$datos);
 				}
 			}
@@ -564,7 +564,7 @@ class generatorController extends Controller{
 		}
 
 		//Aplico función que modifica los datos antes de guardarlos 
-		$post = $this->data_transform($post);
+		//$post = $this->data_transform($post);
 
 		$res = $this->_m->putInfo($post, $this->_c);
 		$response = array();
@@ -2046,7 +2046,9 @@ function infosort($filtro="")
 	}
 
 	
+	
 	//// Funciones para cifrar y descifrar campos text/textarea
+	/*
 	protected function encryptValue(string $plaintext): string {
 		$ivLen  = openssl_cipher_iv_length('AES-256-CBC');
 		$iv     = openssl_random_pseudo_bytes($ivLen);
@@ -2057,6 +2059,7 @@ function infosort($filtro="")
 		list($iv, $cipher) = explode('::', base64_decode($ciphertext), 2);
 		return openssl_decrypt($cipher, 'AES-256-CBC', GENERATOR_TEXT_ENCRYPTION_KEY, 0, $iv);
 	}
+	*/
 	public function generarClave()
     {
         // Genera 32 bytes aleatorios (256 bits)
@@ -2066,6 +2069,51 @@ function infosort($filtro="")
         echo base64_encode($bytes);
         exit; // para no seguir con el flujo normal
     }
+
+
+	//----------------------------------------------------
+
+	// nueva funcion para encriptar y desencriptar
+
+	
+	protected function encryptValue(string $plaintext): string {
+		$key = base64_decode(GENERATOR_TEXT_ENCRYPTION_KEY); // Igual que en PL/SQL
+		$ivLen = openssl_cipher_iv_length('AES-256-CBC');
+		$iv = openssl_random_pseudo_bytes($ivLen);
+
+		$ciphertextRaw = openssl_encrypt($plaintext, 'AES-256-CBC', $key, OPENSSL_RAW_DATA, $iv);
+
+		// Combinar IV + separador seguro + texto cifrado
+		$combined = $iv . '::' . $ciphertextRaw;
+
+		return base64_encode($combined);
+	}
+
+	protected function decryptValue(string $ciphertext): string {
+		$key = base64_decode(GENERATOR_TEXT_ENCRYPTION_KEY);
+
+		$decoded = base64_decode($ciphertext, true);
+		if ($decoded === false) {
+			throw new \Exception('Formato Base64 inválido');
+		}
+
+		// Buscar separador '::' en los primeros bytes (posición 16 a 18)
+		$sepPos = strpos($decoded, '::', 16); // Después del IV (16 bytes)
+		if ($sepPos === false) {
+			throw new \Exception('Formato de datos incorrecto: no se encontró el separador');
+		}
+
+		$iv = substr($decoded, 0, 16);
+		$cipherRaw = substr($decoded, $sepPos + 2);
+
+		$plaintext = openssl_decrypt($cipherRaw, 'AES-256-CBC', $key, OPENSSL_RAW_DATA, $iv);
+
+		if ($plaintext === false) {
+			throw new \Exception('Fallo en desencriptación');
+		}
+
+		return $plaintext;
+	}
 	//----------------------------------------------------
 
 	 /**
@@ -2084,4 +2132,5 @@ function infosort($filtro="")
 
 
 }
+
 ?>

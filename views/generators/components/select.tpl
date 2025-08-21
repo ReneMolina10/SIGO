@@ -5,7 +5,7 @@
 	</div>
 {/if}
 
-<select  id="{$f.campo|default:""}"  class="form-control {$f.class|default:""}" name="{$f.campo|default:""}" id="{$f.campo|default:""}" style="width:100%"
+<select  id="{$f.campo|default:""}"  class="form-control {$f.class|default:""}" name="{$f.campo|default:""}" style="width:100%"
 	{if isset($f.disabled) && $f.disabled== "true"} disabled {/if}
 	{if $f.required|default:"false" == "true"} required  {/if} 
 
@@ -59,21 +59,57 @@
 	{/if}
 
 
-
+		
 	{if !isset($f.disabled) || $f.disabled == "false"}
 		$(document).ready(function(){ 
-			$("#{$f.campo|default:""}").select2({
-				theme: 'default',
-				/*placeholder: {
-				    id: '0', // the value of the option
-				    text: 'Seleccione una opción'
-				},*/
-				placeholder: "Seleccione...",
-				language: 'es',
-				//allowClear: true,			
-			});
+
+
+			var id = '#{$f.campo|default:""}';
+			var tries = 0;
+
+			//inicializar Select2 cuando el <select> ya exista en el DOM del modal (porque en los generators hijos el <script> se ejecuta antes de que se inserte (se tiene que solucionar esto)).
+			(function wait(){
+				var $el = $(id);
+				//console.log('[S2] wait try=' + tries + ' exists=' + $el.length);
+				if ($el.length) {
+					if (typeof $.fn.select2 === 'function' && !$el.hasClass('select2-hidden-accessible')) {
+						var $parent = $el.closest('.modal');
+						$el.select2({
+							theme: 'bootstrap4',
+							placeholder: 'Seleccione...',
+							language: 'es',
+							width: '100%',
+							dropdownParent: $parent.length ? $parent : $(document.body)
+						});
+						//console.log('[S2] init done');
+					}
+					return;
+				}
+				if (++tries < 20) setTimeout(wait, 50); //50 ms, reintenta hasta ~1s
+			})();
+
+
+			/*anterior*/
+			// $("#{$f.campo|default:""}").select2({
+			// 	theme: 'default',
+			// 	/*placeholder: {
+			// 	    id: '0', // the value of the option
+			// 	    text: 'Seleccione una opción'
+			// 	},*/
+			// 	placeholder: "Seleccione...",
+			// 	language: 'es',
+			// 	//allowClear: true,			
+			// });
+	
+
+
+
+
+
+
 		 });
 
+		
 
 
 		banderaSelectGenerator = true;

@@ -30,8 +30,9 @@ class doc_firmadosModel extends Model
 
         // Se filtra por firmante con estatus 3 y correo del usuario actual
         // Se hace join por TDOC_DOCUMENTO = TDFI_DOCUMENTO
-        $sql = "
-            SELECT  d.*,
+        $sql = " SELECT  d.*,
+                    TO_CHAR(d.TDOC_FECHA_FIRMA,'DD/MON/YYYY - HH:MI AM','NLS_DATE_LANGUAGE=SPANISH') AS TDOC_FECHA_FIRMA_FMT,
+                    TO_CHAR(d.TDOC_FECHA,'DD/MON/YYYY - HH:MI AM','NLS_DATE_LANGUAGE=SPANISH')       AS TDOC_FECHA_FMT,
                     f.TDFI_CORREO,
                     f.TDFI_ESTATUS,
                     f.TDFI_NOMBRE,

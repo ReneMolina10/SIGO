@@ -1,22 +1,20 @@
-<?php /* Smarty version Smarty-3.1.8, created on 2025-08-16 02:44:49
+<?php /* Smarty version Smarty-3.1.8, created on 2025-08-21 00:02:34
          compiled from "C:\xampp\htdocs\SIGO\views\generators\editar.tpl" */ ?>
-<?php /*%%SmartyHeaderCode:1122910153689ae75ab167e2-94650281%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:188049460268a645fa80c750-98931320%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     '4dbdd41584c1a8ed625d769d217953d12629ebda' => 
     array (
       0 => 'C:\\xampp\\htdocs\\SIGO\\views\\generators\\editar.tpl',
-      1 => 1755330044,
+      1 => 1755667824,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '1122910153689ae75ab167e2-94650281',
+  'nocache_hash' => '188049460268a645fa80c750-98931320',
   'function' => 
   array (
   ),
-  'version' => 'Smarty-3.1.8',
-  'unifunc' => 'content_689ae75aba0ca5_46333671',
   'variables' => 
   array (
     '_layoutParams' => 0,
@@ -35,8 +33,10 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'f' => 0,
   ),
   'has_nocache_code' => false,
+  'version' => 'Smarty-3.1.8',
+  'unifunc' => 'content_68a645fa81d531_06881547',
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_689ae75aba0ca5_46333671')) {function content_689ae75aba0ca5_46333671($_smarty_tpl) {?>
+<?php if ($_valid && !is_callable('content_68a645fa81d531_06881547')) {function content_68a645fa81d531_06881547($_smarty_tpl) {?>
 <style>
 
 .content{
@@ -48,7 +48,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 
 
 </style>
-
+<div class="container">
 <form class="bs-example bs-example-form prevent-submit" data-example-id="simple-input-groups" id="formp" name="formp" action="javascript:guardar_generator('<?php echo $_smarty_tpl->tpl_vars['_layoutParams']->value['root'];?>
 <?php echo $_smarty_tpl->tpl_vars['controlador']->value;?>
 ',false,'formp')" method="post" enctype="multipart/form-data">
@@ -91,7 +91,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 		<?php if (isset($_smarty_tpl->tpl_vars['idiomas']->value)){?>
 		<div class="bs-example bs-navbar-top-example" data-example-id="navbar-static-top"> 
 			<nav class="navbar navbar-default navbar-static-top">  
-		        <div class="container-fluid"> 
+		        <div class="container"> 
 		            <div class="navbar-header"> 
 		                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-8" aria-expanded="false"> 		
 		                    <span class="sr-only">Toggle navigation</span> 
@@ -199,4 +199,5 @@ $_smarty_tpl->tpl_vars['f']->_loop = true;
 	<?php } ?>*/
 
 
-</script><?php }} ?>
+</script>
+<div><?php }} ?>

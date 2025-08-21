@@ -43,7 +43,7 @@
 
 		{if $f.col|default:""!=""} <div class="{$f.col}"> {/if}
 		<div class="form-group">
-		{if $f.label|default:"" != ""}
+		{if $f.label|default:"" != "" && $f.tipo!="crud-table" }
 		<label for="{$f.campo}">{$f.label}: {if isset($f.required) && $f.required== "true"} <span style="color:red">*</span> {/if}
 			{if isset($f.info_tooltip) && $f.info_tooltip != '' }  
 				<span style="font-size: 85%" data-toggle="tooltip" title="" class="custom-tooltip badge badge-info" data-original-title='{$f.info_tooltip }'>?</span>
@@ -156,6 +156,10 @@
 		{else if $f.tipo=="crud-table" }
 
 			{include file="views/generators/components/crud_table.tpl"}
+		
+		{else if $f.tipo=="editor" }
+			
+			{include file="views/generators/components/CKEditor5.tpl"}
 
 		{/if}
 

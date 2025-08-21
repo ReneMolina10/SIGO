@@ -10,7 +10,7 @@
 
 
 </style>
-
+<div class="container">
 <form class="bs-example bs-example-form prevent-submit" data-example-id="simple-input-groups" id="formp" name="formp" action="javascript:guardar_generator('{$_layoutParams.root}{$controlador}',false,'formp')" method="post" enctype="multipart/form-data">
 
 	{if $nameCrudTable}
@@ -42,7 +42,7 @@
 		{if isset($idiomas) }
 		<div class="bs-example bs-navbar-top-example" data-example-id="navbar-static-top"> 
 			<nav class="navbar navbar-default navbar-static-top">  
-		        <div class="container-fluid"> 
+		        <div class="container"> 
 		            <div class="navbar-header"> 
 		                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-8" aria-expanded="false"> 		
 		                    <span class="sr-only">Toggle navigation</span> 
@@ -126,3 +126,4 @@
 
 
 </script>
+<div>

@@ -1,7 +1,7 @@
 <?php
-require_once 'c:/xampp/htdocs/SIGO/libs/composer_fpdi/vendor/autoload.php';
+require_once 'libs/composer_fpdi/vendor/autoload.php';
 
-use setasign\Fpdi\Tcpdf\Fpdi; 
+use setasign\Fpdi\Tcpdf\Fpdi;
 
 // HABILITAR CORS para permitir acceso desde efirma.uqroo.mx
 header("Access-Control-Allow-Origin: https://efirma.uqroo.mx");
@@ -30,7 +30,7 @@ class pdfl extends FPDI
         }
     }
 
-      protected function addWatermark()
+    protected function addWatermark()
     {
         if ($this->showWatermark) {
             $this->SetAlpha(0.15);
@@ -64,8 +64,8 @@ class pdfl extends FPDI
         $this->SetAutoPageBreak(false, 0);
 
         // Resto del encabezado
-        $img_file = '/opt/sitios/gesco/public/img//UQROO.png';
-        $this->Image($img_file, 20, 0, 20, 24, '', '', '', false, 300, '', false, false, 0);
+        /*$img_file = '/opt/sitios/gesco/public/img//UQROO.png';
+        $this->Image($img_file, 20, 0, 20, 24, '', '', '', false, 300, '', false, false, 0);*/
 
         $this->SetFont('aealarabiya', 'B', 23);
         $this->SetTextColor(60, 120, 90);
@@ -73,7 +73,7 @@ class pdfl extends FPDI
         $this->SetTextColor(0, 0, 0);
 
         $y = 23;
-      
+
 
         $this->SetAutoPageBreak($auto_page_break, $bMargin);
         $this->setPageMark();
@@ -81,10 +81,10 @@ class pdfl extends FPDI
 
     function Footer()
     {
-         // Agregar marca de agua primero
+        // Agregar marca de agua primero
         $this->addWatermark();
         $this->folioVertical();
-        
+
         $this->SetY(-15);
         $this->SetFont('helvetica', 'I', 8);
         $this->Cell(0, 10, 'Página ' . $this->getAliasNumPage() . '/' . $this->getAliasNbPages(), 0, 0, 'C');
@@ -102,66 +102,76 @@ class viewdocpropioController extends Controller
     }
 
     public function index()
-    {       
+    {
     }
 
 
 
 
     function previsualizarPDF($id)
-{
+    {
 
-    /*
+        $firmantesPDF = $this->_nom->getFirmantes($id);
 
 
-       echo "<pre>";
-        print_r($_SERVER['HTTP_REFERER']);
-        echo "</pre>";
+        $totalFirmantes = is_array($firmantesPDF) ? count($firmantesPDF) : 0;
 
-        echo "-- $id  ---"; exit();
+        $noSolicitado = true;
+        if ($totalFirmantes > 0) {
+            foreach ($firmantesPDF as $f) {
 
-        ini_set('display_errors', 1);
-        error_reporting(E_ALL);
-        */
+                if (isset($f['DP_STATUS_FIRMANTE_DOC']) == '') {
+                    $noSolicitado = false;
+                }
+            }
+        }
 
-       /*$referer = $_SERVER['HTTP_REFERER'] ?? '';
 
-            if (
-                strpos($referer, 'https://sigo.uqroo.mx') === false &&
-                strpos($referer, 'https://efirma.uqroo.mx') === false
-            ) {
-                echo "No permitido";
-                exit();
-            }*/
-    // Obtener información del documento propio desde el modelo
-    $infoDocPro = $this->_nom->getInfoDocPro($id);
-    $firmantesPDF = $this->_nom->getFirmantes($id);
+        if ($noSolicitado) {
+            $this->getFirma($id);
+        }
 
-    
-/*
-echo "<pre>";
-    print_r($firmantesPDF);
-    echo "</pre>";
-    exit;*/
-    // Verificar si se obtuvo información del documento
-    if (!$infoDocPro ||  !isset($infoDocPro['DP_ID'])) {
-        echo "No se encontró información del documento.";
-        return;
-    }
 
-    // Ruta del archivo PDF existente
-    $rutaPDF = 'C:/xampp/htdocs/SIGO/documentos_almacenados/Doc_propios/' . $infoDocPro['DP_ID'] . '/' . $infoDocPro['DP_ID'] . '.pdf';
+        $referer = $_SERVER['HTTP_REFERER'] ?? '';
 
-    // Verificar si el archivo existe
-    if (!file_exists($rutaPDF)) {
-        echo "El archivo no existe en la ruta: " . $rutaPDF;
-        return;
-    }
+        if (
+            strpos($referer, 'https://sigo.uqroo.mx') === false &&
+            strpos($referer, 'https://efirma.uqroo.mx') === false
+        ) {
+            echo "No permitido";
+            exit();
+        }
 
-    // Crear una instancia de la clase pdfl
-     $pdf = new pdfl(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
-     // Contar firmantes y firmantes finalizados
+
+        $infoDocPro = $this->_nom->getInfoDocPro($id);
+        $firmantesPDF = $this->_nom->getFirmantes($id);
+
+
+        /*
+        echo "<pre>";
+            print_r($firmantesPDF);
+            echo "</pre>";
+            exit;*/
+        // Verificar si se obtuvo información del documento
+        if (!$infoDocPro || !isset($infoDocPro['DP_ID'])) {
+            echo "No se encontró información del documento.";
+            return;
+        }
+
+        // Ruta del archivo PDF existente
+        $rutaPDF = $_SERVER['DOCUMENT_ROOT'] . 'documentos_almacenados/Doc_propios/' . $infoDocPro['DP_ID'] . '/' . 'documento.pdf';
+
+        // Verificar si el archivo existe
+        if (!file_exists($rutaPDF)) {
+            echo "El archivo no existe en la ruta: " . $rutaPDF;
+            return;
+        }
+
+        // Crear una instancia de la clase pdfl
+        $pdf = new pdfl(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+
+        // Contar firmantes y firmantes finalizados
         $totalFirmantes = is_array($firmantesPDF) ? count($firmantesPDF) : 0;
         $firmantesFinalizados = 0;
         if ($totalFirmantes > 0) {
@@ -171,61 +181,61 @@ echo "<pre>";
                 }
             }
         }
-     $pdf->showWatermark = ($totalFirmantes == 0 || $firmantesFinalizados < $totalFirmantes);
-    
+        $pdf->showWatermark = ($totalFirmantes == 0 || $firmantesFinalizados < $totalFirmantes);
 
-     $pdf->folioDocumento = $infoDocPro['DP_FOLIO_DOC'] ?? '';
-    // Importar el PDF existente
-    try {
-        $pageCount = $pdf->setSourceFile($rutaPDF);
-    } catch (Exception $e) {
-        echo "Error al cargar el archivo PDF: " . $e->getMessage();
-        return;
-    }
 
-    // Agregar todas las páginas del PDF existente
-    for ($i = 1; $i <= $pageCount; $i++) {
-        $tplIdx = $pdf->importPage($i);
-        $pdf->AddPage();
-        $pdf->useTemplate($tplIdx);
-    }
+        $pdf->folioDocumento = $infoDocPro['DP_FOLIO_DOC'] ?? '';
+        // Importar el PDF existente
+        try {
+            $pageCount = $pdf->setSourceFile($rutaPDF);
+        } catch (Exception $e) {
+            echo "Error al cargar el archivo PDF: " . $e->getMessage();
+            return;
+        }
 
-    // Verificar si el documento tiene cadena original
-    if (!empty($infoDocPro['DP_CADENA_ORIGINAL'])) {
-    // Configuración de página adicional
-    $pdf->setPrintHeader(false);
-    $pdf->AddPage('P', 'LETTER');
-    $pdf->setPrintFooter(true);
+        // Agregar todas las páginas del PDF existente
+        for ($i = 1; $i <= $pageCount; $i++) {
+            $tplIdx = $pdf->importPage($i);
+            $pdf->AddPage();
+            $pdf->useTemplate($tplIdx);
+        }
 
-    // Encabezado del documento
-    $pdf->SetFont('aealarabiya', 'B', 14, '', true);
-    $pdf->SetY(15);
-    $pdf->Cell(0, 0, 'Constancia de Verificación de Documentos Digitales', 0, 1, 'C');
-    $pdf->SetFont('helvetica', '', 8, '', true);
-    $pdf->Ln(5);
+        // Verificar si el documento tiene cadena original
+        if (!empty($infoDocPro['DP_CADENA_ORIGINAL'])) {
+            // Configuración de página adicional
+            $pdf->setPrintHeader(false);
+            $pdf->AddPage('P', 'LETTER');
+            $pdf->setPrintFooter(true);
 
-    // Sección QR y Cadena Original
-    $x = $pdf->GetX();
-    $y = $pdf->GetY();
-    $qrSize = 40;
-    $urlQR = "https://efirma.uqroo.mx/verify/" . $infoDocPro['DP_ID'];
+            // Encabezado del documento
+            $pdf->SetFont('aealarabiya', 'B', 14, '', true);
+            $pdf->SetY(15);
+            $pdf->Cell(0, 0, 'Constancia de Verificación de Documentos Digitales', 0, 1, 'C');
+            $pdf->SetFont('helvetica', '', 8, '', true);
+            $pdf->Ln(5);
 
-    // QR Code con borde
-    $pdf->SetDrawColor(200, 200, 200);
-    $pdf->Rect($x, $y, $qrSize, $qrSize, 'D');
-    $pdf->write2DBarcode(
-        $urlQR,
-        'QRCODE,H',
-        $x + 2,  // Margen interno
-        $y + 2,  // Margen interno
-        $qrSize - 4,
-        $qrSize - 4,
-        [],
-        'N'
-    );
+            // Sección QR y Cadena Original
+            $x = $pdf->GetX();
+            $y = $pdf->GetY();
+            $qrSize = 40;
+            $urlQR = "https://efirma.uqroo.mx/verify/" . $infoDocPro['DP_ID'];
 
-    // Cadena Original
-    $htmlCadena = <<<EOD
+            // QR Code con borde
+            $pdf->SetDrawColor(200, 200, 200);
+            $pdf->Rect($x, $y, $qrSize, $qrSize, 'D');
+            $pdf->write2DBarcode(
+                $urlQR,
+                'QRCODE,H',
+                $x + 2,  // Margen interno
+                $y + 2,  // Margen interno
+                $qrSize - 4,
+                $qrSize - 4,
+                [],
+                'N'
+            );
+
+            // Cadena Original
+            $htmlCadena = <<<EOD
 <table border="0" cellpadding="4" cellspacing="0" style="width:100%;">
     <tr>
         <td style="text-align:left; font-size:11px; font-weight:bold; border-bottom:1px solid #ddd; padding-bottom:3px;"><strong>CADENA ORIGINAL</strong>
@@ -239,14 +249,14 @@ echo "<pre>";
 </table>
 EOD;
 
-    $pdf->SetXY($x + $qrSize + 8, $y);
-    $pdf->writeHTML($htmlCadena, true, false, true, false, '');
-    $pdf->Ln(8);
+            $pdf->SetXY($x + $qrSize + 8, $y);
+            $pdf->writeHTML($htmlCadena, true, false, true, false, '');
+            $pdf->Ln(8);
 
-    // Sección de Firmas Digitales
-    if (!empty($firmantesPDF)) {
-        $pdf->Ln(10); // Espacio antes de la tabla de firmantes
-        $htmlFirmantes = <<<EOD
+            // Sección de Firmas Digitales
+            if (!empty($firmantesPDF)) {
+                $pdf->Ln(10); // Espacio antes de la tabla de firmantes
+                $htmlFirmantes = <<<EOD
 <table border="0" cellpadding="2" cellspacing="0" style="width:100%;">
     <tr>
         <td style="font-weight:bold; text-align:left; border-bottom:1px solid #ddd; padding-bottom:1px;">FIRMAS AUTORIZADAS MEDIANTE CERTIFICACIÓN DIGITAL
@@ -254,34 +264,34 @@ EOD;
     </tr>
 EOD;
 
-        foreach ($firmantesPDF as $firmante) {
-            $nombre = mb_strtoupper($firmante['DP_NOMBRE'], 'UTF-8');
-            $nombrePrefijo = mb_strtoupper($firmante['FIRMANTE'], 'UTF-8');
-            $cargo = mb_strtoupper($firmante['DP_CARGO'], 'UTF-8');
-            $curp = mb_strtoupper($firmante['DP_CURP'], 'UTF-8');
-            $firma = $firmante['DP_SHA_SIGNATURE'] ?? '<span style="color:#d32f2f;font-weight:bold;">En Espera De Firma Digital</span>';
-            $fechaFirma = $firmante['DP_DATESIGN'] ?? '<span style="color:#d32f2f;font-weight:bold;">Sin Fecha</span>';
-            $estadoFirma = $firmante['DP_STATUS_FIRMANTE_DOC'] ?? 'SIN ESTADO DE FIRMA';
-            $folioUnicoSeguimiento = $firmante['DP_ID_SEGUIMIENTO'] ?? 'N/A';
-            $tipoDocumento = $infoDocPro['DP_TIPO_DOCUMENTO'] ?? 'N/A';
+                foreach ($firmantesPDF as $firmante) {
+                    $nombre = mb_strtoupper($firmante['DP_NOMBRE'], 'UTF-8');
+                    $nombrePrefijo = mb_strtoupper($firmante['FIRMANTE'], 'UTF-8');
+                    $cargo = mb_strtoupper($firmante['DP_CARGO'], 'UTF-8');
+                    $curp = mb_strtoupper($firmante['DP_CURP'], 'UTF-8');
+                    $firma = $firmante['DP_SHA_SIGNATURE'] ?? '<span style="color:#d32f2f;font-weight:bold;">En Espera De Firma Digital</span>';
+                    $fechaFirma = $firmante['DP_DATESIGN'] ?? '<span style="color:#d32f2f;font-weight:bold;">Sin Fecha</span>';
+                    $estadoFirma = $firmante['DP_STATUS_FIRMANTE_DOC'] ?? 'SIN ESTADO DE FIRMA';
+                    $folioUnicoSeguimiento = $firmante['DP_ID_SEGUIMIENTO'] ?? 'N/A';
+                    $tipoDocumento = $infoDocPro['DP_TIPO_DOCUMENTO'] ?? 'N/A';
 
-            // Traducción de estado
-            switch ($estadoFirma) {
-                case 1:
-                    $estadoTexto = '<span style="color:#d32f2f;font-weight:bold;">Sin estado</span>';
-                    break;
-                case 2:
-                    $estadoTexto = '<span style="color:#fbc02d;font-weight:bold;">En espera</span>';
-                    break;
-                case 3:
-                    $estadoTexto = '<span style="color:#388e3c;font-weight:bold;">Finalizado</span>';
-                    break;
-                default:
-                    $estadoTexto = 'SIN ESTADO DE FIRMA';
-                    break;
-            }
+                    // Traducción de estado
+                    switch ($estadoFirma) {
+                        case 1:
+                            $estadoTexto = '<span style="color:#d32f2f;font-weight:bold;">Sin estado</span>';
+                            break;
+                        case 2:
+                            $estadoTexto = '<span style="color:#fbc02d;font-weight:bold;">En espera</span>';
+                            break;
+                        case 3:
+                            $estadoTexto = '<span style="color:#388e3c;font-weight:bold;">Finalizado</span>';
+                            break;
+                        default:
+                            $estadoTexto = 'SIN ESTADO DE FIRMA';
+                            break;
+                    }
 
-            $htmlFirmantes .= <<<EOD
+                    $htmlFirmantes .= <<<EOD
 <tr>
     <td style="border-bottom:1px solid #ddd; padding-bottom:4px;">
         <span style="font-weight:bold; font-size:9px;">{$nombrePrefijo} - {$cargo}</span><br>
@@ -290,28 +300,45 @@ EOD;
             <strong>Fecha Firma:</strong> {$fechaFirma} | 
             <strong>Estado:</strong> {$estadoTexto}<br>
             <strong>Sistema:</strong> SISTEMA INSTITUCIONAL DE GESTIÓN DE OFICIOS | {$tipoDocumento}<br>
+EOD;
+
+                    // Mostrar $folioUnicoSeguimiento solo si $firma está vacío
+                    if (empty($firma) || $firma === '<span style="color:#d32f2f;font-weight:bold;">En Espera De Firma Digital</span>') {
+                        $htmlFirmantes .= <<<EOD
             <strong>Folio Seguimiento:</strong> {$folioUnicoSeguimiento}<br>
+             <strong>Validación Cifrada de la Firma Electrónica:</strong> 
+            <span style="font-family:aealarabiya; font-size:8px;">{$firma}</span>
+EOD;
+                    }
+
+                    // Mostrar $firma si no está vacío
+                    if (!empty($firma) && $firma !== '<span style="color:#d32f2f;font-weight:bold;">En Espera De Firma Digital</span>') {
+                        $htmlFirmantes .= <<<EOD
             <strong>Validación Cifrada de la Firma Electrónica:</strong> 
             <span style="font-family:aealarabiya; font-size:8px;">{$firma}</span>
+EOD;
+                    }
+
+                    $htmlFirmantes .= <<<EOD
         </span>
     </td>
 </tr>
 EOD;
+                }
+
+                $htmlFirmantes .= "</table>";
+                $pdf->writeHTML($htmlFirmantes, true, false, true, false, '');
+            }
         }
 
-        $htmlFirmantes .= "</table>";
-        $pdf->writeHTML($htmlFirmantes, true, false, true, false, '');
+
+        // Mostrar el PDF en el navegador
+        ob_clean(); // Limpia el buffer de salida para evitar errores
+        $pdf->Output('documento_modificado.pdf', 'I');
     }
-}
-    
-
-    // Mostrar el PDF en el navegador
-    ob_clean(); // Limpia el buffer de salida para evitar errores
-    $pdf->Output('documento_modificado.pdf', 'I');
-}
 
 
- public function generarCadenaOriginal($id)
+    public function generarCadenaOriginal($id)
     {
 
         $this->forzarLogin();
@@ -321,7 +348,7 @@ EOD;
 
         // Obtener los datos
         $postInfoDocPro = $this->_nom->getInfoDocPro($id);
-        
+
 
         // Validar datos
         if (empty($postInfoDocPro)) {
@@ -331,11 +358,20 @@ EOD;
 
         // Solo los campos requeridos
         $data = [
-            $postInfoDocPro['DP_FOLIO_DOC'], $postInfoDocPro['DP_DENOMINACION'],
-            $postInfoDocPro['DP_FOLIO'], $postInfoDocPro['DP_FECHA'], $postInfoDocPro['DP_TIPO_DOCUMENTO'],
+            $postInfoDocPro['DP_TIPO_DOCUMENTO'],
+            $postInfoDocPro['DP_FOLIO_DOC'],
+            $postInfoDocPro['DP_DENOMINACION'],
+            $postInfoDocPro['DP_FOLIO'],
+            $postInfoDocPro['DP_FECHA'],
+            $postInfoDocPro['METADATOS_DOC'],
+             'Binario: ' . $postInfoDocPro['BINARIO_DOC']
+
         ];
 
-
+        echo json_encode([
+            'data' => $data
+        ], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+    
         $cadena = implode('|', $data);
 
         $sql = "UPDATE DOC_PROPIOS SET DP_CADENA_ORIGINAL = :cadena WHERE MD5(DP_ID||'_docpro') = :id";
@@ -351,8 +387,8 @@ EOD;
         */
     }
 
-    
-     public function prefirmado($id)
+
+    public function prefirmado($id)
     {
 
         $this->forzarLogin();
@@ -365,14 +401,14 @@ EOD;
 
         $postInfoDocPro = $this->_nom->getInfoDocPro($id);
         $firmantesPDF = $this->_nom->getFirmantes($id);
-     /* echo '<pre>';
-          echo "ID recibido: $id\n";
-          echo "infoGen:\n";
-          print_r($postInfoDocPro);
-          echo "firmantes:\n"; DP_FOLIO_DOC
-          print_r($firmantesPDF);
-          echo '</pre>';
-          exit;*/
+        /* echo '<pre>';
+             echo "ID recibido: $id\n";
+             echo "infoGen:\n";
+             print_r($postInfoDocPro);
+             echo "firmantes:\n"; DP_FOLIO_DOC
+             print_r($firmantesPDF);
+             echo '</pre>';
+             exit;*/
 
         $totalFirmantes = is_array($firmantesPDF) ? count($firmantesPDF) : 0;
         $firmantesFirmados = 0;
@@ -432,18 +468,23 @@ EOD;
     }
 
 
-    public function generarCadenaYFirma($doc_id)
+    public function generarCadenaYFirma($id)
     {
         $this->forzarLogin();
 
-
+        // Limpia el buffer antes de enviar la respuesta JSON
+        ob_clean();
         header('Content-Type: application/json');
+
         try {
-            $this->generarCadenaOriginal($doc_id);
-            $this->firmaDigital($doc_id);
+            
+            $this->extraerMetadatosPDF($id);
+            $this->binFOpen($id);
+            $this->generarCadenaOriginal($id);
+            $this->firmaDigital($id);
             echo json_encode([
                 'success' => true,
-                'redirect' => BASE_URL . 'viewdocpropio/prefirmado/' . $doc_id
+                                
             ]);
         } catch (Exception $e) {
             http_response_code(500);
@@ -451,7 +492,7 @@ EOD;
         }
         exit;
     }
-    
+
 
     //* METODO DE FIRMA ELECTRONICA
 
@@ -481,9 +522,9 @@ EOD;
         $docPayload = [
             'signatureType' => 'FEAU',
             'sendInvites' => true,
-            'externalId' => 'SIGO-' . $postInfoDocPro['DP_TIPO_DOCUMENTO'] . $id, 
-            'iframePath' => BASE_URL . 'viewdocpro/previsualizarPDF/' . $id,
-            'canonicalString' => '|SIGO|'.$postInfoDocPro['DP_TIPO_DOCUMENTO'].'|UAQROO|' . $postInfoDocPro['DP_CADENA_ORIGINAL'] . '|',// $InfOGen['CADENA_ORIGINAL_SHA_256']
+            'externalId' => $postInfoDocPro['DP_TIPO_DOCUMENTO']  . '|' . $id,
+            'iframePath' => BASE_URL . 'viewdocpropio/previsualizarPDF/' . $id,
+            'canonicalString' => '|SIGO|' . $postInfoDocPro['DP_TIPO_DOCUMENTO'] . '|UAQROO|' . $postInfoDocPro['DP_CADENA_ORIGINAL'] . '|',// $InfOGen['CADENA_ORIGINAL_SHA_256']
             'signers' => array_map(function ($firmante) {
                 return [
                     'name' => $firmante['DP_NOMBRE'],
@@ -517,12 +558,12 @@ EOD;
   */
 
 
-        $docId          = $created['id'];
-        $folio          = $created['folio'];
-        $idexterno      = $created['externalId'];
-        $status         = $created['status'];
-        $date_created   = $created['fecha_creacion'];
-        $dateSign       = $created['dateSign'];
+        $docId = $created['id'];
+        $folio = $created['folio'];
+        $idexterno = $created['externalId'];
+        $status = $created['status'];
+        $date_created = $created['fecha_creacion'];
+        $dateSign = $created['dateSign'];
 
 
         $sql = "UPDATE DOC_PROPIOS 
@@ -532,11 +573,11 @@ EOD;
                         DP_STATUS_DOC = :status                      
                              WHERE MD5(DP_ID||'_docpro') = :docpro_id ";
         $params = array(
-            ':folio'        => $folio,
-            ':id'           => $docId,
-            ':externalId'   => $idexterno,
-            ':status'       => $status,
-            ':docpro_id'    => $id,
+            ':folio' => $folio,
+            ':id' => $docId,
+            ':externalId' => $idexterno,
+            ':status' => $status,
+            ':docpro_id' => $id,
 
         );
 
@@ -556,11 +597,11 @@ EOD;
 
         // Extraemos el folio del firmante (primer firmante)
         foreach ($doc['signers'] as $signer) {
-            $firmanteFolio          = $signer['folio'];
-            $firmanteStatus         = $signer['status'];
-            $firmantefirma          = $signer['signature'];
-            $firmantefechafirmado   = $signer['dateSign'];
-            $firmanteCurp           = $signer['numberId']; // CURP del firmante
+            $firmanteFolio = $signer['folio'];
+            $firmanteStatus = $signer['status'];
+            $firmantefirma = $signer['signature'];
+            $firmantefechafirmado = $signer['dateSign'];
+            $firmanteCurp = $signer['numberId']; // CURP del firmante
 
             $sql = "UPDATE DOC_PRO_FIRMANTES 
                             SET DP_ID_SEGUIMIENTO       = :folio, 
@@ -572,13 +613,13 @@ EOD;
                             AND DP_CURP = :curp";
 
             $params = array(
-                ':folio'            => $firmanteFolio,
-                ':status'           => $firmanteStatus,
-                ':firma'            => $firmantefirma,
-                ':fecha_firmado'    => $firmantefechafirmado,
-                ':docpro_id'        => $id,
-                ':curp'             => $firmanteCurp,
-                ':id'               => $docId
+                ':folio' => $firmanteFolio,
+                ':status' => $firmanteStatus,
+                ':firma' => $firmantefirma,
+                ':fecha_firmado' => $firmantefechafirmado,
+                ':docpro_id' => $id,
+                ':curp' => $firmanteCurp,
+                ':id' => $docId
             );
 
 
@@ -593,7 +634,7 @@ EOD;
     public function getFirma($id)
     {
 
-        $this->forzarLogin();
+        //$this->forzarLogin();
 
 
 
@@ -637,10 +678,10 @@ EOD;
         // 3. Actualizar firmantes en la base de datos
         if (isset($doc['signers']) && is_array($doc['signers'])) {
             foreach ($doc['signers'] as $signer) {
-                $firmanteStatus         = $signer['status'];
-                $firmanteFirma          = $signer['signature'];
-                $firmanteFechaFirmado   = $signer['dateSign'];
-                $firmanteCurp           = $signer['numberId']; // CURP del firmante
+                $firmanteStatus = $signer['status'];
+                $firmanteFirma = $signer['signature'];
+                $firmanteFechaFirmado = $signer['dateSign'];
+                $firmanteCurp = $signer['numberId']; // CURP del firmante
 
                 // Calcular SHA-256 de la firma si existe
                 $shaFirma = null;
@@ -657,12 +698,12 @@ EOD;
                 AND DP_CURP = :curp";
 
                 $params = array(
-                    ':status'           => $firmanteStatus,
-                    ':firma'            => $firmanteFirma,
-                    ':fecha_firmado'    => $firmanteFechaFirmado,
-                    ':sha_firma'        => $shaFirma,
-                    ':docpro_id'        => $id,
-                    ':curp'             => $firmanteCurp
+                    ':status' => $firmanteStatus,
+                    ':firma' => $firmanteFirma,
+                    ':fecha_firmado' => $firmanteFechaFirmado,
+                    ':sha_firma' => $shaFirma,
+                    ':docpro_id' => $id,
+                    ':curp' => $firmanteCurp
                 );
 
                 $this->_nom->ssql($sql, $params, 0);
@@ -671,20 +712,21 @@ EOD;
 
         // 4. Actualizar DOC_PROPIOS con date, status y dateSign del documento principal
         $sqlDocPropio = "UPDATE DOC_PROPIOS
-                    SET DP_DATESIGN     = :date_create,
+                    SET DP_DATE_CREATE     = :date_create,
                         DP_STATUS_DOC   = :status_doc,
                         DP_DATESIGN     = :datesign
                   WHERE MD5(DP_ID||'_docpro') = :docpro_id";
         $paramsDocPropio = array(
-            ':date_create'  => $doc['date'] ?? null,
-            ':status_doc'   => $doc['status'] ?? null,
-            ':datesign'     => $doc['dateSign'] ?? null,
-            ':docpro_id'    => $id
+            ':date_create' => $doc['date'] ?? null,
+            ':status_doc' => $doc['status'] ?? null,
+            ':datesign' => $doc['dateSign'] ?? null,
+            ':docpro_id' => $id
         );
         $this->_nom->ssql($sqlDocPropio, $paramsDocPropio, 0);
 
 
 
+        ob_clean(); // Limpiar el buffer de salida para evitar errores
         // 5. Respuesta exitosa
         header('Content-Type: application/json');
         echo json_encode([
@@ -692,5 +734,102 @@ EOD;
             "data" => $doc
         ]);
     }
+
+
+    public function extraerMetadatosPDF($id)
+    {
+        $postInfoDocPro = $this->_nom->getInfoDocPro($id);
+
+        $rutaPDF = $_SERVER['DOCUMENT_ROOT'] . '/documentos_almacenados/Doc_propios/' . $postInfoDocPro['DP_RUTA_PDF'];
+
+        if (!file_exists($rutaPDF)) {
+            echo json_encode(['error' => 'El archivo PDF no existe']);
+            return;
+        }
+
+        
+        try {
+            // Obtener información básica del archivo
+            $fileStats = stat($rutaPDF);
+            $fileInfo = [
+                'Tamaño' => $fileStats['size'],
+                'Creado' => date('Y-m-d H:i:s', filectime($rutaPDF)),
+                'Modificado' => date('Y-m-d H:i:s', $fileStats['mtime']),
+                'Accedido' => date('Y-m-d H:i:s', $fileStats['atime']),
+            ];
+
+            // Convertir los metadatos a una cadena de texto plano
+            $metadatosTexto = "Información del documento: Tamaño:{$fileInfo['Tamaño']}, Creado:{$fileInfo['Creado']}, Modificado:{$fileInfo['Modificado']}, Accedido:{$fileInfo['Accedido']}";
+
+            // Actualizar la columna METADATOS_DOC en la tabla DOC_PROPIOS
+            $sql = "UPDATE DOC_PROPIOS SET METADATOS_DOC = :metadatos WHERE MD5(DP_ID||'_docpro') = :id";
+            $params = [
+                ':metadatos' => $metadatosTexto,
+                ':id' => $id,
+            ];
+            $this->_nom->ssql($sql, $params, 0);
+
+
+            // Retornar los metadatos como respuesta
+        } catch (\Exception $e) {
+            echo json_encode(['error' => $e->getMessage()]);
+        }
+    }
+
+    public function binFOpen($id)
+    {
+        $postInfoDocPro = $this->_nom->getInfoDocPro($id);
+
+        $rutaPDF = $_SERVER['DOCUMENT_ROOT'] . '/documentos_almacenados/Doc_propios/' . $postInfoDocPro['DP_RUTA_PDF'];
+
+        
+        if (!file_exists($rutaPDF)) {
+            echo json_encode(['error' => 'El archivo PDF no existe']);
+            return;
+        }
+
+        try {
+            // Abrir el archivo en modo binario
+            $handle = fopen($rutaPDF, 'rb');
+            if (!$handle) {
+                echo json_encode(['error' => 'No se pudo abrir el archivo en modo binario']);
+                return;
+            }
+
+            // Leer el contenido del archivo
+            $content = fread($handle, filesize($rutaPDF));
+
+            // Cerrar el archivo
+            fclose($handle);
+
+            // Verificar si el contenido binario está vacío
+            if (empty($content)) {
+                echo json_encode(['error' => 'El contenido del archivo está vacío']);
+                return;
+            }
+
+            // Codificar el contenido en Base64
+            $binaryEncoded = base64_encode($content);
+
+            // Generar el hash SHA-256 del contenido binario
+            $hash = hash('sha256', $content);
+
+            // Actualizar la columna BINARIO_DOC en la tabla DOC_MINUTA
+            // Usamos MD5 para identificar la minuta de forma única
+            $sql = "UPDATE DOC_PROPIOS SET BINARIO_DOC = :binario WHERE MD5(DP_ID||'_docpro') = :id";
+            $paramse = [
+                ':binario' => $hash,
+                ':id' => $id,
+            ];
+            $this->_nom->ssql($sql, $paramse, 0);
+
+             // Limpiar el buffer de salida para evitar errores
+        // 5. Respuesta exitosa
+
+        } catch (\Exception $e) {
+            echo json_encode(['error' => $e->getMessage()]);
+        }
+    }
+    
 
 }

@@ -97,8 +97,8 @@
                             </a>
                         {/if}
                     </td>
-                    <td>{$doc.TDOC_FECHA_FIRMA}</td>
-                    <td>{$doc.TDOC_FECHA}</td>
+                    <td>{$doc.TDOC_FECHA_FIRMA_FMT|default:$doc.TDOC_FECHA_FIRMA}</td>
+                    <td>{$doc.TDOC_FECHA_FMT|default:$doc.TDOC_FECHA}</td>
                     <td>{$doc.ORIGEN|escape}</td>
                     <td>{$doc.TIPO|escape}</td>
                     <td>

@@ -90,6 +90,15 @@
 <!-- funciones genericas franwork-->
 <script src="{$_layoutParams.root}public/js/generic_functions.js" type="text/javascript"></script>
 
+<!-- Select2 -->
+<script src="{$_layoutParams.ruta_view}plugins/select2/js/select2.full.min.js"></script>
+<script src="{$_layoutParams.ruta_view}plugins/select2/js/i18n/es.js"></script>
+<!-- CKEditor 5 -->
+ <link rel="stylesheet" href="https://sigo.uqroo.mx/files/layout/lte2/plugins/ckeditor5/ckeditor5/ckeditor5.css">
+
+
+
+
   <style type="text/css">
     body{ 
       font-size: 1 rem;
@@ -408,9 +417,6 @@
 <!--script src="{$_layoutParams.ruta_view}dist/js/pages/dashboard.js"></script>-->
 <!-- AdminLTE for demo purposes -->
 <!--<script src="{$_layoutParams.ruta_view}dist/js/demo.js"></script>-->
-<!-- Select2 -->
-<script src="{$_layoutParams.ruta_view}plugins/select2/js/select2.full.min.js"></script>
-<script src="{$_layoutParams.ruta_view}plugins/select2/js/i18n/es.js"></script>
 <!-- date-range-picker -->
 <script src="{$_layoutParams.ruta_view}plugins/daterangepicker/daterangepicker.js"></script>
 <!-- bootstrap color picker -->
@@ -647,8 +653,20 @@
 
     $(".bootstrap-switch-handle-on").html("SI"); 
     $(".bootstrap-switch-handle-off").html("NO"); 
+
+    
     
   </script>   
+
+  <script type="importmap">
+    {
+      "imports": {
+        "ckeditor5": "{$_layoutParams.ruta_view}plugins/ckeditor5/ckeditor5/ckeditor5.js",
+        "ckeditor5/": "{$_layoutParams.ruta_view}plugins/ckeditor5/ckeditor5/"
+      }
+    }
+    </script>
+  <script type="module" src="{$_layoutParams.ruta_view}plugins/ckeditor5/ckeditor5/ckeditor-main.js?v={$smarty.now|rand:100000}"></script>
 
 </body>
 </html>

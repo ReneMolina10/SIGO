@@ -4,8 +4,11 @@
 header("Access-Control-Allow-Origin: https://efirma.uqroo.mx");
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
+require_once ROOT . 'libs/composer_fpdi/vendor/autoload.php'; // Ajusta la ruta si es necesario
 
-class pdfl extends TCPDF
+use setasign\Fpdi\Tcpdf\Fpdi;
+
+class pdfl extends Fpdi
 {
 
     public $folioDocumento = '';
@@ -29,7 +32,7 @@ class pdfl extends TCPDF
     }
 
     // Método para agregar la marca de agua
-    protected function addWatermark()
+    public function addWatermark()
     {
         if ($this->showWatermark) {
             $this->SetAlpha(0.15);
@@ -116,7 +119,7 @@ class pdfl extends TCPDF
 
         $this->SetY(-18);
         $this->setCellHeightRatio(1);
-        $this->SetFont('times', '', 8, '', true);
+        $this->SetFont('aealarabiya', '', 8, '', true);
         $this->writeHTML($style . $tabla, true, 0, true, true);
     }
 }
@@ -170,8 +173,6 @@ class viewminutaController extends Controller
                 }
             }
         }
-
-
         $infoGen = $this->_nom->getInfoGeneral($id);
         $folioDoc = $infoGen['FOLIO_DOC'] ?? null;
         $fechaCreacion = $infoGen['MIN_FECHA'] ?? null; // Extract MIN_FECHA
@@ -252,29 +253,72 @@ class viewminutaController extends Controller
 
     function previsualizarPDF($id)
     {
-/*
+        /*
+               echo "<pre>";
+                print_r($_SERVER['HTTP_REFERER']);
+                echo "</pre>";
+
+                echo "-- $id  ---"; exit();
+
+                ini_set('display_errors', 1);
+                error_reporting(E_ALL);
+                */
+
+        // 
+
+        $firmantes = $this->_nom->getFirmantes($id);
 
 
-       echo "<pre>";
-        print_r($_SERVER['HTTP_REFERER']);
-        echo "</pre>";
+        $totalFirmantes = is_array($firmantes) ? count($firmantes) : 0;
 
-        echo "-- $id  ---"; exit();
+        $noSolicitado = true;
+        if ($totalFirmantes > 0) {
+            foreach ($firmantes as $f) {
 
-        ini_set('display_errors', 1);
-        error_reporting(E_ALL);
-        */
+                if (isset($f['FIR_STATUS_FIRMANTE_DOC']) == '') {
+                    $noSolicitado = false;
+                }
+            }
+        }
 
 
-       /*$referer = $_SERVER['HTTP_REFERER'] ?? '';
+        // Solo intenta obtener la firma si ya existe un folio de documento
+        $infoGen = $this->_nom->getInfoGeneral($id);
+        if ($noSolicitado && !empty($infoGen['FOLIO_DOC'])) {
+            $this->getFirma($id);
+        }
+        /*$firmantes = $this->_nom->getFirmantes($id);
+                $totalFirmantes = is_array($firmantes) ? count($firmantes) : 0;
+                $noSolicitado = true;
+                if ($totalFirmantes > 0) {
+                    foreach ($firmantes as $f) {
+                        if (isset($f['FIR_STATUS_FIRMANTE_DOC']) == '') {
+                            $noSolicitado = false;
+                        }
+                    }
+                }
+                if ($noSolicitado) {
+                    $this->getFirma($id);
+                }*/
 
-            if (
-                strpos($referer, 'https://sigo.uqroo.mx') === false &&
-                strpos($referer, 'https://efirma.uqroo.mx') === false
-            ) {
-                echo "No permitido";
+        /*
+              echo "<pre>";
+                print_r($firmantes);
+                echo "</pre>";
+
                 exit();
-            }*/
+                */
+
+
+        $referer = $_SERVER['HTTP_REFERER'] ?? '';
+
+        if (
+            strpos($referer, 'https://sigo.uqroo.mx') === false &&
+            strpos($referer, 'https://efirma.uqroo.mx') === false
+        ) {
+            echo "No permitido";
+            exit();
+        }
 
 
 
@@ -309,13 +353,17 @@ class viewminutaController extends Controller
         // Contar firmantes y firmantes finalizados
         $totalFirmantes = is_array($firmantes) ? count($firmantes) : 0;
         $firmantesFinalizados = 0;
+
         if ($totalFirmantes > 0) {
             foreach ($firmantes as $f) {
                 if (isset($f['FIR_STATUS_FIRMANTE_DOC']) && $f['FIR_STATUS_FIRMANTE_DOC'] == 3) {
                     $firmantesFinalizados++;
                 }
+
             }
         }
+
+
 
         $pdf = new pdfl(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
@@ -633,13 +681,32 @@ EOD;
         $pdf->writeHTML($htmlFirmantes, true, false, true, false, '');
 
 
-
         // Ruta del archivo adjunto
 
 
+        $rutaVinculado = '';
+        if (!empty($infoGen['RUTA_PDF_MINUTA'])) {
+            $rutaVinculado = $_SERVER['DOCUMENT_ROOT'] . '/documentos_almacenados/minutas/' . $infoGen['RUTA_PDF_MINUTA'];
+        }
+
+        if ($rutaVinculado && file_exists($rutaVinculado)) {
+            $pdf->setPrintHeader(false);
+            $pdf->setPrintFooter(true);
 
 
+            $pageCount = $pdf->setSourceFile($rutaVinculado);
+            for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
+                $tplId = $pdf->importPage($pageNo);
+                $pdf->AddPage();
+                $pdf->useTemplate($tplId);
 
+                // Llama manualmente a la marca de agua y folio vertical
+
+            }
+
+            $pdf->setPrintHeader(true);
+            $pdf->setPrintFooter(true);
+        }
 
 
 
@@ -651,10 +718,6 @@ EOD;
             $pdf->setPrintHeader(false);
             $pdf->AddPage($orientacion, 'LETTER');
             $pdf->setPrintFooter(true);
-
-
-
-
 
             // Encabezado del documento
             $pdf->SetFont('aealarabiya', 'B', 14, '', true);
@@ -703,8 +766,12 @@ EOD;
             $pdf->SetXY($x + $qrSize + 8, $y);
             $pdf->writeHTML($htmlCadena, true, false, true, false, '');
             $pdf->Ln(8);
-            
-          
+
+            /* $pdf->SetFont('aealarabiya', 'B', 7, '', true);
+             $pdf->SetXY(20,65);
+             $pdf->writeHTML('<a href="https://efirma.uqroo.mx/verify/' . $infoGen['FOLIO_DOC'] . '" target="_blank" style="text-decoration:none; color:#0000EE;">URL del Documento Comprobatorio</a>', true, false, true, false, '');
+ */
+            // --- NUEVO: Mueve el cursor Y debajo del QR antes de la tabla de firmas ---
             $pdf->SetY($y + $qrSize + 1); // 10 es margen, ajusta si lo necesitas
 
             // Sección de Firmas Digitales
@@ -822,6 +889,7 @@ EOD;
         // Solo los campos requeridos
         $data = [
             // Información general de la minuta
+            $infoGen['TIPO_DOCUMENTO'],
             'informacion general' => 'General:' . $infoGen['MIN_PROCESO'] . ';' . $infoGen['MIN_FOLIO'] . ';' . $min_fecha . ';' . $infoGen['MIN_HINICIO'] . ';' . $infoGen['MIN_HFIN'] . ';' . $infoGen['MIN_LUGAR'] . ';' . 'URES:' . implode(
                 ';',
                 array_map(function ($a) {
@@ -862,7 +930,12 @@ EOD;
                 return $m['MEJ_DESCRIPCION'];
             }, $mejoras))),
 
-            'Formato PGC-F005 Minuta de reunión Rev. 3.1 - 11/07/2024'
+            'Formato PGC-F005 Minuta de reunión Rev. 3.1 - 11/07/2024', 
+            (
+                    (empty($infoGen['METADATOS_DOC']) || empty($infoGen['BINARIO_DOC']))
+                    ? 'sin documento adjunto'
+                    : $infoGen['METADATOS_DOC'] . '|' . 'Binario: ' . $infoGen['BINARIO_DOC']
+                )
 
 
         ];
@@ -884,18 +957,23 @@ EOD;
     }
 
     //*METDOO QUE CENTRALIZA LA ACCION DE GENERAR CADENA Y FIRMA DIGITAL
-    public function generarCadenaYFirma($min_id)
+    public function generarCadenaYFirma($id)
     {
         $this->forzarLogin();
 
-
+        // Limpia el buffer antes de enviar la respuesta JSON
+        ob_clean();
         header('Content-Type: application/json');
+
         try {
-            $this->generarCadenaMinuta($min_id);
-            $this->firmaDigital($min_id);
+            
+            $this->extraerMetadatosPDF($id);
+            $this->binFOpen($id);
+            $this->generarCadenaMinuta($id);
+            $this->firmaDigital($id);
             echo json_encode([
                 'success' => true,
-                'redirect' => BASE_URL . 'viewminuta/prefirmado/' . $min_id
+                'redirect' => BASE_URL . 'viewminuta/prefirmado/' . $id
             ]);
         } catch (Exception $e) {
             http_response_code(500);
@@ -934,9 +1012,9 @@ EOD;
         $docPayload = [
             'signatureType' => 'FEAU',
             'sendInvites' => true,
-            'externalId' => 'SIGO-' . $id, //sigo-id S
+            'externalId' => $infoGen['TIPO_DOCUMENTO'] . '|' . $id, //sigo-id S
             'iframePath' => BASE_URL . 'viewminuta/previsualizarPDF/' . $id,
-            'canonicalString' => '|SIGO|MINUTA|UAQROO|' . $infoGen['CADENA_ORIGINAL_SHA_256'] . '|',// $InfOGen['CADENA_ORIGINAL_SHA_256']
+            'canonicalString' =>  $infoGen['TIPO_DOCUMENTO'] . '|UAQROO|' . $infoGen['CADENA_ORIGINAL_SHA_256'] . '|',// $InfOGen['CADENA_ORIGINAL_SHA_256']
             'signers' => array_map(function ($firmante) {
                 return [
                     'name' => $firmante['FIR_NOMBRE'],
@@ -983,9 +1061,9 @@ EOD;
 
         $sql = "UPDATE DOC_MINUTA 
                     SET FOLIO_DOC = :folio,
-                        ID_FK_DOC = :id,
                         EXTERNALID = :externalId,
-                        STATUS_DOC = :status
+                        STATUS_DOC = :status,
+                        ID_FK_DOC = :id
                         --DATE_CREATE = :fecha_creacion
                         
                              WHERE MD5(MIN_ID||'_minuta') = :minuta_id ";
@@ -1049,10 +1127,10 @@ EOD;
 
     //* METODO QUE MANDA A VERIFICAR EL ESTATUS DE LA MINUTA
 
-    public function getFirma($id)
+    private function getFirma($id)
     {
 
-        $this->forzarLogin();
+        //  $this->forzarLogin();
 
 
 
@@ -1067,7 +1145,7 @@ EOD;
         $folioDocumento = $infoGen['FOLIO_DOC'] ?? null;
 
         if (!$folioDocumento) {
-            die("Folio del documento no encontrado");
+            die("Folio del documento no encontradoz");
         }
 
         // 1. Autenticación
@@ -1143,19 +1221,106 @@ EOD;
         $this->_nom->ssql($sqlMinuta, $paramsMinuta, 0);
 
 
+        /*
+                // 5. Respuesta exitosa
+                header('Content-Type: application/json');
+                echo json_encode([
+                    "success" => true,
+                    "data" => $doc
+                ]);
+                */
+    }
+    public function extraerMetadatosPDF($id)
+    {
+        $infoGen = $this->_nom->getInfoGeneral($id);
 
-        // 5. Respuesta exitosa
-        header('Content-Type: application/json');
-        echo json_encode([
-            "success" => true,
-            "data" => $doc
-        ]);
+        $rutaPDF = $_SERVER['DOCUMENT_ROOT'] . '/documentos_almacenados/minutas/' . $infoGen['RUTA_PDF_MINUTA'];
+
+        if (!file_exists($rutaPDF)) {
+            echo json_encode(['error' => 'El archivo PDF no existe']);
+            return;
+        }
+
+        try {
+            // Obtener información básica del archivo
+            $fileStats = stat($rutaPDF);
+            $fileInfo = [
+                'Tamaño' => $fileStats['size'],
+                'Creado' => date('Y-m-d H:i:s', filectime($rutaPDF)),
+                'Modificado' => date('Y-m-d H:i:s', $fileStats['mtime']),
+                'Accedido' => date('Y-m-d H:i:s', $fileStats['atime']),
+            ];
+
+            // Convertir los metadatos a una cadena de texto plano
+            $metadatosTexto = "Información del documento: Tamaño:{$fileInfo['Tamaño']}, Creado:{$fileInfo['Creado']}, Modificado:{$fileInfo['Modificado']}, Accedido:{$fileInfo['Accedido']}";
+
+            // Actualizar la columna METADATOS_DOC en la tabla DOC_MINUTA
+            $sql = "UPDATE DOC_MINUTA SET METADATOS_DOC = :metadatos WHERE MD5(MIN_ID||'_minuta') = :id";
+            $params = [
+                ':metadatos' => $metadatosTexto,
+                ':id' => $id,
+            ];
+            $this->_nom->ssql($sql, $params, 0);
+
+            // Retornar los metadatos como respuesta
+        } catch (\Exception $e) {
+            echo json_encode(['error' => $e->getMessage()]);
+        }
+    }
+
+    public function binFOpen($id)
+    {
+        $infoGen = $this->_nom->getInfoGeneral($id);
+
+        $rutaPDF = $_SERVER['DOCUMENT_ROOT'] . '/documentos_almacenados/minutas/' . $infoGen['RUTA_PDF_MINUTA'];
+
+        if (!file_exists($rutaPDF)) {
+            echo json_encode(['error' => 'El archivo PDF no existe']);
+            return;
+        }
+
+        try {
+            // Abrir el archivo en modo binario
+            $handle = fopen($rutaPDF, 'rb');
+            if (!$handle) {
+                echo json_encode(['error' => 'No se pudo abrir el archivo en modo binario']);
+                return;
+            }
+
+            // Leer el contenido del archivo
+            $content = fread($handle, filesize($rutaPDF));
+
+            // Cerrar el archivo
+            fclose($handle);
+
+            // Verificar si el contenido binario está vacío
+            if (empty($content)) {
+                echo json_encode(['error' => 'El contenido del archivo está vacío']);
+                return;
+            }
+
+            // Codificar el contenido en Base64
+            $binaryEncoded = base64_encode($content);
+
+            // Generar el hash SHA-256 del contenido binario
+            $hash = hash('sha256', $content);
+
+            // Actualizar la columna BINARIO_DOC en la tabla DOC_MINUTA
+            // Usamos MD5 para identificar la minuta de forma única
+            $sql = "UPDATE DOC_MINUTA SET BINARIO_DOC = :binario WHERE MD5(MIN_ID||'_minuta') = :id";
+            $params = [
+                ':binario' => $hash,
+                ':id' => $id,
+            ];
+            $this->_nom->ssql($sql, $params, 0);
+
+           
+
+        } catch (\Exception $e) {
+            echo json_encode(['error' => $e->getMessage()]);
+        }
     }
 
 
 }
 
-
-
-
-?>

@@ -62,6 +62,7 @@
         </div>
 
 
+  {*
         <!--DICTAMENES TECNICOS-->
         <div class="col-12 col-sm-6 col-md-3   card-modulo">
           <div class="card card-outline card-dark ">
@@ -80,7 +81,7 @@
             </div>
           </div>
         </div>
-
+*}
         <!--DOCUMENTOS PROPIOS-->
         <div class="col-12 col-sm-6 col-md-3   card-modulo">
           <div class="card card-outline card-dark ">
@@ -100,7 +101,27 @@
           </div>
         </div>
 
+        {*
         <div class="col-12 col-sm-6 col-md-3   card-modulo">
+          <div class="card card-outline card-dark " style="width: ;">
+            <a title="Ingresar" href="{$_layoutParams.root}firmados/minutas_firmadas/">
+              <!--<img class="card-img-top" src="{$_layoutParams.root}public/img/autoeval2.jpg" alt="Card image cap">-->
+              <img class="card-img-top" src="https://sigo.uqroo.mx/public/img/index/firmados.jpg" alt="Card image cap ">
+            </a>
+            <div class="card-body">
+              <h5 class="card-title text-left">
+                <b>Mis documentos firmados</b>
+              </h5>
+              <p class="card-text text-left">Documentos firmados.</p>
+            </div>
+            <div class="card-body div-boton">
+              <a role="button" class="btn btn-outline-dark  btn-block" title="" href="{$_layoutParams.root}firmados/minutas_firmadas/">Ingresar</a>
+            </div>
+          </div>
+        </div>
+        *}
+
+         <div class="col-12 col-sm-6 col-md-3   card-modulo">
           <div class="card card-outline card-dark " style="width: ;">
             <a title="Ingresar" href="{$_layoutParams.root}doc_firmados/index">
               <!--<img class="card-img-top" src="{$_layoutParams.root}public/img/autoeval2.jpg" alt="Card image cap">-->
@@ -110,7 +131,7 @@
               <h5 class="card-title text-left">
                 <b>Mis documentos firmados</b>
               </h5>
-              <p class="card-text text-left">Documentos firmados.</p>
+              <p class="card-text text-left">Panel de visualización de documentos firmados.</p>
             </div>
             <div class="card-body div-boton">
               <a role="button" class="btn btn-outline-dark  btn-block" title="" href="{$_layoutParams.root}doc_firmados/index">Ingresar</a>

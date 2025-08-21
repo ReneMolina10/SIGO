@@ -19,7 +19,10 @@ class viewdocpropioModel extends Model
             DP_STATUS_DOC, -- Estado del documento UNACAR
             DP_DATESIGN, -- Fecha de firma del documento UNACAR
             DP_TIPO_DOCUMENTO, -- Tipo de documento 
-            DP_DESCRIPCION -- Descripción del documento
+            DP_DESCRIPCION,
+            DP_RUTA_PDF,
+            METADATOS_DOC,
+BINARIO_DOC      -- Ruta del documento
         FROM DOC_PROPIOS DP
         WHERE MD5(DP_ID||'_docpro') = :id";
 

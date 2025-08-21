@@ -137,12 +137,12 @@
                                                                     <div class="d-flex align-items-center">
                                                                         <div>
                                                                             <p class="mb-0 font-weight-bold">{$firmante.FIRMANTE}</p>
-                                                                            <small class="text-muted">{if $firmante.FIR_STATUS_FIRMANTE_DOC == 3}Firmado el {$firmante.FIR_DATESIGN}{else}Pendiente{/if}</small>
+                                                                            <small class="text-muted">{if $firmante.DP_STATUS_FIRMANTE_DOC == 3}Firmado el {$firmante.DP_DATESIGN}{else}Pendiente{/if}</small>
                                                                         </div>
                                                                     </div>
                                                                 </td>
                                                                 <td class="py-2 align-middle text-center">
-                                                                    {if $firmante.FIR_STATUS_FIRMANTE_DOC == 3}
+                                                                    {if $firmante.DP_STATUS_FIRMANTE_DOC == 3}
                                                                         <span class="badge badge-success"><i class="fas fa-check mr-1"></i> Firmado</span>
                                                                     {else}
                                                                         <span class="badge badge-warning"><i class="fas fa-clock mr-1"></i> Pendiente</span>

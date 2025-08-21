@@ -1,3 +1,42 @@
+<?php 
+
+define('GENERATOR_SECRET', 'mi_clave_secreta'); // tu palabra clave
+define('GENERATOR_IV', '1234567890123456'); // 16 bytes fijos para AES-256-CBC
+
+
+$texto = "Hola desde PHP!";
+$cifrado = encryptValue($texto); // => por ejemplo: "aSNPQ2WZT9nSnq=="
+
+echo $cifrado;
+echo "<br/>";
+echo decryptValue($cifrado); // "Hola desde PHP!"
+
+
+
+  
+
+
+
+function encryptValue(string $plaintext): string {
+    $key = hash('sha256', GENERATOR_SECRET, true); // 32 bytes
+    $ciphertext = openssl_encrypt($plaintext, 'AES-256-CBC', $key, OPENSSL_RAW_DATA, GENERATOR_IV);
+    return base64_encode($ciphertext);
+}
+
+function decryptValue(string $encrypted): string {
+    $key = hash('sha256', GENERATOR_SECRET, true); // misma clave
+    $ciphertext = base64_decode($encrypted);
+    return openssl_decrypt($ciphertext, 'AES-256-CBC', $key, OPENSSL_RAW_DATA, GENERATOR_IV);
+}
+
+
+
+
+exit();
+
+?>
+
+
 
 <meta charset="UTF-8">
 <?php

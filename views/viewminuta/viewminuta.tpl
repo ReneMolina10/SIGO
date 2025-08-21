@@ -97,8 +97,7 @@
                                         <button
                                                     type="button"
                                                     id="btnVerificarFirmas"
-                                                    class="btn btn-block btn-info rounded-pill py-2 shadow-sm"
-                                                    onclick="location.reload();">
+                                                    class="btn btn-block btn-info rounded-pill py-2 shadow-sm">
                                                     <i class="fas fa-sync-alt mr-2"></i> Verificar estatus de firmas
                                                 </button>
                                     {else}
@@ -203,39 +202,30 @@
     <script>
 
     document.addEventListener('DOMContentLoaded', function() {
-        var btnSolicitar = document.getElementById('btnSolicitarFirmas');
-        if (btnSolicitar) {
-            btnSolicitar.onclick = function() {
-                if (window.confirm('¿Estás seguro de solicitar las firmas digitales? No podrás revertir esta acción.')) {
-                    var btn = this;
-                    btn.disabled = true;
-                    btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> solicitando firmas...';
-                    setTimeout(function() {
-                        fetch('{$baseUrl}viewminuta/generarCadenaYFirma/{$minuta_id}')
-                            .then(response => response.json())
-                            .then(data => {
-                                var iframe = document.querySelector('.pdf-viewer');
-                                if (iframe) iframe.src = iframe.src;
-                                btn.outerHTML = `<button
-                                                    type="button"
-                                                    id="btnVerificarFirmas"
-                                                    class="btn btn-block btn-info rounded-pill py-2 shadow-sm"
-                                                    onclick="location.reload();">
-                                                    <i class="fas fa-sync-alt mr-2"></i> Verificar estatus de firmas
-                                                </button>`;
-                            })
-                            .catch(() => {
-                                btn.disabled = false;
-                                btn.innerHTML = '<i class="fas fa-pen-fancy mr-2"></i> Solicitar Firmas Digitales';
-                                alert('Ocurrió un error al solicitar las firmas.');
-                            });
-                    }, 3000); // Espera 3 segundos antes de continuar
-                }
-            };
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-    // ...existing code para btnSolicitar...
+    var btnSolicitar = document.getElementById('btnSolicitarFirmas');
+    if (btnSolicitar) {
+        btnSolicitar.onclick = function() {
+            if (window.confirm('¿Estás seguro de solicitar las firmas digitales? No podrás revertir esta acción.')) {
+                var btn = this;
+                btn.disabled = true;
+                btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> solicitando firmas...';
+                setTimeout(function() {
+                    fetch('{$baseUrl}viewminuta/generarCadenaYFirma/{$minuta_id}')
+                        .then(response => response.json())
+                        .then(data => {
+                            var iframe = document.querySelector('.pdf-viewer');
+                            if (iframe) iframe.src = iframe.src;
+                            location.reload();
+                        })
+                        .catch(() => {
+                            btn.disabled = false;
+                            btn.innerHTML = '<i class="fas fa-pen-fancy mr-2"></i> Solicitar Firmas Digitales';
+                            alert('Ocurrió un error al solicitar las firmas.');
+                        });
+                }, 3000); // Espera 3 segundos antes de continuar
+            }
+        };
+    }
 
     var btnVerificar = document.getElementById('btnVerificarFirmas');
     if (btnVerificar) {
@@ -243,7 +233,6 @@
             location.reload();
         };
     }
-});
     });
     </script>
 

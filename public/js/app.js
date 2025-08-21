@@ -718,10 +718,23 @@ const CrudGenerator = (function(){
   	}
 	
 	function reload(tableId){
-		tableId = tableId || lastTable;
-		const tbl = tables[tableId];
-		if(tbl) tbl.ajax.reload();
-		else console.error("CrudGenerator.reload: no existe tabla", tableId);
+		 // 1) Determinar el ID: usa el parámetro o, si no, el último registrado
+		const id = tableId || lastTable;
+		// 2) Si ni siquiera tenemos un ID, abandonamos silenciosamente
+		if (!id) {
+			console.log('CrudGenerator.reload: sin tableId definido, omitiendo recarga');
+			return;
+		}
+		// 3) Buscar la instancia y el elemento DOM
+		const tbl = tables[id];
+		const existsInDom = document.getElementById(id) != null;
+		// 4) Si la tabla existe y está montada en el DOM, recarga; si no, omite
+		if (tbl && existsInDom) {
+			tbl.ajax.reload();
+		} else {
+			console.log(`CrudGenerator.reload: no hay tabla para "${id}", omitiendo recarga`);
+		}
+
 	}
 
 	return { register, reload };
@@ -772,7 +785,7 @@ function registrarConHijo(
 
   // ── Extraigo basePath como antes
   const basePath = editUrl.split('/editar_modal')[0];
-  console.log('basePath:', basePath);
+  //console.log('basePath:', basePath);
  
   // ── 3) Form padre aún no cargado ──
   if (!$parentForm.length) {
@@ -798,11 +811,69 @@ function registrarConHijo(
 	console.log("es hijo");
   }
 
-  // 4) El form padre existe, leo su ID fijo
-  const parentId = $parentForm.find('#id_registro').val() || '0';
-  console.log('parentId (de #id_registro):', parentId);
+	// 4) El form padre existe, leo su ID fijo
+	const parentId = $parentForm.find('#id_registro').val() || '0';
+	console.log('parentId (de #id_registro):', parentId);
+
+  	// Función auxiliar que recarga hijos y abre el modal del hijo
+	function abrirHijo(id) {
+		const childTableId = 'tbl_' + nameCrudTable;
+		const urlBuscar    = `${basePath}/buscar/${id}`;
+		console.log('Recargando DataTable hijos:', childTableId, '→', urlBuscar);
+		$('#' + childTableId).DataTable().ajax.url(urlBuscar).load();
+
+		const childUrl = `${basePath}/editar_modal/${id}/${nameCrudTable}`;
+		console.log('Abriendo modal hijo:', childUrl);
+		open_modal_to_edit(
+			0, 0, 0,
+			childUrl,
+			singular,
+			Number(id),
+			nameCrudTable,
+			childModalId,
+			childFormId
+		);
+	}
+
+	// ── 5+9) Tanto si es nuevo (0) como si existe (!0), primero validar y guardar ──
+	if (!$parentForm[0].checkValidity()) {
+		console.error('HTML5 invalid:', $parentForm[0]);
+		$parentForm[0].reportValidity();
+		return false;
+	}
+
+	console.log('Validando y guardando formulario padre (ID previo=' + parentId + ')...');
+	guardar_generator(
+		basePath,
+		true,
+		parentFormId,
+		(response) => {
+			console.log('Callback de guardar_generator, response:', response);
+
+			// 6) Extraer dinámicamente el ID (nuevo o existente)
+			let id;
+			if (parentId === '0') {
+			// si era nuevo, viene en response.id
+			const key = Object.keys(response.id)[0];
+			id = response.id[key];
+			console.log(`Nuevo ID [${key}]:`, id);
+			} else {
+			// si ya existía, seguimos usando el parentId
+			id = parentId;
+			console.log('ID existente confirmado:', id);
+			}
+
+			// 7+9) Recargo hijos y abro modal hijo
+			abrirHijo(id);
+		}
+	);
+
+	console.log('--- Fin registrarConHijo ---');
+	return false;
 
 
+
+  /*
   // ── 5) Si el padre es nuevo, validar y guardar ──
   if (parentId === '0') {
     console.log('Rama -2: padre nuevo, validando HTML5');
@@ -867,5 +938,5 @@ function registrarConHijo(
   }
 
   console.log('--- Fin registrarConHijo ---');
-  return false;
+  return false;*/
 }

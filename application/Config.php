@@ -1,4 +1,13 @@
 <?php
+// ^ - - - - DATA BASES - - - -
+/*
+$db['local']['HOST'] = '172.16.2.198'; // ^ <-- LOCAL
+$db['local']['MANAGER'] = 'oracle';
+$db['local']['USER'] = 'sisrh';
+$db['local']['PASS'] = 'sisrhpruebas';
+$db['local']['NAME'] = 'bitly';
+$db['local']['CHAR'] = 'utf8';
+*/
 
 // Definición de la base de datos: Uso de variables de entorno
 $db['local']['HOST'] = getenv('DB_HOST') ?: '172.16.2.195'; //prueba: 172.16.2.198
@@ -7,6 +16,17 @@ $db['local']['USER'] = getenv('DB_USER') ?: 'SIGO';
 $db['local']['PASS'] = getenv('DB_PASS') ?: 'sg2025u'; //prueba: SRHP_25#i
 $db['local']['NAME'] = getenv('DB_NAME') ?: 'uqro';
 $db['local']['CHAR'] = getenv('DB_CHAR') ?: 'utf8';
+
+/*
+$db['RH']['HOST'] = getenv('DB_HOST') ?: '172.16.2.195'; //prueba: 172.16.2.198
+$db['RH']['MANAGER'] = getenv('DB_MANAGER') ?: 'oracle';
+$db['RH']['USER'] = getenv('DB_USER') ?: 'SISRH';
+$db['RH']['PASS'] = getenv('DB_PASS') ?: 'SRH_25$i'; //prueba: SRHP_25#i
+$db['RH']['NAME'] = getenv('DB_NAME') ?: 'uqro';
+$db['RH']['CHAR'] = getenv('DB_CHAR') ?: 'utf8';*/
+
+
+
 
 
 
@@ -32,9 +52,7 @@ define('BASE_FILE_SOL_SERV', '/opt/sitios/sau2/admin/files_adjunto');
 // Rutas y configuraciones por defecto
 define('DEFAULT_LAYOUT', 'lte2');
 define('DEFAULT_FOLDER', '');
-
 define('BASE_URL', getenv('BASE_URL') ?: 'http://localhost/sigo/'); // URL base del sitio web
-//define('BASE_URL', getenv('BASE_URL') ?: 'https://sigo.uqroo.mx/'); // URL base del sitio web
 define('BASE_URL_VIEW', BASE_URL . 'views/layout/' . DEFAULT_LAYOUT . '/'); // URL del HTML template
 
 // Ruta para archivos locales
@@ -45,11 +63,18 @@ define('DEFAULT_CONTROLLER', 'index');
 
 // Configuración de sesiones
 define('BASE_SESION', '_' . APP_NAME_SHORT); // Palabra reservada para las sesiones
-define('SESSION_TIME', 100); // Tiempo de expiración de la sesión
+define('SESSION_TIME', 1); // Tiempo de expiración de la sesión
 
 // Rutas de archivos específicos
 define('RUTA_IMG_PERFIL', BASE_FILE . 'files' . DS . 'img' . DS . 'perfil' . DS);
 define('RUTA_ARCHIVOS_SOLICITUD', BASE_FILE . 'files' . DS . 'solicitudes' . DS);
+
+
+define('LLAVE_CERTIFICADO', 'universaluqr002014'); //BASE URL DEL SITIO
+
+
+// Clave AES-256 para cifrar/descifrar campos text/textarea del módulo Generator
+define('GENERATOR_TEXT_ENCRYPTION_KEY', base64_decode('ItbQA5dtQB2RqDrqcUTDRuFZU8DEGo/HUVKlo8V91yQ='));
 
 // Definir DEV_MODE basándose en la variable de entorno
 //define('DEV_MODE', getenv('DEV_MODE') ?: false);

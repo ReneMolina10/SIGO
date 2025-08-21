@@ -1,27 +1,27 @@
-<?php /* Smarty version Smarty-3.1.8, created on 2025-08-12 02:03:54
+<?php /* Smarty version Smarty-3.1.8, created on 2025-08-21 00:02:34
          compiled from "views\generators\components\crud_table.tpl" */ ?>
-<?php /*%%SmartyHeaderCode:2141087003689ae75acb38d1-86903050%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:167319695068a645fa8c4cf7-66042671%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     'd696ff2b90c3cd528f5f463c9c01a435a7b0715c' => 
     array (
       0 => 'views\\generators\\components\\crud_table.tpl',
-      1 => 1752820788,
+      1 => 1755672853,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '2141087003689ae75acb38d1-86903050',
+  'nocache_hash' => '167319695068a645fa8c4cf7-66042671',
   'function' => 
   array (
   ),
   'variables' => 
   array (
     'childTemplate' => 0,
+    'f' => 0,
     '_layoutParams' => 0,
     'controlador' => 0,
     'parentId' => 0,
-    'f' => 0,
     'columnas_per_sub' => 0,
     'columnas' => 0,
     'tablaResponsiva' => 0,
@@ -34,12 +34,29 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   ),
   'has_nocache_code' => false,
   'version' => 'Smarty-3.1.8',
-  'unifunc' => 'content_689ae75acc98d2_70506558',
+  'unifunc' => 'content_68a645fa8d6813_91824801',
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_689ae75acc98d2_70506558')) {function content_689ae75acc98d2_70506558($_smarty_tpl) {?>
+<?php if ($_valid && !is_callable('content_68a645fa8d6813_91824801')) {function content_68a645fa8d6813_91824801($_smarty_tpl) {?>
 
 <?php $_smarty_tpl->tpl_vars["isModal"] = new Smarty_variable(($_smarty_tpl->tpl_vars['childTemplate']->value['editForm']=='modal'), null, 0);?>
-<div class="mb-2 d-flex justify-content-end">
+<div class="mb-2 d-flex justify-content-between align-items-center">
+
+
+		<label for="<?php echo $_smarty_tpl->tpl_vars['f']->value['campo'];?>
+"><?php echo $_smarty_tpl->tpl_vars['f']->value['label'];?>
+: <?php if (isset($_smarty_tpl->tpl_vars['f']->value['required'])&&$_smarty_tpl->tpl_vars['f']->value['required']=="true"){?> <span style="color:red">*</span> <?php }?>
+			<?php if (isset($_smarty_tpl->tpl_vars['f']->value['info_tooltip'])&&$_smarty_tpl->tpl_vars['f']->value['info_tooltip']!=''){?>  
+				<span style="font-size: 85%" data-toggle="tooltip" title="" class="custom-tooltip badge badge-info" data-original-title='<?php echo $_smarty_tpl->tpl_vars['f']->value['info_tooltip'];?>
+'>?</span>
+			<?php }?>
+			<?php if (isset($_smarty_tpl->tpl_vars['f']->value['info_modal'])&&$_smarty_tpl->tpl_vars['f']->value['info_modal']!=''){?>  
+				<button type="button" class="btn bg-info btn-xs" onclick="info_modal_<?php echo $_smarty_tpl->tpl_vars['f']->value['campo'];?>
+()" style="font-size: .6rem; padding: 0.25rem 0.4rem 0.2rem 0.4rem;"> <i class="fas fa-info"></i></button>
+			<?php }?>
+		</label>
+
+    
+
   <?php echo $_smarty_tpl->getSubTemplate ("views/generators/btn_registrar.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, null, null, array('urlAgregar'=>($_smarty_tpl->tpl_vars['_layoutParams']->value['root']).($_smarty_tpl->tpl_vars['controlador']->value)."/editar/0/0/0/".($_smarty_tpl->tpl_vars['parentId']->value)."/".($_smarty_tpl->tpl_vars['f']->value['name_crud_table']),'nSingular'=>(($tmp = @$_smarty_tpl->tpl_vars['f']->value['bd']['nomSingular'])===null||$tmp==='' ? 'Elemento' : $tmp),'ocultarAgregar'=>(($tmp = @$_smarty_tpl->tpl_vars['f']->value['bd']['ocultarBtnAgregar'])===null||$tmp==='' ? 'false' : $tmp),'parentId'=>$_smarty_tpl->tpl_vars['parentId']->value,'name_crud_table'=>$_smarty_tpl->tpl_vars['f']->value['name_crud_table'],'esModal'=>$_smarty_tpl->tpl_vars['f']->value['template']['editForm']=='modal'), 0);?>
 
 </div>

@@ -1,22 +1,20 @@
-<?php /* Smarty version Smarty-3.1.8, created on 2025-08-16 21:14:08
+<?php /* Smarty version Smarty-3.1.8, created on 2025-08-21 00:02:34
          compiled from "views\generators\form.tpl" */ ?>
-<?php /*%%SmartyHeaderCode:355074319689ae75abd5a60-65326062%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:66762566668a645fa826eb1-08617788%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     '832d1665cbc806e3534e79d3c46e9154c27d4c3b' => 
     array (
       0 => 'views\\generators\\form.tpl',
-      1 => 1755330408,
+      1 => 1755672145,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '355074319689ae75abd5a60-65326062',
+  'nocache_hash' => '66762566668a645fa826eb1-08617788',
   'function' => 
   array (
   ),
-  'version' => 'Smarty-3.1.8',
-  'unifunc' => 'content_689ae75ac3b2c2_51538410',
   'variables' => 
   array (
     'datosf' => 0,
@@ -29,8 +27,10 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'codigoJS' => 0,
   ),
   'has_nocache_code' => false,
+  'version' => 'Smarty-3.1.8',
+  'unifunc' => 'content_68a645fa856e61_11453335',
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_689ae75ac3b2c2_51538410')) {function content_689ae75ac3b2c2_51538410($_smarty_tpl) {?><?php $_smarty_tpl->tpl_vars["libJSFinder"] = new Smarty_variable("0", null, 0);?>
+<?php if ($_valid && !is_callable('content_68a645fa856e61_11453335')) {function content_68a645fa856e61_11453335($_smarty_tpl) {?><?php $_smarty_tpl->tpl_vars["libJSFinder"] = new Smarty_variable("0", null, 0);?>
 
   
 <style>
@@ -83,7 +83,7 @@ $_smarty_tpl->tpl_vars['f']->_loop = true;
 		<?php if ((($tmp = @$_smarty_tpl->tpl_vars['f']->value['col'])===null||$tmp==='' ? '' : $tmp)!=''){?> <div class="<?php echo $_smarty_tpl->tpl_vars['f']->value['col'];?>
 "> <?php }?>
 		<div class="form-group">
-		<?php if ((($tmp = @$_smarty_tpl->tpl_vars['f']->value['label'])===null||$tmp==='' ? '' : $tmp)!=''){?>
+		<?php if ((($tmp = @$_smarty_tpl->tpl_vars['f']->value['label'])===null||$tmp==='' ? '' : $tmp)!=''&&$_smarty_tpl->tpl_vars['f']->value['tipo']!="crud-table"){?>
 		<label for="<?php echo $_smarty_tpl->tpl_vars['f']->value['campo'];?>
 "><?php echo $_smarty_tpl->tpl_vars['f']->value['label'];?>
 : <?php if (isset($_smarty_tpl->tpl_vars['f']->value['required'])&&$_smarty_tpl->tpl_vars['f']->value['required']=="true"){?> <span style="color:red">*</span> <?php }?>
@@ -223,6 +223,11 @@ $_smarty_tpl->tpl_vars['f']->_loop = true;
 		<?php }elseif($_smarty_tpl->tpl_vars['f']->value['tipo']=="crud-table"){?>
 
 			<?php echo $_smarty_tpl->getSubTemplate ("views/generators/components/crud_table.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, null, null, array(), 0);?>
+
+		
+		<?php }elseif($_smarty_tpl->tpl_vars['f']->value['tipo']=="editor"){?>
+			
+			<?php echo $_smarty_tpl->getSubTemplate ("views/generators/components/CKEditor5.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, null, null, array(), 0);?>
 
 
 		<?php }?>
